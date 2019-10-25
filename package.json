@@ -17,7 +17,7 @@
     "prepublishOnly": "yarn run build",
     "release": "4c release",
     "tdd": "jest --watch",
-    "test": "yarn lint && jest",
+    "test": "yarn lint && yarn build",
     "testonly": "jest"
   },
   "publishConfig": {
