@@ -1,5 +1,4 @@
 import { ApolloClient } from 'apollo-boost';
-import { css } from 'astroturf';
 import React, {
   useCallback,
   useEffect,
@@ -12,17 +11,6 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import FieldQueryBuilder from '../FieldQueryBuilder';
 import FieldPanel from './FieldPanel';
 import RootQueryPanel from './RootQueryPanel';
-
-const styles = css`
-  .container {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    scroll-behavior: smooth;
-    grid-gap: 1rem;
-  }
-`;
 
 interface Props {
   RootPanel: typeof RootQueryPanel;
@@ -80,7 +68,7 @@ export default function Panels({
     <ApolloProvider client={client}>
       <div
         ref={containerRef}
-        className={styles.container}
+        className="ge-Panels-container"
         // the two 1px add some margin
         style={{ gridTemplateColumns: `1px ${gridTemplateColumns} 1px` }}
       >

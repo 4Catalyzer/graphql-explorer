@@ -9,7 +9,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdExpandMore } from 'react-icons/md';
-import Layout from '@4c/layout';
 
 import { unwrapNull } from '../helpers';
 import { getMutationsForType } from '../mutations';
@@ -66,7 +65,7 @@ export default function ObjectPanelBody({
     <>
       <Panel.Body>
         {scalars.map(i => (
-          <div css="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <div className="ge-ObjectPanelBody-scalar">
             <b>{i.k}: </b>
             {String(i.v)}
           </div>
@@ -78,11 +77,11 @@ export default function ObjectPanelBody({
           <>
             <Panel.Divider />
             <Accordion.Toggle as={Panel.Header} eventKey="mutations">
-              <Layout align="center" justify="space-between">
+              <div className="d-flex align-items-center justify-content-between">
                 Mutations
-                <span css="margin-right: auto" />
+                <span className="ge-ObjectPanelBody-spacer" />
                 <MdExpandMore />
-              </Layout>
+              </div>
             </Accordion.Toggle>
 
             <Accordion.Collapse eventKey="mutations">
@@ -99,11 +98,11 @@ export default function ObjectPanelBody({
         {objects.length ? (
           <>
             <Accordion.Toggle as={Panel.Header} eventKey="links">
-              <Layout align="center" justify="space-between">
+              <div className="d-flex align-items-center justify-content-between">
                 Links
-                <span css="margin-right: auto" />
+                <span className="ge-ObjectPanelBody-spacer" />
                 <MdExpandMore />
-              </Layout>
+              </div>
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="links">
               <ListGroup variant="flush">

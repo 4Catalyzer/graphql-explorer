@@ -66,10 +66,7 @@ const FormField = React.forwardRef(
             ) : null}
             <Form.Message for={props.name}>
               {(errors: any) => (
-                <div
-                  className="invalid-feedback"
-                  css="display: block !important; text-align: right;"
-                >
+                <div className="invalid-feedback ge-FormField">
                   {errors.join(', ')}
                 </div>
               )}

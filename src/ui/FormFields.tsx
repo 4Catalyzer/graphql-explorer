@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
 import * as yup from 'yup';
-import Layout from '@4c/layout';
 
 import FormField from './FormField';
 
@@ -37,7 +36,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
       <div>
         {(value || []).map((i, idx) => (
           <div
-            css="position: relative; margin-bottom: .5rem"
+            className=".ge-FormFields-field-array-container"
             // eslint-disable-next-line react/no-array-index-key
             key={idx}
           >
@@ -45,7 +44,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
             <Button
               onClick={() => arrayHelpers.remove(i)}
               variant="danger"
-              css="position: absolute; top: 0; right: 0"
+              className=".ge-FormFields-field-array-button"
             >
               -
             </Button>
@@ -72,16 +71,18 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
 export default function FormFields({ schema }: FormFieldsProps) {
   const fields = Object.entries(schema.fields).map(([fieldName, field]) => (
     <BsForm.Group controlId={fieldName}>
-      <Layout>
-        <BsForm.Label css="margin-right: 1rem">{fieldName}</BsForm.Label>
-        <Layout direction="column" grow>
+      <div className="d-flex">
+        <BsForm.Label className=".ge-FormFields-label">
+          {fieldName}
+        </BsForm.Label>
+        <div className="d-flex flex-column flex-grow-1">
           {!isYupArray(field) ? (
             <FormField name={fieldName} />
           ) : (
             <FieldArray events="blur" schema={field} name={fieldName} />
           )}
-        </Layout>
-      </Layout>
+        </div>
+      </div>
     </BsForm.Group>
   ));
 

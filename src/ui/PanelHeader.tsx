@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { MdClose, MdLink, MdSync } from 'react-icons/md';
-import Layout from '@4c/layout';
 
 import QueryBuilder from '../QueryBuilder';
 import { selectQueryForType } from '../resolvers';
@@ -68,9 +67,9 @@ export function PanelHeader({
   data,
 }: Props) {
   return (
-    <Panel.Header css="display: flex; justify-content: space-between; align-items: center;">
+    <Panel.Header className="ge-PanelHeader">
       <div>{queryBuilder.title}</div>
-      <Layout>
+      <div className="d-flex">
         <Button variant="light" onClick={() => onRefetch()}>
           <MdSync />
         </Button>
@@ -80,7 +79,7 @@ export function PanelHeader({
             <MdClose />
           </Button>
         )}
-      </Layout>
+      </div>
     </Panel.Header>
   );
 }
