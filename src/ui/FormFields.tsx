@@ -36,7 +36,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
       <div>
         {(value || []).map((i, idx) => (
           <div
-            className=".ge-FormFields-field-array-container"
+            className="ge-FormFields-field-array-container"
             // eslint-disable-next-line react/no-array-index-key
             key={idx}
           >
@@ -44,7 +44,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
             <Button
               onClick={() => arrayHelpers.remove(i)}
               variant="danger"
-              className=".ge-FormFields-field-array-button"
+              className="ge-FormFields-field-array-button"
             >
               -
             </Button>
@@ -72,7 +72,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
   const fields = Object.entries(schema.fields).map(([fieldName, field]) => (
     <BsForm.Group controlId={fieldName}>
       <div className="d-flex">
-        <BsForm.Label className=".ge-FormFields-label">
+        <BsForm.Label className="ge-FormFields-label">
           {fieldName}
         </BsForm.Label>
         <div className="d-flex flex-column flex-grow-1">
