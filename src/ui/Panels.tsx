@@ -53,7 +53,7 @@ export default function Panels({
   }, [closePanel, panels, pushPanel]);
 
   const numCols = panelsToDisplay.length;
-  const gridTemplateColumns = [...Array(numCols).keys()]
+  const gridTemplateColumns = Array.from(Array(numCols))
     .map(() => colWidth)
     .join(' ');
 
