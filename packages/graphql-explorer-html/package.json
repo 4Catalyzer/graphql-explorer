@@ -1,8 +1,8 @@
 {
   "name": "graphql-explorer-html",
-  "version": "0.0.1",
-  "main": "lib/index.js",
-  "module": "lib/es/index.js",
+  "version": "0.1.0-alpha.0",
+  "main": "build/index.js",
+  "module": "build/es/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/4Catalyzer/graphql-explorer.git"
@@ -19,9 +19,9 @@
     "test": "yarn lint && yarn build",
     "testonly": "jest"
   },
+  "files": ["build"],
   "publishConfig": {
-    "access": "public",
-    "directory": "build"
+    "access": "public"
   },
   "prettier": "@4c/prettier-config",
   "husky": {
@@ -75,7 +75,7 @@
     "apollo-boost": "^0.4.4",
     "apollo-link-http": "^1.5.16",
     "bootstrap": "^4.3.1",
-    "graphql-explorer": "^0.0.1",
+    "graphql-explorer": "^0.1.0-alpha.0",
     "graphql-tools": "^4.0.6",
     "query-string": "^6.8.3",
     "react": "^16.11.0",

@@ -1,6 +1,6 @@
 {
   "name": "graphql-explorer",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0",
   "main": "lib/index.js",
   "module": "lib/es/index.js",
   "repository": {
@@ -20,9 +20,9 @@
     "test": "yarn lint && yarn build",
     "testonly": "jest"
   },
+  "files": ["lib"],
   "publishConfig": {
-    "access": "public",
-    "directory": "lib"
+    "access": "public"
   },
   "prettier": "@4c/prettier-config",
   "husky": {
