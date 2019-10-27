@@ -3,6 +3,9 @@
   "private": true,
   "author": "Giacomo Tagliabue",
   "prettier": "@4c/prettier-config",
+  "scripts": {
+    "test": "lerna run test"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -23,6 +26,7 @@
     "typescript": "3.7.0-beta"
   },
   "devDependencies": {
+    "@4c/cli": "^1.0.1",
     "lerna": "^3.18.3",
     "typescript": "3.7.0-beta"
   }

@@ -6,11 +6,6 @@ node_js:
 
 cache: yarn
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: yarn travis-deploy-once "yarn semantic-release"
-
 branches:
   only:
     - master

@@ -16,13 +16,13 @@
     "format": "4c format src './*'",
     "lint": "4c lint src './*'",
     "prepublishOnly": "yarn run build",
-    "release": "4c release",
     "tdd": "jest --watch",
     "test": "yarn lint && yarn build",
     "testonly": "jest"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "directory": "lib"
   },
   "prettier": "@4c/prettier-config",
   "husky": {
@@ -40,19 +40,11 @@
     "preset": "@4c/jest-preset",
     "testEnvironment": "jsdom"
   },
-  "release": {
-    "pkgRoot": "lib",
-    "extends": [
-      "@4c/semantic-release-config"
-    ]
-  },
   "devDependencies": {
     "@4c/babel-preset": "^7.1.0",
-    "@4c/cli": "^1.0.1",
     "@4c/import-sort": "^4.3.3",
     "@4c/jest-preset": "^1.3.0",
     "@4c/prettier-config": "^1.1.0",
-    "@4c/semantic-release-config": "^2.0.3",
     "@4c/tsconfig": "^0.3.0",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
@@ -76,7 +68,6 @@
     "prettier": "^1.15.3",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "semantic-release": "^15.5.0",
     "travis-deploy-once": "^5.0.0"
   },
   "dependencies": {
