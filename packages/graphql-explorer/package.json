@@ -20,7 +20,9 @@
     "test": "yarn lint && yarn build",
     "testonly": "jest"
   },
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "publishConfig": {
     "access": "public"
   },
