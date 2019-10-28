@@ -10,7 +10,7 @@
   "author": "4Catalyzer",
   "license": "MIT",
   "scripts": {
-    "xxx:remove-relative-css": "sed -i '' 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' lib/style.css",
+    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' lib/style.css",
     "build": "4c build --copy-files false src && yarn build:styles",
     "build:styles": "node-sass src -o lib && yarn xxx:remove-relative-css",
     "format": "4c format src './*'",
