@@ -1,0 +1,33 @@
+{
+  "name": "graphql-explorer-root",
+  "private": true,
+  "author": "Giacomo Tagliabue",
+  "prettier": "@4c/prettier-config",
+  "scripts": {
+    "test": "lerna run test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "yarn 4c lint --fix",
+      "git add"
+    ]
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "resolutions": {
+    "typescript": "3.7.0-beta"
+  },
+  "devDependencies": {
+    "@4c/cli": "^1.0.1",
+    "lerna": "^3.18.3",
+    "typescript": "3.7.0-beta"
+  }
+}
