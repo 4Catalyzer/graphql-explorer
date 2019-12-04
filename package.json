@@ -26,8 +26,8 @@
     "typescript": "3.7.0-beta"
   },
   "devDependencies": {
-    "@4c/cli": "^1.0.1",
-    "lerna": "^3.18.3",
+    "@4c/cli": "1.0.1",
+    "lerna": "3.18.3",
     "typescript": "3.7.0-beta"
   }
 }
