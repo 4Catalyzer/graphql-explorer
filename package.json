@@ -23,11 +23,11 @@
     ]
   },
   "resolutions": {
-    "typescript": "3.7.0-beta"
+    "typescript": "3.7.3"
   },
   "devDependencies": {
-    "@4c/cli": "^1.0.1",
-    "lerna": "^3.18.3",
-    "typescript": "3.7.0-beta"
+    "@4c/cli": "^1.0.5",
+    "lerna": "^3.19.0",
+    "typescript": "3.7.3"
   }
 }
