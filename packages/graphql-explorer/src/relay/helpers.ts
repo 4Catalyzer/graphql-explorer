@@ -25,7 +25,8 @@ export function isEdge(type: g.GraphQLType, nodeType?: g.GraphQLType) {
     // cursor must be a string
     unwrapNull(cursor.type) === g.GraphQLString &&
     // node type must be a node type
-    (realNodeType instanceof g.GraphQLObjectType && isNode(realNodeType)) &&
+    realNodeType instanceof g.GraphQLObjectType &&
+    isNode(realNodeType) &&
     // node type must be the expected node type, if set
     (!nodeType || unwrapNull(node.type) === nodeType)
   );
