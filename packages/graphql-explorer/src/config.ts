@@ -1,4 +1,6 @@
 import {
+  GraphQLArgument,
+  GraphQLInputField,
   GraphQLInputType,
   GraphQLObjectType,
   GraphQLSchema,
@@ -23,9 +25,12 @@ interface FieldQueryBuilderConstructor {
 }
 
 interface InputFieldConfig {
-  check: (type: GraphQLInputType) => boolean;
+  check: (
+    type: GraphQLInputType,
+    field: GraphQLArgument | GraphQLInputField,
+  ) => boolean;
   getSchema: (type: GraphQLInputType) => YupSchemaWithRequired;
-  Component: React.ElementType<any>;
+  Component: React.ElementType<any> | null;
 }
 
 interface RootFieldQueryBuilderConstructor {

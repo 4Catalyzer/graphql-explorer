@@ -1,4 +1,6 @@
 import {
+  GraphQLArgument,
+  GraphQLInputField,
   GraphQLInputType,
   GraphQLNamedType,
   GraphQLObjectType,
@@ -53,9 +55,12 @@ export function selectPanelForQueryBuilder(queryBuilder: FieldQueryBuilder) {
   return config.panels.get(queryBuilder.constructor as any);
 }
 
-export function selectInputField(type: GraphQLInputType) {
+export function selectInputField(
+  type: GraphQLInputType,
+  field: GraphQLArgument | GraphQLInputField,
+) {
   for (const { check, Component, getSchema } of config.inputFields) {
-    if (check(type)) return { Component, getSchema };
+    if (check(type, field)) return { Component, getSchema };
   }
   return null;
 }

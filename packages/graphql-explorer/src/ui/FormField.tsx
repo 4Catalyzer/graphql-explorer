@@ -15,7 +15,7 @@ interface FormFieldInnerProps {
 }
 
 interface SchemaMeta {
-  field?: g.GraphQLInputField;
+  field: g.GraphQLInputField;
   Component?: React.ElementType<any>;
 }
 
@@ -61,7 +61,7 @@ const FormField = React.forwardRef(
         return (
           <>
             <Input {...fieldProps}>{children}</Input>
-            {field && field.description ? (
+            {field.description ? (
               <BsForm.Text muted>{field.description}</BsForm.Text>
             ) : null}
             <Form.Message for={props.name}>
