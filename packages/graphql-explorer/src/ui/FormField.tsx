@@ -38,7 +38,7 @@ const FormField = React.forwardRef(
         const { type } = innerProps;
 
         const { schema } = innerProps.meta;
-        const whitelist =
+        const whitelist: Set<string> =
           // eslint-disable-next-line no-underscore-dangle
           (schema as any)._whitelist && (schema as any)._whitelist.list;
 
@@ -47,7 +47,7 @@ const FormField = React.forwardRef(
 
         if (!Input) {
           if (whitelist && whitelist.size > 0) {
-            const options = [...whitelist];
+            const options = Array.from(whitelist);
             Input = DropdownList;
             fieldProps.data = options;
           } else if (/checkbox|radio/.test(type)) {
