@@ -24,7 +24,7 @@ function renderScalar(value: any, field: GraphQLField<any, any>) {
     return <CustomComponent value={value} />;
   }
 
-  return String(field);
+  return String(value);
 }
 
 export default function ObjectPanelBody({
