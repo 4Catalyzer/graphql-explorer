@@ -1,5 +1,6 @@
 import {
   GraphQLArgument,
+  GraphQLField,
   GraphQLInputField,
   GraphQLInputType,
   GraphQLNamedType,
@@ -61,6 +62,13 @@ export function selectInputField(
 ) {
   for (const { check, Component, getSchema } of config.inputFields) {
     if (check(type, field)) return { Component, getSchema };
+  }
+  return null;
+}
+
+export function selectFieldRenderer(field: GraphQLField<any, any>) {
+  for (const { check, Component } of config.fieldRenderers) {
+    if (check(field)) return Component;
   }
   return null;
 }

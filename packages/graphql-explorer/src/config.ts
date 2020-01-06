@@ -1,5 +1,6 @@
 import {
   GraphQLArgument,
+  GraphQLField,
   GraphQLInputField,
   GraphQLInputType,
   GraphQLObjectType,
@@ -31,6 +32,11 @@ interface InputFieldConfig {
   ) => boolean;
   getSchema: (type: GraphQLInputType) => YupSchemaWithRequired;
   Component: React.ElementType<any> | null;
+}
+
+interface FieldConfig {
+  check: (field: GraphQLField<any, any>) => boolean;
+  Component: React.ElementType<{ value: any }>;
 }
 
 interface RootFieldQueryBuilderConstructor {
@@ -87,6 +93,12 @@ class Singleton {
 
   addInputField(i: InputFieldConfig) {
     this.inputFields.push(i);
+  }
+
+  fieldRenderers: FieldConfig[] = [];
+
+  addFieldRenderer(i: FieldConfig) {
+    this.fieldRenderers.push(i);
   }
 }
 
