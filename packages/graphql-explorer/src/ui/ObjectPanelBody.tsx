@@ -5,7 +5,7 @@ import {
   GraphQLObjectType,
   GraphQLScalarType,
 } from 'graphql';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdExpandMore } from 'react-icons/md';
@@ -13,10 +13,19 @@ import { MdExpandMore } from 'react-icons/md';
 import { unwrapNull } from '../helpers';
 import { getMutationsForType } from '../mutations';
 import QueryBuilder from '../QueryBuilder';
-import { selectQueryForField } from '../resolvers';
+import { selectFieldRenderer, selectQueryForField } from '../resolvers';
 import MutationControl from './MutationControl';
 import Panel from './Panel';
 import PanelBodyProps from './PanelBodyProps';
+
+function renderScalar(value: any, field: GraphQLField<any, any>) {
+  const CustomComponent = selectFieldRenderer(field);
+  if (CustomComponent) {
+    return <CustomComponent value={value} />;
+  }
+
+  return String(field);
+}
 
 export default function ObjectPanelBody({
   queryBuilder,
@@ -42,7 +51,7 @@ export default function ObjectPanelBody({
   const fields = useMemo(() => Object.values(type.getFields()), [type]);
   const scalars: {
     k: string;
-    v: string;
+    v: ReactNode;
   }[] = [];
   const objects: GraphQLField<any, any>[] = [];
   fields.forEach(f => {
@@ -51,7 +60,7 @@ export default function ObjectPanelBody({
       fieldType instanceof GraphQLScalarType ||
       fieldType instanceof GraphQLEnumType
     ) {
-      scalars.push({ k: f.name, v: data[f.name] });
+      scalars.push({ k: f.name, v: renderScalar(data[f.name], f) });
     } else if (
       fieldType instanceof GraphQLObjectType ||
       fieldType instanceof GraphQLList
@@ -67,7 +76,7 @@ export default function ObjectPanelBody({
         {scalars.map(i => (
           <div className="ge-ObjectPanelBody-scalar">
             <b>{i.k}: </b>
-            {String(i.v)}
+            {i.v}
           </div>
         ))}
       </Panel.Body>
