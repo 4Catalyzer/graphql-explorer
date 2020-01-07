@@ -51,7 +51,10 @@ export function getSchemaFromType(
     return yup.number().meta({ field });
   }
   if (type === g.GraphQLBoolean) {
-    return yup.bool().meta({ field });
+    return yup
+      .bool()
+      .meta({ field })
+      .default(false);
   }
   // treat all the other scalar types as string
   if (type instanceof g.GraphQLScalarType) {
