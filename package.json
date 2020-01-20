@@ -12,10 +12,7 @@
     }
   },
   "lint-staged": {
-    "*": [
-      "yarn 4c lint --fix",
-      "git add"
-    ]
+    "*": "yarn 4c lint --fix"
   },
   "workspaces": {
     "packages": [
