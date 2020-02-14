@@ -1,3 +1,4 @@
+import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient } from 'apollo-boost';
 import React, {
   useCallback,
@@ -6,7 +7,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { ApolloProvider } from '@apollo/react-hooks';
 
 import FieldQueryBuilder from '../FieldQueryBuilder';
 import FieldPanel from './FieldPanel';

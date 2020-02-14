@@ -1,6 +1,6 @@
+import { QueryHookOptions } from '@apollo/react-hooks';
 import { GraphQLObjectType, GraphQLType } from 'graphql';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { QueryHookOptions } from '@apollo/react-hooks';
 
 import FieldQueryBuilder from '../FieldQueryBuilder';
 import { getCommonScalarFragmentForType } from '../helpers';

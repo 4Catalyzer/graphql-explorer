@@ -1,4 +1,5 @@
 const path = require('path');
+
 const { plugins, rules } = require('webpack-atoms');
 
 module.exports = (args, { mode }) => {

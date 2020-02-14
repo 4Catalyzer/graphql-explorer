@@ -1,7 +1,7 @@
 import * as g from 'graphql';
 
-import config from './config';
 import QueryBuilder from './QueryBuilder';
+import config from './config';
 
 export default class RootQueryBuilder
   implements QueryBuilder<g.GraphQLObjectType> {

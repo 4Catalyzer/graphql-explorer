@@ -10,9 +10,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdExpandMore } from 'react-icons/md';
 
+import QueryBuilder from '../QueryBuilder';
 import { unwrapNull } from '../helpers';
 import { getMutationsForType } from '../mutations';
-import QueryBuilder from '../QueryBuilder';
 import { selectFieldRenderer, selectQueryForField } from '../resolvers';
 import MutationControl from './MutationControl';
 import Panel from './Panel';

@@ -1,9 +1,9 @@
 import { GraphQLObjectType, GraphQLType } from 'graphql';
 import startCase from 'lodash/startCase';
 
-import config from '../config';
 import FieldQueryBuilder from '../FieldQueryBuilder';
 import RootQueryBuilder from '../RootQueryBuilder';
+import config from '../config';
 import Serializeable from '../serialization';
 import { isNode } from './helpers';
 
