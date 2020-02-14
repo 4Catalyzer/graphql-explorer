@@ -1,8 +1,8 @@
+import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React, { useCallback, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
-import { useMutation } from '@apollo/react-hooks';
 
 import { MutationDefinition, getMutationString } from '../mutations';
 import { getSchemaFromArguments } from '../schema';

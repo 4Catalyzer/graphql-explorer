@@ -1,5 +1,5 @@
-import config from './config';
 import FieldQueryBuilder from './FieldQueryBuilder';
+import config from './config';
 
 export default interface Serializeable {
   serialize: () => any;

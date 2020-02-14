@@ -7,10 +7,10 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import config from './config';
 import FieldQueryBuilder from './FieldQueryBuilder';
-import { unwrapNull } from './helpers';
 import QueryBuilder from './QueryBuilder';
+import config from './config';
+import { unwrapNull } from './helpers';
 
 export function selectQueryForType(type: GraphQLNamedType, item: any) {
   for (const Class of config.rootQueryBuilders) {

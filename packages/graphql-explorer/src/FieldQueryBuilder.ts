@@ -1,16 +1,16 @@
+import { QueryHookOptions, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 // eslint-disable-next-line max-classes-per-file
 import * as g from 'graphql';
 import startCase from 'lodash/startCase';
 import { useMemo } from 'react';
-import { QueryHookOptions, useQuery } from '@apollo/react-hooks';
 
+import QueryBuilder from './QueryBuilder';
 import {
   getCommonScalarFragmentForType,
   getScalarFragmentForType,
   unwrapNull,
 } from './helpers';
-import QueryBuilder from './QueryBuilder';
 
 type FragmentFieldType =
   | g.GraphQLObjectType
