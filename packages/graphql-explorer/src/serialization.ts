@@ -30,7 +30,7 @@ export function deserializeQueryBuilder(
     atob(value),
   ) as SerializedData;
 
-  const Class = config.rootQueryBuilders.find(C => C.name === className);
+  const Class = config.rootQueryBuilders.find((C) => C.name === className);
 
   if (!Class) {
     throw new Error(`${className} not registered`);

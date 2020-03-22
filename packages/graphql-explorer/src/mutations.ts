@@ -29,13 +29,13 @@ export function getMutationsForType(
   const idArgName = `${camelCase(type.name)}Id`;
 
   return mutations
-    .filter(m => !m.name.endsWith('OrError'))
-    .map(mutation => {
+    .filter((m) => !m.name.endsWith('OrError'))
+    .map((mutation) => {
       let entityId: string | undefined;
       let inputFields: GraphQLInputField[];
 
       const inputArg = mutation.args.find(
-        a =>
+        (a) =>
           a.name === 'input' &&
           unwrapNull(a.type) instanceof GraphQLInputObjectType,
       );
@@ -43,13 +43,13 @@ export function getMutationsForType(
       if (inputArg) {
         const inputType = unwrapNull(inputArg.type) as GraphQLInputObjectType;
         inputFields = Object.values(inputType.getFields()).filter(
-          f => f.name !== 'clientMutationId',
+          (f) => f.name !== 'clientMutationId',
         );
 
         const matchingField = Object.values(inputType.getFields()).filter(
-          a => unwrapNull(a.type) === GraphQLString && a.name === idArgName,
+          (a) => unwrapNull(a.type) === GraphQLString && a.name === idArgName,
         );
-        entityId = matchingField && matchingField.map(a => a.name)[0];
+        entityId = matchingField && matchingField.map((a) => a.name)[0];
       } else {
         inputFields = mutation.args;
       }
@@ -61,15 +61,17 @@ export function getMutationsForType(
         title: startCase(mutation.name),
       };
     })
-    .filter(m => type === config.schema.getQueryType() || m.entityId);
+    .filter((m) => type === config.schema.getQueryType() || m.entityId);
 }
 
 export function getMutationString(mutation: GraphQLField<any, any>) {
   // TODO improve
   const mutationType = unwrapNull(mutation.type);
   const fragment: string[] = [];
-  const inputDefs = mutation.args.map(i => `$${i.name}: ${i.type}`).join(', ');
-  const inputs = mutation.args.map(i => `${i.name}: $${i.name}`).join(', ');
+  const inputDefs = mutation.args
+    .map((i) => `$${i.name}: ${i.type}`)
+    .join(', ');
+  const inputs = mutation.args.map((i) => `${i.name}: $${i.name}`).join(', ');
 
   if (mutationType instanceof GraphQLObjectType) {
     for (const field of Object.values(mutationType.getFields())) {

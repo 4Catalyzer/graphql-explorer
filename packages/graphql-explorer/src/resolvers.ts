@@ -33,8 +33,8 @@ export function selectQueryForField(
   const newRootQuery = selectQueryForType(fragmentType, object);
   if (newRootQuery) {
     newContainer = {
-      getQuery: fragment => newRootQuery.getQuery(fragment),
-      getResult: data => newRootQuery.getResult(data),
+      getQuery: (fragment) => newRootQuery.getQuery(fragment),
+      getResult: (data) => newRootQuery.getResult(data),
       fragmentType,
       title: newRootQuery.title,
     };

@@ -111,7 +111,7 @@ export default class FieldQueryBuilder
 
     const { fetchMore: _, data, ...result } = useQuery(query, {
       ...options,
-      onCompleted: onCompleted && (d => onCompleted(this.getResult(d))),
+      onCompleted: onCompleted && ((d) => onCompleted(this.getResult(d))),
     });
 
     return {

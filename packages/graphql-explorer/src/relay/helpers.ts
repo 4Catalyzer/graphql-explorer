@@ -3,7 +3,7 @@ import * as g from 'graphql';
 import { unwrapNull } from '../helpers';
 
 export function isNode(type: g.GraphQLObjectType) {
-  return !!type.getInterfaces().find(i => i.name === 'Node');
+  return !!type.getInterfaces().find((i) => i.name === 'Node');
 }
 
 /**

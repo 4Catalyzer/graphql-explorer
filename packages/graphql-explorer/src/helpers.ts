@@ -9,7 +9,7 @@ export function unwrapNull(type: g.GraphQLType): g.GraphQLNullableType {
  */
 export function getSimpleScalarFields(type: g.GraphQLObjectType) {
   return Object.values(type.getFields()).filter(
-    f =>
+    (f) =>
       (unwrapNull(f.type) instanceof g.GraphQLScalarType ||
         unwrapNull(f.type) instanceof g.GraphQLEnumType) &&
       f.args.length === 0,
@@ -21,7 +21,7 @@ export function getSimpleScalarFields(type: g.GraphQLObjectType) {
  */
 export function getScalarFragmentForType(type: g.GraphQLObjectType) {
   const fields = getSimpleScalarFields(type);
-  const fragmentFields = fields.map(f => f.name).join('\n');
+  const fragmentFields = fields.map((f) => f.name).join('\n');
 
   return `... on ${type.name} {
     __typename
@@ -44,8 +44,8 @@ export function getCommonScalarFragmentForType(
 
   const fields = getSimpleScalarFields(type);
   const fragmentFields = fields
-    .filter(f => COMMON_FIELDS.has(f.name) || f.name.endsWith('Id'))
-    .map(f => f.name)
+    .filter((f) => COMMON_FIELDS.has(f.name) || f.name.endsWith('Id'))
+    .map((f) => f.name)
     .slice(0, max)
     .join('\n');
 

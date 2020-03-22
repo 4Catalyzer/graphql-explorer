@@ -42,19 +42,13 @@ export function getSchemaFromType(
   }
 
   if (type === g.GraphQLInt) {
-    return yup
-      .number()
-      .integer()
-      .meta({ field });
+    return yup.number().integer().meta({ field });
   }
   if (type === g.GraphQLFloat) {
     return yup.number().meta({ field });
   }
   if (type === g.GraphQLBoolean) {
-    return yup
-      .bool()
-      .meta({ field })
-      .default(false);
+    return yup.bool().meta({ field }).default(false);
   }
   // treat all the other scalar types as string
   if (type instanceof g.GraphQLScalarType) {
@@ -64,7 +58,7 @@ export function getSchemaFromType(
   if (type instanceof g.GraphQLEnumType) {
     return yup
       .string()
-      .oneOf(type.getValues().map(e => e.value))
+      .oneOf(type.getValues().map((e) => e.value))
       .meta({ field });
   }
 
@@ -77,7 +71,7 @@ export function getSchemaFromType(
     if (!INPUT_OBJECT_CACHE[type.name]) {
       INPUT_OBJECT_CACHE[type.name] = yup.object({}).meta({ field });
 
-      Object.values(type.getFields()).forEach(subField => {
+      Object.values(type.getFields()).forEach((subField) => {
         const subFieldYupType = getSchemaFromType(subField.type, subField);
         INPUT_OBJECT_CACHE[type.name].fields[field.name] = subFieldYupType;
       });

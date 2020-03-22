@@ -54,7 +54,7 @@ export default function ObjectPanelBody({
     v: ReactNode;
   }[] = [];
   const objects: GraphQLField<any, any>[] = [];
-  fields.forEach(f => {
+  fields.forEach((f) => {
     const fieldType = unwrapNull(f.type);
     if (
       fieldType instanceof GraphQLScalarType ||
@@ -73,7 +73,7 @@ export default function ObjectPanelBody({
   return (
     <>
       <Panel.Body>
-        {scalars.map(i => (
+        {scalars.map((i) => (
           <div className="ge-ObjectPanelBody-scalar">
             <b>{i.k}: </b>
             {i.v}
@@ -95,7 +95,7 @@ export default function ObjectPanelBody({
 
             <Accordion.Collapse eventKey="mutations">
               <ListGroup variant="flush">
-                {mutations.map(mutation => (
+                {mutations.map((mutation) => (
                   <MutationControl {...mutation} entity={data} />
                 ))}
               </ListGroup>
@@ -115,7 +115,7 @@ export default function ObjectPanelBody({
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="links">
               <ListGroup variant="flush">
-                {objects.map(o => (
+                {objects.map((o) => (
                   <ListGroup.Item
                     action
                     onClick={() => handleSelectField(o)}
