@@ -21,7 +21,7 @@ export default function ListPanelBody({
   );
 
   const handleClick = useCallback(
-    i => {
+    (i) => {
       const newRootQueryBuilder = selectQueryForType(
         queryBuilder.fragmentType,
         i,
@@ -37,7 +37,7 @@ export default function ListPanelBody({
   }
   let cols = isScalar
     ? ['name']
-    : Object.keys(data[0]).filter(c => c !== 'id' && c !== '__typename');
+    : Object.keys(data[0]).filter((c) => c !== 'id' && c !== '__typename');
   if (cols.length === 0) {
     cols = Object.keys(data[0]);
   }
@@ -46,7 +46,7 @@ export default function ListPanelBody({
       <Table size="sm" striped borderless hover={clickable}>
         <thead>
           <tr>
-            {cols.map(col => (
+            {cols.map((col) => (
               <th key={col}>{col}</th>
             ))}
           </tr>
@@ -58,7 +58,7 @@ export default function ListPanelBody({
               key={`${queryProps!.query}${idx}`}
               onClick={() => clickable && handleClick(item)}
             >
-              {cols.map(col => (
+              {cols.map((col) => (
                 <td key={col}>{isScalar ? item : String(item[col])}</td>
               ))}
             </tr>

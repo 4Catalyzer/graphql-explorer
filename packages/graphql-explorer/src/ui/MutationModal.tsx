@@ -29,9 +29,10 @@ export default function MutationModal({
   const [mutate, { data, called, loading, error }] = useMutation(
     mutationString,
   );
-  const handleSubmit = useCallback(input => mutate({ variables: { input } }), [
-    mutate,
-  ]);
+  const handleSubmit = useCallback(
+    (input) => mutate({ variables: { input } }),
+    [mutate],
+  );
   const formSchema = useMemo(() => getSchemaFromArguments(inputFields), [
     inputFields,
   ]);
@@ -39,8 +40,8 @@ export default function MutationModal({
     const obj = formSchema.default();
     // TODO make this customizable
     Object.keys(formSchema.fields)
-      .filter(k => entity[k] !== undefined)
-      .forEach(k => {
+      .filter((k) => entity[k] !== undefined)
+      .forEach((k) => {
         obj[k] = entity[k];
       });
     return obj;

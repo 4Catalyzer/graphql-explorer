@@ -18,7 +18,7 @@ interface Connection<T = any> {
 }
 
 function getNodes<T>(connection: Connection<T>): T[] {
-  return connection.edges.map(e => e.node);
+  return connection.edges.map((e) => e.node);
 }
 
 function mergeConnections<T>(
@@ -26,7 +26,7 @@ function mergeConnections<T>(
   next: Connection<T>,
 ): Connection<T> {
   return {
-    edges: [...getNodes(prev), ...getNodes(next)].map(node => ({ node })),
+    edges: [...getNodes(prev), ...getNodes(next)].map((node) => ({ node })),
     pageInfo: next.pageInfo,
   };
 }
@@ -67,7 +67,7 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
   }
 
   get args() {
-    return this.field.args.filter(f => !this.paginationArgs.has(f.name));
+    return this.field.args.filter((f) => !this.paginationArgs.has(f.name));
   }
 
   getRealResult(connection: Connection) {
@@ -93,7 +93,7 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
         first: 15,
         after: endCursorRef.current,
       },
-      onCompleted: nextData => {
+      onCompleted: (nextData) => {
         if (endCursorRef.current) {
           // assumes that nextData is set /shrug
           setData(mergeConnections(data!, nextData!));

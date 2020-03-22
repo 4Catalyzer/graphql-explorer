@@ -27,7 +27,7 @@ export default function FieldPanel({
 }: Props) {
   const hasArgs = queryBuilder.args.length > 0;
   const hasRequiredArgs = queryBuilder.args.some(
-    a => a.type instanceof GraphQLNonNull,
+    (a) => a.type instanceof GraphQLNonNull,
   );
   const [variables, setVariables] = useState();
   const fragment = queryBuilder.getScalarFragment();

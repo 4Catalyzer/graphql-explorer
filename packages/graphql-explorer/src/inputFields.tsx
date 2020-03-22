@@ -17,7 +17,7 @@ interface JsonInputProps {
 }
 
 function JsonInput({ value, onChange, ...props }: JsonInputProps) {
-  const serialize = useCallback(v => JSON.stringify(v, undefined, 2), []);
+  const serialize = useCallback((v) => JSON.stringify(v, undefined, 2), []);
 
   const [innerValue, setInnerValue] = useState(serialize(value));
   const parsedInnerValue = useMemo(() => {
@@ -67,12 +67,12 @@ function JsonInput({ value, onChange, ...props }: JsonInputProps) {
 
 export function addCommonFields() {
   config.addInputField({
-    check: type =>
+    check: (type) =>
       type instanceof GraphQLScalarType && JSON_TYPES.has(type.name),
     getSchema: () =>
       yup.mixed().test({
         name: 'isJson',
-        test: v => v !== INVALID_JSON,
+        test: (v) => v !== INVALID_JSON,
         message: 'invalid JSON payload',
       }),
     Component: JsonInput,
