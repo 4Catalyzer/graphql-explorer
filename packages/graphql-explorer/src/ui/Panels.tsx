@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 
-import FieldQueryBuilder from '../FieldQueryBuilder';
+import { ResolveableQueryBuilder } from '../QueryBuilder';
 import FieldPanel from './FieldPanel';
 import RootQueryPanel from './RootQueryPanel';
 
@@ -23,9 +23,9 @@ export default function Panels({
   client,
   colWidth = '40rem',
 }: Props) {
-  const [panels, setPanels] = useState<FieldQueryBuilder[]>([]);
+  const [panels, setPanels] = useState<ResolveableQueryBuilder[]>([]);
   const pushPanel = useCallback(
-    (index: number, q: FieldQueryBuilder) => {
+    (index: number, q: ResolveableQueryBuilder) => {
       setPanels([...panels.slice(0, index), q]);
     },
     [panels],
@@ -37,11 +37,12 @@ export default function Panels({
     [panels],
   );
   const panelsToDisplay = useMemo(() => {
-    const rootPanel = <RootPanel onPushPanel={pushPanel} />;
+    const rootPanel = <RootPanel onPushPanel={pushPanel} key="root" />;
     const extraPanels = panels.map((queryBuilder, idx) => {
       return (
         <FieldPanel
-          key={queryBuilder.getQuery(idx.toString())}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${idx}_${queryBuilder.title}_${queryBuilder}`}
           queryBuilder={queryBuilder}
           index={idx + 1}
           onPushPanel={pushPanel}

@@ -25,6 +25,15 @@
   "devDependencies": {
     "@4c/cli": "^2.1.2",
     "lerna": "^3.20.2",
+    "ts-doctor": "^1.1.1",
     "typescript": "3.8.3"
+  },
+  "workspace-sources": {
+    "graphql-explorer/lib/*": [
+      "packages/graphql-explorer/src/*"
+    ],
+    "graphql-explorer-html/build/*": [
+      "packages/graphql-explorer-html/src/*"
+    ]
   }
 }

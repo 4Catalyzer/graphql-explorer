@@ -1,7 +1,9 @@
 {
   "extends": "@4c/tsconfig/web",
   "compilerOptions": {
-    "rootDir": "src"
+    "rootDir": "src",
+    "composite": true,
+    "declarationMap": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

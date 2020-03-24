@@ -15,7 +15,7 @@ export default function ArgumentsForm({ args, children, ...props }: Props) {
   const schema = getSchemaFromArguments(args);
 
   return (
-    <Form schema={schema} {...props}>
+    <Form schema={schema} defaultValue={schema.default()} {...props}>
       <Form.Fields schema={schema} />
       {children}
       <Form.Submit>Submit</Form.Submit>

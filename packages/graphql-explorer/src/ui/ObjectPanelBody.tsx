@@ -10,11 +10,12 @@ import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdExpandMore } from 'react-icons/md';
 
+import MutationQueryBuilder from '../MutationQueryBuilder';
+import ObjectQueryBuilder from '../ObjectQueryBuilder';
 import QueryBuilder from '../QueryBuilder';
 import { unwrapNull } from '../helpers';
-import { getMutationsForType } from '../mutations';
+import { MutationDefinition, getMutationsForType } from '../mutations';
 import { selectFieldRenderer, selectQueryForField } from '../resolvers';
-import MutationControl from './MutationControl';
 import Panel from './Panel';
 import PanelBodyProps from './PanelBodyProps';
 
@@ -37,15 +38,28 @@ export default function ObjectPanelBody({
   const handleSelectField = useCallback(
     (field: GraphQLField<any, any>) => {
       setSelectedField(field.name);
-      onSelect(
-        selectQueryForField(
-          queryBuilder as QueryBuilder<GraphQLObjectType>,
-          field.name,
-          data,
-        ),
-      );
+
+      if (data[field.name]) {
+        onSelect(new ObjectQueryBuilder(field.type, data[field.name]));
+      } else {
+        onSelect(
+          selectQueryForField(
+            queryBuilder as QueryBuilder<GraphQLObjectType>,
+            field.name,
+            data,
+          ),
+        );
+      }
     },
     [data, onSelect, queryBuilder],
+  );
+  const handleSelectMutation = useCallback(
+    ({ mutation }: MutationDefinition) => {
+      setSelectedField(mutation.name);
+      const qb = new MutationQueryBuilder(mutation.name);
+      onSelect(qb);
+    },
+    [onSelect],
   );
   const mutations = useMemo(() => getMutationsForType(type), [type]);
   const fields = useMemo(() => Object.values(type.getFields()), [type]);
@@ -74,7 +88,7 @@ export default function ObjectPanelBody({
     <>
       <Panel.Body>
         {scalars.map((i) => (
-          <div className="ge-ObjectPanelBody-scalar">
+          <div className="ge-ObjectPanelBody-scalar" key={i.k}>
             <b>{i.k}: </b>
             {i.v}
           </div>
@@ -96,7 +110,14 @@ export default function ObjectPanelBody({
             <Accordion.Collapse eventKey="mutations">
               <ListGroup variant="flush">
                 {mutations.map((mutation) => (
-                  <MutationControl {...mutation} entity={data} />
+                  <ListGroup.Item
+                    action
+                    onClick={() => handleSelectMutation(mutation)}
+                    active={selectedField === mutation.mutation.name}
+                    key={mutation.title}
+                  >
+                    {mutation.title}
+                  </ListGroup.Item>
                 ))}
               </ListGroup>
             </Accordion.Collapse>
@@ -120,6 +141,7 @@ export default function ObjectPanelBody({
                     action
                     onClick={() => handleSelectField(o)}
                     active={selectedField === o.name}
+                    key={o.name}
                   >
                     {o.name}
                   </ListGroup.Item>

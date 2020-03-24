@@ -9,7 +9,6 @@ export default function ListPanelBody({
   queryBuilder,
   data,
   onSelect,
-  queryProps,
 }: PanelBodyProps<Record<string, any>[]>) {
   const firstItem = data[0];
   const isScalar = typeof firstItem !== 'object';
@@ -55,7 +54,7 @@ export default function ListPanelBody({
           {data.map((item, idx) => (
             <tr
               // eslint-disable-next-line react/no-array-index-key
-              key={`${queryProps!.query}${idx}`}
+              key={`${idx}_${queryBuilder.title}_${queryBuilder}`}
               onClick={() => clickable && handleClick(item)}
             >
               {cols.map((col) => (

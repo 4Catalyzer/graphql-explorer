@@ -1,11 +1,11 @@
-import FieldQueryBuilder from '../FieldQueryBuilder';
+import { ResolveableQueryBuilder } from '../QueryBuilder';
 
 export default interface PanelBodyProps<
   TData,
-  TQueryBuilder extends FieldQueryBuilder = FieldQueryBuilder
+  TQueryBuilder extends ResolveableQueryBuilder = ResolveableQueryBuilder
 > {
   queryBuilder: TQueryBuilder;
   queryProps?: ReturnType<TQueryBuilder['useQuery']>;
-  onSelect: (q: FieldQueryBuilder) => void;
+  onSelect: (q: ResolveableQueryBuilder) => void;
   data: TData;
 }
