@@ -1,5 +1,7 @@
 import { JsonInput, jsonField } from 'graphql-explorer/lib/JsonInput';
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
 import * as yup from 'yup';
 
@@ -18,7 +20,7 @@ interface Props {
   onChange: (v: ConnectionParams) => void;
 }
 
-export default function ConnectionParamsPanel({
+export default function ConnectionParamsPage({
   connectionParams,
   onChange,
 }: Props) {
@@ -27,13 +29,24 @@ export default function ConnectionParamsPanel({
       defaultValue={connectionParams ?? schema.default()}
       onSubmit={onChange}
       schema={schema}
+      style={{
+        width: '500px',
+        margin: '100px auto',
+      }}
     >
-      <Form.Field name="uri" />
-      <Form.Field name="headers" as={JsonInput} />
+      <h3>Connect to a GraphQL Endpoint</h3>
+      <BsForm.Group>
+        <BsForm.Label>Graphql API url</BsForm.Label>
+        <Form.Field as={BsForm.Control} name="uri" />
+      </BsForm.Group>
+      <BsForm.Group>
+        <BsForm.Label>Headers</BsForm.Label>
+        <Form.Field name="headers" as={JsonInput} />
+      </BsForm.Group>
       <p style={{ color: 'red' }}>
         <Form.Message for="" />
       </p>
-      <Form.Submit>SUBMIT</Form.Submit>
+      <Form.Submit as={Button}>SUBMIT</Form.Submit>
     </Form>
   );
 }

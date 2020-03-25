@@ -7,30 +7,56 @@ import FieldPanel from 'graphql-explorer/lib/ui/FieldPanel';
 import Panels from 'graphql-explorer/lib/ui/Panels';
 import RootQueryPanel from 'graphql-explorer/lib/ui/RootQueryPanel';
 import qs from 'query-string';
-import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import React, {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Spinner from 'react-bootstrap/Spinner';
 
-import ConnectionParamsPanel, {
+import ConnectionParamsPage, {
   ConnectionParams,
-} from './ConnectionParamsPanel';
+} from './ConnectionParamsPage';
 import useSchema from './useSchema';
 
 type Location = 'ROOT_QUERY' | { query: string };
 
 type PanelProps = ComponentProps<typeof RootQueryPanel>;
+const CACHE_KEY = 'graphql-explorer-connection';
 
 function App() {
-  const [connectionParams, setConnectionParams] = useState<ConnectionParams>({
-    uri: 'https://api.graph.cool/simple/v1/swapi',
+  const [connectionParams, setConnectionParams] = useState<
+    ConnectionParams | undefined
+  >(() => {
+    const cachedValue = window.localStorage.getItem(CACHE_KEY);
+    return cachedValue ? JSON.parse(cachedValue) : undefined;
   });
-
+  useEffect(() => {
+    if (connectionParams) {
+      window.localStorage.setItem(CACHE_KEY, JSON.stringify(connectionParams));
+    }
+  }, [connectionParams]);
   const client = useMemo(
     () => (connectionParams ? new ApolloClient(connectionParams) : null),
     [connectionParams],
   );
 
   const schemaState = useSchema(connectionParams);
-  const [configured, setConfigured] = useState(false);
+  const [state, setState] = useState<'error' | 'loading' | 'resolved'>(
+    'loading',
+  );
+  const handleSubmitConnection = useCallback(
+    (params) => {
+      setState('loading');
+      setConnectionParams(params);
+    },
+    [setState, setConnectionParams],
+  );
   useEffect(() => {
     if (schemaState.status === 'resolved') {
       const { schema } = schemaState;
@@ -38,7 +64,10 @@ function App() {
       addCommonFields();
       addRelayTypes();
 
-      setConfigured(true);
+      setState('resolved');
+    }
+    if (schemaState.status === 'error') {
+      setState('error');
     }
   }, [schemaState]);
 
@@ -51,6 +80,7 @@ function App() {
   }, []);
 
   const rootPanel = useMemo(() => {
+    if (state !== 'resolved') return null;
     if (location === 'ROOT_QUERY')
       return ({ onPushPanel }: PanelProps) => (
         <RootQueryPanel onPushPanel={onPushPanel} />
@@ -64,25 +94,45 @@ function App() {
         onPushPanel={onPushPanel}
       />
     );
-  }, [location]);
+  }, [location, state]);
 
   if (!connectionParams) {
     return (
-      <ConnectionParamsPanel
+      <ConnectionParamsPage
         connectionParams={connectionParams}
-        onChange={setConnectionParams}
+        onChange={handleSubmitConnection}
       />
     );
   }
 
-  if (!configured) {
-    return <div>LOADING SCHEMA</div>;
+  if (state === 'loading') {
+    return (
+      <div style={{ margin: '100px auto', width: 500 }}>
+        <Spinner animation="border" />
+        <h3>Loading Schema</h3>
+      </div>
+    );
+  }
+  if (state === 'error') {
+    return (
+      <div style={{ margin: '100px auto', width: 500 }}>
+        <h3>There was an error loading the schema</h3>
+        <Button onClick={() => setConnectionParams(undefined)}>
+          Edit connection parameters
+        </Button>
+      </div>
+    );
   }
 
   return (
     <>
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand>GraphQL Explorer</Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link onClick={() => setConnectionParams(undefined)}>
+            Change schema
+          </Nav.Link>
+        </Nav>
       </Navbar>
       <div
         style={{
