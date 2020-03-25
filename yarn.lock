@@ -14297,7 +14297,7 @@ trim-off-newlines@^1.0.0:
   dependencies:
     glob "^7.1.2"
 
-ts-doctor@^1.1.1, ts-doctor@^1.2.0:
+ts-doctor@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ts-doctor/-/ts-doctor-1.2.0.tgz#fa96e512df48a7425406bd4f4bfd88b2237b7b15"
   integrity sha512-hNZqoM2g41AJGhXXxE8KyW5DdUzzasc8sXhP944ZmNvSOt8KiYpU93xcNPzlELxD5eCQA9KldTWSSWXFTkFNfw==
