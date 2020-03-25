@@ -59,11 +59,9 @@ function App() {
   );
   useEffect(() => {
     if (schemaState.status === 'resolved') {
-      const { schema } = schemaState;
-      config.setSchema(schema);
+      config.setSchema(schemaState.schema);
       addCommonFields();
       addRelayTypes();
-
       setState('resolved');
     }
     if (schemaState.status === 'error') {
@@ -72,9 +70,8 @@ function App() {
   }, [schemaState]);
 
   const location: Location = useMemo(() => {
-    const queryString = qs.parse(window.location.search);
-    if (typeof queryString.query === 'string')
-      return { query: queryString.query };
+    const { query } = qs.parse(window.location.search);
+    if (typeof query === 'string') return { query };
 
     return 'ROOT_QUERY';
   }, []);
