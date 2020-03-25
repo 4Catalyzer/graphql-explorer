@@ -11,6 +11,13 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
+function resolveLazy<T extends yup.Schema<any>>(schema: T): T {
+  return schema.constructor.name === 'Lazy'
+    ? // eslint-disable-next-line no-underscore-dangle
+      (schema as any)._resolve()
+    : schema;
+}
+
 function isYupArray(s: yup.Schema<unknown>): s is yup.ArraySchema<unknown> {
   // eslint-disable-next-line no-underscore-dangle
   return (s as any)._type === 'array';
@@ -35,7 +42,7 @@ interface FieldArrayProps {
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
-  const subType = (schema as any)._subType as yup.Schema<any>;
+  const subType = resolveLazy((schema as any)._subType as yup.Schema<any>);
 
   const renderContent = useCallback(
     ({ value, arrayHelpers }: FieldArrayContentProps<any>) => (
@@ -83,6 +90,8 @@ const FormLabel = ({ children }: { children: React.ReactNode }) => (
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
     (field: yup.Schema<unknown>, fieldName: string) => {
+      // eslint-disable-next-line no-param-reassign
+      field = resolveLazy(field);
       if (isYupArray(field)) {
         return <FieldArray events="blur" schema={field} name={fieldName} />;
       }

@@ -18,7 +18,9 @@ export default class MutationQueryBuilder implements ResolveableQueryBuilder {
 
   queryable = true as const;
 
-  constructor(public fieldName: string) {
+  defaultArgValue: Record<string, any>;
+
+  constructor(public fieldName: string, data: any) {
     this.container = {
       fragmentType: config.schema.getMutationType()!,
       getQuery: (fragment) => fragment,
@@ -26,6 +28,14 @@ export default class MutationQueryBuilder implements ResolveableQueryBuilder {
       title: 'Mutation',
       variables: {},
     };
+
+    if (this.field.args.length === 1) {
+      this.defaultArgValue = {
+        [this.field.args[0].name]: data,
+      };
+    } else {
+      this.defaultArgValue = data;
+    }
   }
 
   variables = {};

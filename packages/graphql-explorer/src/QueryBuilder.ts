@@ -37,4 +37,5 @@ export interface ResolveableQueryBuilder
   args: g.GraphQLArgument[];
 
   useQuery(options?: QueryOptions): QueryPayload;
+  defaultArgValue?: Record<string, any>;
 }

@@ -56,10 +56,10 @@ export default function ObjectPanelBody({
   const handleSelectMutation = useCallback(
     ({ mutation }: MutationDefinition) => {
       setSelectedField(mutation.name);
-      const qb = new MutationQueryBuilder(mutation.name);
+      const qb = new MutationQueryBuilder(mutation.name, data);
       onSelect(qb);
     },
-    [onSelect],
+    [onSelect, data],
   );
   const mutations = useMemo(() => getMutationsForType(type), [type]);
   const fields = useMemo(() => Object.values(type.getFields()), [type]);

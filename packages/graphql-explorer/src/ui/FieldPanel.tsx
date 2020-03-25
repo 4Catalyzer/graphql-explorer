@@ -93,7 +93,11 @@ export default function FieldPanel({
       {hasArgs && (
         <>
           <Panel.Body>
-            <ArgumentsForm args={queryBuilder.args} onSubmit={handleSubmit} />
+            <ArgumentsForm
+              args={queryBuilder.args}
+              defaultValue={queryBuilder.defaultArgValue}
+              onSubmit={handleSubmit}
+            />
           </Panel.Body>
           <Panel.Divider />
         </>
