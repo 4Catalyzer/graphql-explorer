@@ -20,7 +20,7 @@ export default class ObjectQueryBuilder implements ResolveableQueryBuilder {
   variables = {};
 
   get title() {
-    return `${startCase(this.fragmentType.name)}`;
+    return startCase(this.fragmentType.name);
   }
 
   useQuery(_options?: QueryHookOptions): QueryPayload {
