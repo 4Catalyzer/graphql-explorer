@@ -1,3 +1,6 @@
+// False positive; this class is not a component.
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import { QueryHookOptions, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 // eslint-disable-next-line max-classes-per-file

@@ -1,3 +1,6 @@
+// False positive; this class is not a component.
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import { QueryHookOptions } from '@apollo/react-hooks';
 import { GraphQLObjectType, GraphQLType } from 'graphql';
 import { useCallback, useEffect, useRef, useState } from 'react';
