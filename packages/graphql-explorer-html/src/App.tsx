@@ -139,7 +139,7 @@ function App() {
           bottom: '1rem',
         }}
       >
-        <Panels RootPanel={rootPanel} client={client!} />
+        <Panels RootPanel={rootPanel!} client={client!} />
       </div>
     </>
   );
