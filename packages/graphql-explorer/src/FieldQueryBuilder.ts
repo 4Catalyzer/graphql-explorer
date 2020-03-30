@@ -1,3 +1,6 @@
+// False positive; this class is not a component.
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import * as g from 'graphql';
