@@ -7,8 +7,12 @@ export default class RootQueryBuilder
   implements QueryBuilder<g.GraphQLObjectType> {
   public fragmentType = config.schema.getQueryType()!;
 
-  getQuery(fragment: string) {
-    return `query {
+  variables = {};
+
+  getQuery(fragment: string, fragmentVarDefs: string[]) {
+    const varDefinitionsString =
+      fragmentVarDefs.length === 0 ? '' : `(${fragmentVarDefs.join(', ')})`;
+    return `query${varDefinitionsString} {
       ${fragment}
     }`;
   }

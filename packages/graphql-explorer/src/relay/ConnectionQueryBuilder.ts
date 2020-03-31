@@ -1,11 +1,11 @@
 // False positive; this class is not a component.
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { QueryHookOptions } from '@apollo/react-hooks';
 import { GraphQLObjectType, GraphQLType } from 'graphql';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import FieldQueryBuilder from '../FieldQueryBuilder';
+import { QueryOptions, QueryPayload } from '../QueryBuilder';
 import { getCommonScalarFragmentForType } from '../helpers';
 import { getConnectionNodeType, isConnection } from './helpers';
 
@@ -34,15 +34,6 @@ function mergeConnections<T>(
   };
 }
 
-function usePrevious<T>(value: T) {
-  const ref = useRef<T>();
-  useEffect(() => {
-    ref.current = value;
-  });
-
-  return ref.current;
-}
-
 export default class ConnectionQueryBuilder extends FieldQueryBuilder {
   paginationArgs = new Set(['first', 'after', 'last', 'before']);
 
@@ -54,7 +45,7 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
     return this.nodeType;
   }
 
-  getQuery(fragment: string, variables?: Record<string, any>) {
+  getQuery(fragment: string, fragmentVarDefs: string[] = []) {
     const connectionFragment = `
       edges {
         node {
@@ -66,7 +57,7 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
         hasNextPage
       }
     `;
-    return super.getQuery(connectionFragment, variables);
+    return super.getQuery(connectionFragment, fragmentVarDefs);
   }
 
   get args() {
@@ -78,26 +69,13 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
   }
 
   useQuery(
-    fragment: string,
-    { variables, ...options }: QueryHookOptions<Connection> = {},
-  ) {
+    options: QueryOptions = {},
+  ): QueryPayload & { hasNextPage?: boolean; fetchMore?: () => void } {
     const [data, setData] = useState<Connection | null>(null);
-    const oldVariables = usePrevious(variables);
-    const forceUpdate = useState()[1];
-    const endCursorRef = useRef<string | null>(null);
 
-    if (variables !== oldVariables) {
-      endCursorRef.current = null;
-    }
-
-    const { data: _, ...result } = super.useQuery(fragment, {
-      variables: {
-        ...variables,
-        first: 15,
-        after: endCursorRef.current,
-      },
+    const { data: _, execute: executeQuery, ...result } = super.useQuery({
       onCompleted: (nextData) => {
-        if (endCursorRef.current) {
+        if (this.variables[this.variableMap.after]) {
           // assumes that nextData is set /shrug
           setData(mergeConnections(data!, nextData!));
         } else {
@@ -107,15 +85,25 @@ export default class ConnectionQueryBuilder extends FieldQueryBuilder {
       ...options,
     });
 
+    const execute = useCallback(
+      (variables: Record<string, any>) => {
+        executeQuery({ ...variables, first: 15 });
+      },
+      [executeQuery],
+    );
+
     const fetchMore = useCallback(() => {
-      endCursorRef.current = data!.pageInfo.endCursor;
-      forceUpdate(undefined);
-    }, [data, forceUpdate]);
+      execute({
+        ...this.variables,
+        after: data!.pageInfo.endCursor,
+      });
+    }, [data, execute]);
 
     return {
-      hasNextPage: data && data.pageInfo.hasNextPage,
+      hasNextPage: data ? data.pageInfo.hasNextPage : false,
       fetchMore,
       data: data && this.getRealResult(data),
+      execute,
       ...result,
     };
   }

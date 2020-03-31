@@ -10,7 +10,7 @@ import {
 import { makeExecutableSchema } from 'graphql-tools';
 
 import FieldQueryBuilder from './FieldQueryBuilder';
-import QueryBuilder from './QueryBuilder';
+import QueryBuilder, { ResolveableQueryBuilder } from './QueryBuilder';
 import { YupSchemaWithRequired } from './schema';
 import Serializeable from './serialization';
 import PanelBodyProps from './ui/PanelBodyProps';
@@ -19,7 +19,7 @@ interface FieldQueryBuilderConstructor {
   new (
     container: QueryBuilder<GraphQLObjectType>,
     fieldName: string,
-  ): FieldQueryBuilder;
+  ): ResolveableQueryBuilder;
 
   // static methods
   check: (type: GraphQLType) => boolean;

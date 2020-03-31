@@ -1,31 +1,42 @@
 // False positive; this class is not a component.
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { QueryHookOptions, useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-// eslint-disable-next-line max-classes-per-file
 import * as g from 'graphql';
+import mapKeys from 'lodash/mapKeys';
 import startCase from 'lodash/startCase';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import QueryBuilder from './QueryBuilder';
+import QueryBuilder, {
+  QueryOptions,
+  QueryPayload,
+  ResolveableQueryBuilder,
+  getVariableId,
+} from './QueryBuilder';
 import {
   getCommonScalarFragmentForType,
   getScalarFragmentForType,
   unwrapNull,
 } from './helpers';
 
-type FragmentFieldType =
-  | g.GraphQLObjectType
-  | g.GraphQLScalarType
-  | g.GraphQLEnumType;
+export default class FieldQueryBuilder implements ResolveableQueryBuilder {
+  queryable = true;
 
-export default class FieldQueryBuilder
-  implements QueryBuilder<FragmentFieldType> {
+  variableMap: Record<string, string>;
+
+  variables: Record<string, any> = {};
+
   constructor(
     public container: QueryBuilder<g.GraphQLObjectType>,
     public fieldName: string,
-  ) {}
+  ) {
+    this.variableMap = {};
+    this.field.args.forEach((a) => {
+      const varId = getVariableId();
+      this.variableMap[a.name] = varId;
+    });
+  }
 
   get parentType() {
     return this.container.fragmentType;
@@ -43,8 +54,8 @@ export default class FieldQueryBuilder
     const { fieldType } = this;
 
     return fieldType instanceof g.GraphQLList
-      ? (unwrapNull(fieldType.ofType) as FragmentFieldType)
-      : (fieldType as FragmentFieldType);
+      ? (unwrapNull(fieldType.ofType) as g.GraphQLObjectType)
+      : (fieldType as g.GraphQLObjectType);
   }
 
   get args() {
@@ -53,16 +64,6 @@ export default class FieldQueryBuilder
 
   get title() {
     return `${startCase(this.parentType.name)} ${startCase(this.field.name)}`;
-  }
-
-  getVariablesString(variables?: {}) {
-    if (!variables || Object.keys(variables).length === 0) return '';
-
-    const variablesString = Object.entries(variables)
-      .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-      .join(', ');
-
-    return `(${variablesString})`;
   }
 
   getSubFields(fragment: string) {
@@ -77,7 +78,7 @@ export default class FieldQueryBuilder
       type instanceof g.GraphQLInterfaceType
     ) {
       // adding id for apollo cache compliance
-      return ` {
+      return `{
           __typename
           ${type.getFields().id ? 'id' : ''}
           ${fragment}
@@ -94,33 +95,50 @@ export default class FieldQueryBuilder
     throw new Error(`not supported: ${type}`);
   }
 
-  getQuery(fragment: string, variables?: {}) {
+  getQuery(fragment: string, fragmentVarDefs: string[] = []) {
     const subFields = this.getSubFields(fragment);
-    const variablesString = this.getVariablesString(variables);
+
+    const varDefs: string[] = [...fragmentVarDefs];
+    const vars: string[] = [];
+    this.field.args.forEach((a) => {
+      const varId = this.variableMap[a.name];
+      varDefs.push(`$${varId}: ${a.type}`);
+      vars.push(`${a.name}: $${varId}`);
+    });
+    const variablesString = vars.length === 0 ? '' : `(${vars.join(', ')})`;
+
     const fullFragment = `field: ${this.fieldName}${variablesString} ${subFields}`;
-    return this.container.getQuery(fullFragment);
+    return this.container.getQuery(fullFragment, varDefs);
   }
 
-  useQuery(
-    fragment: string,
-    { variables, onCompleted, ...options }: QueryHookOptions = {},
-  ) {
-    const queryString = useMemo(() => this.getQuery(fragment, variables), [
-      fragment,
-      variables,
-    ]);
+  useQuery({ onCompleted, ...options }: QueryOptions = {}): QueryPayload {
+    const fragment = this.getScalarFragment();
+    const queryString = useMemo(() => this.getQuery(fragment), [fragment]);
+    const [skip, setSkip] = useState(true);
 
     const query = useMemo(() => gql(queryString), [queryString]);
 
-    const { fetchMore: _, data, ...result } = useQuery(query, {
+    const { fetchMore: _, data, refetch, ...result } = useQuery(query, {
       ...options,
+      skip,
       onCompleted: onCompleted && ((d) => onCompleted(this.getResult(d))),
     });
+    const execute = useCallback(
+      (variables: Record<string, any>) => {
+        this.variables = mapKeys(variables, (_v, k) => this.variableMap[k]);
+        refetch({ ...this.variables, ...this.container.variables });
+        if (skip) {
+          setSkip(false);
+        }
+      },
+      [refetch, skip],
+    );
 
     return {
       ...result,
-      query,
       data: data && this.getResult(data),
+      execute,
+      refetch,
     };
   }
 

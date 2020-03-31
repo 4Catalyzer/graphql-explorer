@@ -1,9 +1,10 @@
 import { GraphQLNonNull } from 'graphql';
 import isArray from 'lodash/isArray';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 
 import FieldQueryBuilder from '../FieldQueryBuilder';
+import { ResolveableQueryBuilder } from '../QueryBuilder';
 import { selectPanelForQueryBuilder } from '../resolvers';
 import ArgumentsForm from './ArgumentsForm';
 import JsonAlert from './JsonAlert';
@@ -13,9 +14,9 @@ import Panel from './Panel';
 import { PanelHeader } from './PanelHeader';
 
 interface Props {
-  queryBuilder: FieldQueryBuilder;
+  queryBuilder: ResolveableQueryBuilder;
   index: number;
-  onPushPanel: (index: number, queryBuilder: FieldQueryBuilder) => void;
+  onPushPanel: (index: number, queryBuilder: ResolveableQueryBuilder) => void;
   onClose?: () => void;
 }
 
@@ -26,61 +27,60 @@ export default function FieldPanel({
   onClose,
 }: Props) {
   const hasArgs = queryBuilder.args.length > 0;
-  const hasRequiredArgs = queryBuilder.args.some(
-    (a) => a.type instanceof GraphQLNonNull,
+  const queryProps = queryBuilder.useQuery();
+  const { data, loading, error, refetch, execute } = queryProps;
+  const skip = useMemo(
+    () => queryBuilder.args.some((a) => a.type instanceof GraphQLNonNull),
+    [queryBuilder.args],
   );
-  const [variables, setVariables] = useState();
-  const fragment = queryBuilder.getScalarFragment();
-  const skip = hasRequiredArgs && !variables;
-  const queryProps = queryBuilder.useQuery(fragment, { variables, skip });
-  const { data, loading, error, refetch } = queryProps;
+  useEffect(() => {
+    if (!skip) execute({});
+  }, [execute, skip]);
+  const handleSubmit = useCallback(execute, [execute]);
   const handleSelect = useCallback(
     (newBuilder: FieldQueryBuilder) => onPushPanel(index, newBuilder),
     [index, onPushPanel],
   );
 
   const panelBody = useMemo(() => {
-    if (!skip && error)
+    if (error)
       return (
         <Panel.Body>
           <JsonAlert variant="danger" content={error} />
         </Panel.Body>
       );
-    if (skip) return null;
-    if (!loading && !data) {
-      return <Panel.Body>Object not found</Panel.Body>;
-    }
+    if (data) {
+      const CustomPanel = selectPanelForQueryBuilder(queryBuilder);
 
-    if (!data) return null;
+      if (CustomPanel) {
+        return (
+          <CustomPanel
+            data={data}
+            queryBuilder={queryBuilder}
+            onSelect={handleSelect}
+            queryProps={queryProps}
+          />
+        );
+      }
 
-    const CustomPanel = selectPanelForQueryBuilder(queryBuilder);
-
-    if (CustomPanel) {
-      return (
-        <CustomPanel
+      return isArray(data) ? (
+        <ListPanelBody
           data={data}
-          queryBuilder={queryBuilder}
           onSelect={handleSelect}
+          queryBuilder={queryBuilder}
+          queryProps={queryProps}
+        />
+      ) : (
+        <ObjectPanelBody
+          data={data}
+          onSelect={handleSelect}
+          queryBuilder={queryBuilder}
           queryProps={queryProps}
         />
       );
     }
-
-    return isArray(data) ? (
-      <ListPanelBody
-        data={data}
-        onSelect={handleSelect}
-        queryBuilder={queryBuilder}
-        queryProps={queryProps}
-      />
-    ) : (
-      <ObjectPanelBody
-        data={data}
-        onSelect={handleSelect}
-        queryBuilder={queryBuilder}
-        queryProps={queryProps}
-      />
-    );
+    if (!skip && !loading) return <Panel.Body>Object not found</Panel.Body>;
+    return null;
   }, [data, error, handleSelect, loading, queryBuilder, queryProps, skip]);
   return (
     <Panel>
@@ -93,7 +93,11 @@ export default function FieldPanel({
       {hasArgs && (
         <>
           <Panel.Body>
-            <ArgumentsForm args={queryBuilder.args} onSubmit={setVariables} />
+            <ArgumentsForm
+              args={queryBuilder.args}
+              defaultValue={queryBuilder.defaultArgValue}
+              onSubmit={handleSubmit}
+            />
           </Panel.Body>
           <Panel.Divider />
         </>

@@ -54,7 +54,7 @@ function LinkButton({
 }
 
 interface Props {
-  onRefetch: () => void;
+  onRefetch?: () => void;
   onClose?: () => void;
   queryBuilder: QueryBuilder<any>;
   data?: any;
@@ -70,9 +70,11 @@ export function PanelHeader({
     <Panel.Header className="ge-PanelHeader">
       <div>{queryBuilder.title}</div>
       <div className="d-flex">
-        <Button variant="light" onClick={() => onRefetch()}>
-          <MdSync />
-        </Button>
+        {onRefetch && (
+          <Button variant="light" onClick={() => onRefetch()}>
+            <MdSync />
+          </Button>
+        )}
         <LinkButton queryBuilder={queryBuilder} data={data} />
         {onClose && (
           <Button variant="light" onClick={onClose}>

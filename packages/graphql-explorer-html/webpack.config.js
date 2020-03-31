@@ -19,12 +19,15 @@ module.exports = (args, { mode }) => {
     },
 
     plugins: [
-      plugins.html({ title: 'Sysadmin UI' }),
+      plugins.html({ title: 'Graphql Explorer' }),
       plugins.define(envConfig),
     ],
     module: {
       rules: [
-        { ...rules.js({ envName: 'development' }), test: /\.(j|t)sx?$/ },
+        {
+          ...rules.js({ envName: 'development', babelrcRoots: true }),
+          test: /\.(j|t)sx?$/,
+        },
         rules.astroturf.sass({ enableCssProp: true }),
         rules.css(),
         rules.fastSass(),
@@ -39,6 +42,18 @@ module.exports = (args, { mode }) => {
       alias: {
         'react': require.resolve('react'),
         'react-dom': require.resolve('react-dom'),
+        'graphql-explorer/lib/style.css': path.resolve(
+          __dirname,
+          '../graphql-explorer/lib/style.css',
+        ),
+        'graphql-explorer$': path.resolve(
+          __dirname,
+          '../graphql-explorer/src/index.js',
+        ),
+        'graphql-explorer/lib': path.resolve(
+          __dirname,
+          '../graphql-explorer/src',
+        ),
       },
     },
     devServer: {

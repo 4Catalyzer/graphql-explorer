@@ -25,6 +25,18 @@ export interface Props {
   name: string;
 }
 
+const Message = (props: { for: string }) => {
+  return (
+    <Form.Message for={props.for}>
+      {(errors: any) => (
+        <div className="invalid-feedback ge-FormField">
+          {errors.join(', ')}
+        </div>
+      )}
+    </Form.Message>
+  );
+};
+
 const FormField = React.forwardRef(
   ({ children, as, ...props }: Props, ref) => (
     <Form.Field ref={ref} {...props}>
@@ -64,13 +76,7 @@ const FormField = React.forwardRef(
             {field.description ? (
               <BsForm.Text muted>{field.description}</BsForm.Text>
             ) : null}
-            <Form.Message for={props.name}>
-              {(errors: any) => (
-                <div className="invalid-feedback ge-FormField">
-                  {errors.join(', ')}
-                </div>
-              )}
-            </Form.Message>
+            <Message for={props.name} />
           </>
         );
       }}
@@ -78,4 +84,6 @@ const FormField = React.forwardRef(
   ),
 );
 
-export default FormField;
+export default Object.assign(FormField, {
+  Message,
+});

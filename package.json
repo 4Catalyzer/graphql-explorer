@@ -26,5 +26,13 @@
     "@4c/cli": "^2.1.5",
     "lerna": "^3.20.2",
     "typescript": "3.8.3"
+  },
+  "workspace-sources": {
+    "graphql-explorer/lib/*": [
+      "packages/graphql-explorer/src/*"
+    ],
+    "graphql-explorer-html/build/*": [
+      "packages/graphql-explorer-html/src/*"
+    ]
   }
 }

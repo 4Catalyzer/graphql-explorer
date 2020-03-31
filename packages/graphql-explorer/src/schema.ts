@@ -52,7 +52,7 @@ export function getSchemaFromType(
   }
   // treat all the other scalar types as string
   if (type instanceof g.GraphQLScalarType) {
-    return yup.string().meta({ field });
+    return yup.string().meta({ field }).default(undefined);
   }
 
   if (type instanceof g.GraphQLEnumType) {
@@ -69,15 +69,19 @@ export function getSchemaFromType(
 
   if (type instanceof g.GraphQLInputObjectType) {
     if (!INPUT_OBJECT_CACHE[type.name]) {
-      INPUT_OBJECT_CACHE[type.name] = yup.object({}).meta({ field });
-
+      const objectFields: yup.ObjectSchemaDefinition<any> = {};
       Object.values(type.getFields()).forEach((subField) => {
-        const subFieldYupType = getSchemaFromType(subField.type, subField);
-        INPUT_OBJECT_CACHE[type.name].fields[field.name] = subFieldYupType;
+        objectFields[subField.name] = yup.lazy(() =>
+          getSchemaFromType(subField.type, subField),
+        );
       });
+      INPUT_OBJECT_CACHE[type.name] = yup
+        .object(objectFields)
+        .meta({ field })
+        .default(undefined);
     }
 
-    return INPUT_OBJECT_CACHE[type.name].default(undefined);
+    return INPUT_OBJECT_CACHE[type.name];
   }
 
   throw new Error(`unsupported type ${type}`);

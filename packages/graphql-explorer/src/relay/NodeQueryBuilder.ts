@@ -1,7 +1,10 @@
+import { QueryHookOptions } from '@apollo/react-hooks';
 import { GraphQLObjectType, GraphQLType } from 'graphql';
+import mapKeys from 'lodash/mapKeys';
 import startCase from 'lodash/startCase';
 
 import FieldQueryBuilder from '../FieldQueryBuilder';
+import { QueryPayload } from '../QueryBuilder';
 import RootQueryBuilder from '../RootQueryBuilder';
 import config from '../config';
 import Serializeable from '../serialization';
@@ -17,6 +20,7 @@ export default class NodeQueryBuilder extends FieldQueryBuilder
       throw new Error('must pass a valid item');
     }
     this.id = item.id;
+    this.variables = mapKeys({ id: this.id }, (_v, k) => this.variableMap[k]);
   }
 
   get nodeType() {
@@ -31,13 +35,21 @@ export default class NodeQueryBuilder extends FieldQueryBuilder
     return [];
   }
 
-  getQuery(fragment: string) {
+  getQuery(fragment: string, fragmentVarDefs: string[] = []) {
     const nodeFragment = `
       ... on ${this.fragmentType.name} {
         ${fragment}
       }
   `;
-    return super.getQuery(nodeFragment, { id: this.id });
+    return super.getQuery(nodeFragment, fragmentVarDefs);
+  }
+
+  useQuery(options?: QueryHookOptions): QueryPayload {
+    const { execute, ...payload } = super.useQuery(options);
+    return {
+      ...payload,
+      execute: () => execute({ id: this.id }),
+    };
   }
 
   get title() {

@@ -17,7 +17,8 @@
     "lint": "4c lint src './*'",
     "prepublishOnly": "yarn run build",
     "tdd": "jest --watch",
-    "test": "yarn lint && yarn build",
+    "test": "yarn lint && yarn typecheck && yarn build",
+    "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "testonly": "jest"
   },
   "files": [
@@ -75,8 +76,8 @@
     "@types/react": "^16.9.10",
     "@types/react-dom": "^16.9.2",
     "@types/react-widgets": "^4.3.3",
-    "@types/yup": "^0.26.24",
-    "apollo-boost": "^0.4.4",
+    "@types/yup": "^0.26.33",
+    "apollo-boost": "^0.4.7",
     "apollo-link-http": "^1.5.16",
     "bootstrap": "^4.3.1",
     "copy-to-clipboard": "^3.2.0",

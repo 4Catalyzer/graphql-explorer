@@ -8,7 +8,7 @@ import {
 } from 'graphql';
 
 import FieldQueryBuilder from './FieldQueryBuilder';
-import QueryBuilder from './QueryBuilder';
+import QueryBuilder, { ResolveableQueryBuilder } from './QueryBuilder';
 import config from './config';
 import { unwrapNull } from './helpers';
 
@@ -26,17 +26,18 @@ export function selectQueryForField(
   container: QueryBuilder<GraphQLObjectType>,
   fieldName: string,
   object: any,
-): FieldQueryBuilder {
+): ResolveableQueryBuilder {
   const { fragmentType } = container;
   let newContainer = container;
 
   const newRootQuery = selectQueryForType(fragmentType, object);
   if (newRootQuery) {
     newContainer = {
-      getQuery: (fragment) => newRootQuery.getQuery(fragment),
+      getQuery: (...args) => newRootQuery.getQuery(...args),
       getResult: (data) => newRootQuery.getResult(data),
       fragmentType,
       title: newRootQuery.title,
+      variables: newRootQuery.variables,
     };
   }
 
@@ -52,7 +53,9 @@ export function selectQueryForField(
   return new FieldQueryBuilder(newContainer, fieldName);
 }
 
-export function selectPanelForQueryBuilder(queryBuilder: FieldQueryBuilder) {
+export function selectPanelForQueryBuilder(
+  queryBuilder: ResolveableQueryBuilder,
+) {
   return config.panels.get(queryBuilder.constructor as any);
 }
 
