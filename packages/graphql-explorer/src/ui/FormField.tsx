@@ -43,9 +43,11 @@ const FormField = React.forwardRef(
       {(innerProps: FormFieldInnerProps) => {
         if (typeof children === 'function') return children(innerProps);
 
-        const { ...fieldProps } = innerProps as FormFieldInnerProps & {
-          [idx: string]: any;
-        };
+        const { ...fieldProps } =
+          innerProps as
+          FormFieldInnerProps & {
+            [idx: string]: any;
+          };
 
         const { type } = innerProps;
 
