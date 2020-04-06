@@ -26,9 +26,8 @@ export function serializeQueryBuilder(
 export function deserializeQueryBuilder(
   value: string,
 ): FieldQueryBuilder & Serializeable {
-  const { className, fragmentTypeName, data } = JSON.parse(
-    atob(value),
-  ) as SerializedData;
+  const { className, fragmentTypeName, data } =
+    JSON.parse(atob(value)) as SerializedData;
 
   const Class = config.rootQueryBuilders.find((C) => C.name === className);
 
