@@ -1,9 +1,10 @@
 import * as g from 'graphql';
 import React, { ReactNode, useMemo } from 'react';
-import { ObjectSchema } from 'yup';
+import { Schema } from 'yup';
 
 import { getSchemaFromArguments } from '../schema';
 import Form from './Form';
+import { isYupObject, resolveLazy } from './FormFields';
 
 interface Props {
   args: g.GraphQLArgument[];
@@ -13,8 +14,13 @@ interface Props {
   [idx: string]: any;
 }
 
-function generateDefaultValue(schema: ObjectSchema<any>, defaultValue: any) {
+function generateDefaultValue(_schema: Schema<any>, defaultValue: any) {
+  const schema = resolveLazy(_schema);
   let obj = schema.default();
+
+  if (!isYupObject(schema)) {
+    return defaultValue === undefined ? obj : defaultValue;
+  }
 
   Object.keys(schema.fields)
     .filter((k) => defaultValue[k] !== undefined)
@@ -24,10 +30,7 @@ function generateDefaultValue(schema: ObjectSchema<any>, defaultValue: any) {
       }
       obj[k] = defaultValue[k];
       if (typeof obj[k] === 'object') {
-        obj[k] = generateDefaultValue(
-          schema.fields[k] as ObjectSchema,
-          obj[k],
-        );
+        obj[k] = generateDefaultValue(schema.fields[k], obj[k]);
       }
     });
 
