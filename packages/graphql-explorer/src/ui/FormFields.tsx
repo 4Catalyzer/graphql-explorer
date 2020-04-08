@@ -11,19 +11,21 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-function resolveLazy<T extends yup.Schema<any>>(schema: T): T {
+export function resolveLazy<T extends yup.Schema<any>>(schema: T): T {
   return schema.constructor.name === 'Lazy'
     ? // eslint-disable-next-line no-underscore-dangle
       (schema as any)._resolve()
     : schema;
 }
 
-function isYupArray(s: yup.Schema<unknown>): s is yup.ArraySchema<unknown> {
+export function isYupArray(
+  s: yup.Schema<unknown>,
+): s is yup.ArraySchema<unknown> {
   // eslint-disable-next-line no-underscore-dangle
   return (s as any)._type === 'array';
 }
 
-function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
+export function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
   // eslint-disable-next-line no-underscore-dangle
   return (s as any)._type === 'object';
 }
