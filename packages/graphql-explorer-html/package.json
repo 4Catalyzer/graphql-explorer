@@ -71,7 +71,7 @@
     "apollo-link-http": "^1.5.16",
     "astroturf": "^0.10.2",
     "core-js": "^3.6.4",
-    "graphql": "^14.6.0",
+    "graphql": "^15.0.0",
     "graphql-explorer": "^0.2.1",
     "graphql-tools": "^4.0.7",
     "query-string": "^6.11.0",
