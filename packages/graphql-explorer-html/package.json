@@ -73,7 +73,7 @@
     "core-js": "^3.6.4",
     "graphql": "^15.0.0",
     "graphql-explorer": "^0.2.2",
-    "graphql-tools": "^4.0.7",
+    "graphql-tools": "^5.0.0",
     "query-string": "^6.11.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
