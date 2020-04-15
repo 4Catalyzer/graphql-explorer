@@ -11,11 +11,10 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends yup.Schema<any>>(schema: T): T {
-  return schema.constructor.name === 'Lazy'
-    ? // eslint-disable-next-line no-underscore-dangle
-      (schema as any)._resolve()
-    : schema;
+export function resolveLazy<T extends yup.Schema<any>>(
+  schema: T & { resolve?: (opts: any) => T },
+): T {
+  return schema.resolve ? schema.resolve({}) : schema;
 }
 
 export function isYupArray(
