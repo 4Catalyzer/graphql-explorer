@@ -5,6 +5,8 @@ import Form from 'react-formal';
 import DropdownList from 'react-widgets/lib/DropdownList';
 import * as yup from 'yup';
 
+import { resolveLazy } from './FormFields';
+
 interface FormFieldInnerProps {
   type: string;
   meta: {
@@ -47,9 +49,9 @@ const FormField = React.forwardRef(
           [idx: string]: any;
         };
 
-        const { type } = innerProps;
+        const { type, meta } = innerProps;
 
-        const { schema } = innerProps.meta;
+        const schema = resolveLazy(meta.schema);
         const whitelist: Set<string> =
           // eslint-disable-next-line no-underscore-dangle
           (schema as any)._whitelist && (schema as any)._whitelist.list;
