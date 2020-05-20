@@ -89,7 +89,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = (schema.meta() as SchemaMeta).field;
+  const gqlType = (schema.meta() as SchemaMeta).field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
