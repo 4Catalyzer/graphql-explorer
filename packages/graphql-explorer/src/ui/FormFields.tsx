@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import { GraphQLNonNull } from 'graphql';
+import React, { useCallback, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
-import Form from 'react-formal';
-import NestedForm from 'react-formal/lib/NestedForm';
+import Form, { NestedForm } from 'react-formal';
 import * as yup from 'yup';
 
+import { SchemaMeta } from '../schema';
 import FormField from './FormField';
 
 interface FormFieldsProps {
@@ -29,24 +30,17 @@ export function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
   return (s as any)._type === 'object';
 }
 
-interface FieldArrayContentProps<T> {
-  value?: T[];
-  arrayHelpers: any;
-  name: string;
-}
-
-interface FieldArrayProps {
+type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
+type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
   schema: yup.ArraySchema<any>;
-  name: string;
-  events: string;
-}
+};
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
   const subType = resolveLazy((schema as any)._subType as yup.Schema<any>);
 
-  const renderContent = useCallback(
-    ({ value, arrayHelpers }: FieldArrayContentProps<any>) => (
+  const renderContent: BaseFieldArrayProps['children'] = useCallback(
+    (value, helpers) => (
       <div>
         {(value || []).map((i, idx) => (
           <div
@@ -56,7 +50,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
           >
             <FormField name={`${name}[${idx}]`} />
             <Button
-              onClick={() => arrayHelpers.remove(i)}
+              onClick={() => helpers.remove(i)}
               variant="danger"
               className="ge-FormFields-field-array-button"
             >
@@ -66,7 +60,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
         ))}
         <Button
           // eslint-disable-next-line no-underscore-dangle
-          onClick={() => arrayHelpers.add(subType.default())}
+          onClick={() => helpers.add(subType.default())}
         >
           +
         </Button>
@@ -88,20 +82,46 @@ const FormLabel = ({ children }: { children: React.ReactNode }) => (
   </BsForm.Label>
 );
 
+function NestedFormFields({
+  schema,
+  fieldName,
+}: {
+  schema: yup.ObjectSchema<any>;
+  fieldName: string;
+}) {
+  const gqlType = (schema.meta() as SchemaMeta).field;
+  const isRequired = gqlType instanceof GraphQLNonNull;
+
+  const [expanded, setExpanded] = useState(isRequired);
+  const expand = useCallback(() => setExpanded(true), [setExpanded]);
+
+  if (!expanded) {
+    return (
+      <div>
+        <Button onClick={expand}>+</Button>
+      </div>
+    );
+  }
+
+  return (
+    <NestedForm name={fieldName}>
+      <FormFields schema={schema} />
+    </NestedForm>
+  );
+}
+
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
     (field: yup.Schema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       if (isYupArray(field)) {
-        return <FieldArray events="blur" schema={field} name={fieldName} />;
+        return <FieldArray schema={field} name={fieldName} />;
       }
       if (isYupObject(field)) {
         return (
           <>
-            <NestedForm name={fieldName}>
-              <FormFields schema={field} />
-            </NestedForm>
+            <NestedFormFields schema={field} fieldName={fieldName} />
             <FormField.Message for={fieldName} />
           </>
         );
