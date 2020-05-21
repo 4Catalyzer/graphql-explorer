@@ -52,7 +52,7 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
     <Form.Control
       {...props}
       as="textarea"
-      rows="3"
+      rows={3}
       style={{ fontFamily: 'monospace' }}
       value={innerValue}
       onChange={handleChange}

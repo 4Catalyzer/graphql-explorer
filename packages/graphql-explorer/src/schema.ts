@@ -9,7 +9,12 @@ export type YupSchemaWithRequired =
   | yup.NumberSchema
   | yup.MixedSchema
   | yup.BooleanSchema
-  | yup.ArraySchema<any>;
+  | yup.NotRequiredArraySchema<any>;
+
+export interface SchemaMeta {
+  field: g.GraphQLInputField;
+  Component?: React.ElementType<any>;
+}
 
 const INPUT_OBJECT_CACHE: Record<string, yup.ObjectSchema<any>> = {};
 

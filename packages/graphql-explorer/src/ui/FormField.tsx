@@ -1,29 +1,14 @@
-import * as g from 'graphql';
 import React from 'react';
 import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
 import DropdownList from 'react-widgets/lib/DropdownList';
-import * as yup from 'yup';
 
+import { SchemaMeta } from '../schema';
 import { resolveLazy } from './FormFields';
-
-interface FormFieldInnerProps {
-  type: string;
-  meta: {
-    schema: yup.Schema<any>;
-  };
-  value: any;
-  onChange: (v: any) => void;
-}
-
-interface SchemaMeta {
-  field: g.GraphQLInputField;
-  Component?: React.ElementType<any>;
-}
 
 export interface Props {
   children?: React.ReactNode;
-  as?: React.ElementType<FormFieldInnerProps>;
+  as?: typeof Form.Field;
   name: string;
 }
 
@@ -42,21 +27,21 @@ const Message = (props: { for: string }) => {
 const FormField = React.forwardRef(
   ({ children, as, ...props }: Props, ref) => (
     <Form.Field ref={ref} {...props}>
-      {(innerProps: FormFieldInnerProps) => {
+      {(innerProps, meta) => {
         if (typeof children === 'function') return children(innerProps);
 
-        const { ...fieldProps } = innerProps as FormFieldInnerProps & {
+        const { ...fieldProps } = innerProps as typeof innerProps & {
           [idx: string]: any;
         };
 
-        const { type, meta } = innerProps;
+        const { type } = innerProps;
 
-        const schema = resolveLazy(meta.schema);
+        const schema = resolveLazy(meta.schema!);
         const whitelist: Set<string> =
           // eslint-disable-next-line no-underscore-dangle
           (schema as any)._whitelist && (schema as any)._whitelist.list;
 
-        const { Component, field }: SchemaMeta = schema.meta() || {};
+        const { Component, field } = schema.meta() as SchemaMeta;
         let Input: React.ElementType<any> | undefined = as || Component;
 
         if (!Input) {
