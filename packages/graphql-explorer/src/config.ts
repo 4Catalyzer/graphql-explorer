@@ -6,8 +6,8 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLType,
+  buildSchema,
 } from 'graphql';
-import { makeExecutableSchema } from 'graphql-tools';
 
 import FieldQueryBuilder from './FieldQueryBuilder';
 import QueryBuilder, { ResolveableQueryBuilder } from './QueryBuilder';
@@ -59,10 +59,7 @@ class Singleton {
   }
 
   setSchema(schema: string | GraphQLSchema) {
-    this._schema =
-      typeof schema === 'string'
-        ? makeExecutableSchema({ typeDefs: schema })
-        : schema;
+    this._schema = typeof schema === 'string' ? buildSchema(schema) : schema;
   }
 
   rootQueryBuilders: RootFieldQueryBuilderConstructor[] = [];
