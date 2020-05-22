@@ -68,7 +68,7 @@ export default class MutationQueryBuilder implements ResolveableQueryBuilder {
     return startCase(this.field.name);
   }
 
-  getVariablesString(variables?: {}) {
+  getVariablesString(variables?: Record<string, any>) {
     // XXX: REVISIT
     if (!variables || Object.keys(variables).length === 0) return '';
 
@@ -133,7 +133,7 @@ export default class MutationQueryBuilder implements ResolveableQueryBuilder {
     };
   }
 
-  getResult(data: object) {
+  getResult(data: unknown) {
     const parentData = this.container.getResult(data);
     return parentData.mutation;
   }

@@ -142,7 +142,7 @@ export default class FieldQueryBuilder implements ResolveableQueryBuilder {
     };
   }
 
-  getResult(data: object) {
+  getResult(data: Record<string, any>) {
     const parentData = this.container.getResult(data);
     return parentData.field;
   }
