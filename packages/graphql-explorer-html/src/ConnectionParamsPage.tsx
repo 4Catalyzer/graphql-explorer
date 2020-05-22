@@ -5,13 +5,15 @@ import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
 import * as yup from 'yup';
 
-const schema = yup.object({
-  uri: yup
-    .string()
-    .default('https://api.graph.cool/simple/v1/swapi')
-    .required(),
-  headers: jsonField().default({}),
-});
+const schema = yup
+  .object({
+    uri: yup
+      .string()
+      .default('https://api.graph.cool/simple/v1/swapi')
+      .required(),
+    headers: jsonField().default({}),
+  })
+  .required();
 
 export type ConnectionParams = yup.InferType<typeof schema>;
 

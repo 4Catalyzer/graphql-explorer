@@ -121,7 +121,11 @@ export default class FieldQueryBuilder implements ResolveableQueryBuilder {
     const { fetchMore: _, data, refetch, ...result } = useQuery(query, {
       ...options,
       skip,
-      onCompleted: onCompleted && ((d) => onCompleted(this.getResult(d))),
+      onCompleted:
+        onCompleted &&
+        ((d) => {
+          if (d !== undefined) onCompleted(this.getResult(d));
+        }),
     });
     const execute = useCallback(
       (variables: Record<string, any>) => {

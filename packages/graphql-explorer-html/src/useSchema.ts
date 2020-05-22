@@ -1,31 +1,37 @@
-import { HttpLink } from 'apollo-link-http';
 import { GraphQLSchema } from 'graphql';
-import { introspectSchema } from 'graphql-tools';
+import { FetchSchemaIntrospector } from 'graphql-explorer/lib/introspection';
 import { useEffect, useState } from 'react';
+
+import { ConnectionParams } from './ConnectionParamsPage';
 
 type State =
   | { status: 'error'; message: string }
   | { status: 'loading' }
   | { status: 'resolved'; schema: GraphQLSchema };
 
-export default function useSchema(
-  options: ConstructorParameters<typeof HttpLink>[0],
-) {
+export default function useSchema(params?: ConnectionParams) {
   const [state, setState] = useState<State>({ status: 'loading' });
 
   useEffect(() => {
     async function getSchema() {
-      const link = new HttpLink(options);
+      if (!params) return;
+      const { headers, uri } = params;
       try {
         setState({ status: 'loading' });
-        const schema = await introspectSchema(link);
+        const introspector = new FetchSchemaIntrospector((query) => ({
+          url: uri,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...headers },
+          body: JSON.stringify({ query }),
+        }));
+        const schema = await introspector.introspect();
         setState({ status: 'resolved', schema });
       } catch (error) {
         setState({ status: 'error', message: error.message });
       }
     }
     getSchema();
-  }, [options]);
+  }, [params]);
 
   return state;
 }
