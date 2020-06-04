@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
 import DropdownList from 'react-widgets/lib/DropdownList';
@@ -24,6 +24,16 @@ const Message = (props: { for: string }) => {
   );
 };
 
+function Check({ value, onChange, ...props }: { value: any; onChange: any }) {
+  const realOnChange = useCallback(
+    (e) => {
+      onChange(e.target.checked);
+    },
+    [onChange],
+  );
+  return <BsForm.Check {...props} checked={value} onChange={realOnChange} />;
+}
+
 const FormField = React.forwardRef(
   ({ children, as, ...props }: Props, ref) => (
     <Form.Field ref={ref} {...props}>
@@ -33,8 +43,6 @@ const FormField = React.forwardRef(
         const { ...fieldProps } = innerProps as typeof innerProps & {
           [idx: string]: any;
         };
-
-        const { type } = innerProps;
 
         const schema = resolveLazy(meta.schema!);
         const whitelist: Set<string> =
@@ -49,9 +57,8 @@ const FormField = React.forwardRef(
             const options = Array.from(whitelist);
             Input = DropdownList;
             fieldProps.data = options;
-          } else if (/checkbox|radio/.test(type)) {
-            Input = BsForm.Check;
-            fieldProps.checked = fieldProps.value;
+          } else if (schema.type === 'boolean') {
+            Input = Check;
           } else {
             Input = BsForm.Control;
           }
