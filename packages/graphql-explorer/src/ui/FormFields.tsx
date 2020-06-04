@@ -115,16 +115,22 @@ export default function FormFields({ schema }: FormFieldsProps) {
     (field: yup.Schema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
-      if (isYupArray(field)) {
-        return <FieldArray schema={field} name={fieldName} />;
-      }
-      if (isYupObject(field)) {
-        return (
-          <>
-            <NestedFormFields schema={field} fieldName={fieldName} />
-            <FormField.Message for={fieldName} />
-          </>
-        );
+      // schema.meta() is undefined for root objects
+      const { Component } = field.meta() as SchemaMeta;
+
+      // we use the array and nested helpers only if a component is not specified
+      if (!Component) {
+        if (isYupArray(field)) {
+          return <FieldArray schema={field} name={fieldName} />;
+        }
+        if (isYupObject(field)) {
+          return (
+            <>
+              <NestedFormFields schema={field} fieldName={fieldName} />
+              <FormField.Message for={fieldName} />
+            </>
+          );
+        }
       }
 
       return <FormField name={fieldName} />;
