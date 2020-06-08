@@ -20,12 +20,12 @@
     ]
   },
   "resolutions": {
-    "typescript": "3.9.3"
+    "typescript": "^3.9.5"
   },
   "devDependencies": {
     "@4c/cli": "^2.1.10",
     "lerna": "^3.22.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "workspace-sources": {
     "graphql-explorer/lib/*": [
