@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@4c/cli": "^2.1.10",
-    "lerna": "^3.22.0",
+    "lerna": "^3.22.1",
     "typescript": "^3.9.5"
   },
   "workspace-sources": {
