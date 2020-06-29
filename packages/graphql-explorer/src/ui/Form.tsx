@@ -7,10 +7,8 @@ import * as yup from 'yup';
 import FormField from './FormField';
 import FormFields from './FormFields';
 
-interface FormComponentProps {
+interface FormComponentProps extends Record<string, any> {
   schema: yup.ObjectSchema;
-
-  [idx: string]: any;
 }
 
 function Form(props: FormComponentProps) {

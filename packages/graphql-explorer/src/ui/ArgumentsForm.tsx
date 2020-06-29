@@ -6,12 +6,10 @@ import { getSchemaFromArguments } from '../schema';
 import Form from './Form';
 import { isYupObject, resolveLazy } from './FormFields';
 
-interface Props {
+interface Props extends Record<string, any> {
   args: g.GraphQLArgument[];
   children?: ReactNode;
   defaultValue?: Record<string, any>;
-
-  [idx: string]: any;
 }
 
 function generateDefaultValue(_schema: Schema<any>, defaultValue: any) {
