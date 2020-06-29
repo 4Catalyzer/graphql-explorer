@@ -5,10 +5,8 @@ import * as yup from 'yup';
 
 const INVALID_JSON = Symbol('invalid json');
 
-interface JsonInputProps {
+interface JsonInputProps extends Record<string, any> {
   value: unknown;
-
-  [idx: string]: any;
 }
 
 export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
