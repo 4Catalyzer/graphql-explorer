@@ -138,15 +138,19 @@ export default function FormFields({ schema }: FormFieldsProps) {
     [],
   );
 
-  const shouldShowLabel = useMemo(
-    () => Object.keys(schema.fields).length > 1,
-    [schema.fields],
-  );
+  // hide the label IFF the current type has only one field, and this field
+  // is an object type - to reduce nesting
+  const shouldShowLabel = useMemo(() => {
+    const subFields = Object.values(schema.fields);
+    if (subFields.length > 1) return true;
+    const [subField] = subFields;
+    return !(subField && isYupObject(subField));
+  }, [schema.fields]);
 
   const fields = useMemo(
     () =>
       Object.entries(schema.fields).map(([fieldName, field]) => (
-        <BsForm.Group controlId={fieldName}>
+        <BsForm.Group key={fieldName} controlId={fieldName}>
           <div className="d-flex">
             {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
             <div className="d-flex flex-column flex-grow-1">
