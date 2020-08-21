@@ -1,5 +1,5 @@
+import { ApolloError } from '@apollo/client';
 import { QueryHookOptions } from '@apollo/react-hooks';
-import { ApolloError } from 'apollo-boost';
 import * as g from 'graphql';
 
 import Serializeable from './serialization';
