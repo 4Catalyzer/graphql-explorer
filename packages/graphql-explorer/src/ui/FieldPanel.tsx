@@ -81,9 +81,9 @@ export default function FieldPanel({
         />
       );
     }
-    if (!skip && !loading) return <Panel.Body>Object not found</Panel.Body>;
+    if (called && !loading) return <Panel.Body>Object not found</Panel.Body>;
     return null;
-  }, [data, error, handleSelect, loading, queryBuilder, queryProps, skip]);
+  }, [called, data, error, handleSelect, loading, queryBuilder, queryProps]);
   return (
     <Panel>
       <PanelHeader
