@@ -2,11 +2,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { gql, useLazyQuery } from '@apollo/client';
-import { useQuery } from '@apollo/react-hooks';
 import * as g from 'graphql';
 import mapKeys from 'lodash/mapKeys';
 import startCase from 'lodash/startCase';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import QueryBuilder, {
   QueryOptions,
