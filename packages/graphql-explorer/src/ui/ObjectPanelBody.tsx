@@ -4,6 +4,7 @@ import {
   GraphQLList,
   GraphQLObjectType,
   GraphQLScalarType,
+  isNamedType,
 } from 'graphql';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
@@ -15,7 +16,11 @@ import ObjectQueryBuilder from '../ObjectQueryBuilder';
 import QueryBuilder from '../QueryBuilder';
 import { unwrapNull } from '../helpers';
 import { MutationDefinition, getMutationsForType } from '../mutations';
-import { selectFieldRenderer, selectQueryForField } from '../resolvers';
+import {
+  selectFieldRenderer,
+  selectQueryForField,
+  selectQueryForType,
+} from '../resolvers';
 import Panel from './Panel';
 import PanelBodyProps from './PanelBodyProps';
 
@@ -35,23 +40,32 @@ export default function ObjectPanelBody({
 }: PanelBodyProps<Record<string, any>>) {
   const [selectedField, setSelectedField] = useState<string>();
   const type = queryBuilder.fragmentType as GraphQLObjectType;
+  const selectFieldQueryBuilder = useCallback(
+    (field: GraphQLField<any, any>) => {
+      if (data[field.name] != null) {
+        const newRootQueryBuilder =
+          isNamedType(field.type) &&
+          selectQueryForType(field.type, data[field.name]);
+        return (
+          newRootQueryBuilder ||
+          new ObjectQueryBuilder(field.type, data[field.name])
+        );
+      }
+      return selectQueryForField(
+        queryBuilder as QueryBuilder<GraphQLObjectType>,
+        field.name,
+        data,
+      );
+    },
+    [data, queryBuilder],
+  );
+
   const handleSelectField = useCallback(
     (field: GraphQLField<any, any>) => {
       setSelectedField(field.name);
-
-      if (data[field.name]) {
-        onSelect(new ObjectQueryBuilder(field.type, data[field.name]));
-      } else {
-        onSelect(
-          selectQueryForField(
-            queryBuilder as QueryBuilder<GraphQLObjectType>,
-            field.name,
-            data,
-          ),
-        );
-      }
+      onSelect(selectFieldQueryBuilder(field));
     },
-    [data, onSelect, queryBuilder],
+    [onSelect, selectFieldQueryBuilder],
   );
   const handleSelectMutation = useCallback(
     ({ mutation }: MutationDefinition) => {
