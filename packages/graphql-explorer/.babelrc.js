@@ -1,12 +1,6 @@
-module.exports = (api) => ({
+module.exports = {
   presets: [
-    [
-      '@4c',
-      {
-        target: 'web',
-        modules: api.env() === 'esm' ? false : 'commonjs',
-      },
-    ],
+    ['@4c', { target: 'web', targets: { esmodules: true } }],
     '@babel/preset-typescript',
   ],
-});
+};

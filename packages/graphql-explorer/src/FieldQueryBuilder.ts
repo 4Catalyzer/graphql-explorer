@@ -1,8 +1,8 @@
 // False positive; this class is not a component.
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import { gql, useLazyQuery } from '@apollo/client';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import * as g from 'graphql';
 import mapKeys from 'lodash/mapKeys';
 import startCase from 'lodash/startCase';
@@ -114,28 +114,36 @@ export default class FieldQueryBuilder implements ResolveableQueryBuilder {
   useQuery({ onCompleted, ...options }: QueryOptions = {}): QueryPayload {
     const fragment = this.getScalarFragment();
     const queryString = useMemo(() => this.getQuery(fragment), [fragment]);
-    const [skip, setSkip] = useState(true);
+    // const [skip, setSkip] = useState(true);
 
     const query = useMemo(() => gql(queryString), [queryString]);
 
-    const { fetchMore: _, data, refetch, ...result } = useQuery(query, {
-      ...options,
-      skip,
-      onCompleted:
-        onCompleted &&
-        ((d) => {
-          if (d !== undefined) onCompleted(this.getResult(d));
-        }),
-    });
+    const [load, { fetchMore: _, data, refetch, ...result }] = useLazyQuery(
+      query,
+      {
+        ...options,
+        // variables: { ...this.variables, ...this.container.variables },
+        fetchPolicy: 'no-cache',
+        nextFetchPolicy: 'no-cache',
+        // skip,
+        onCompleted:
+          onCompleted &&
+          ((d) => {
+            if (d !== undefined) onCompleted(this.getResult(d));
+          }),
+      },
+    );
+
     const execute = useCallback(
       (variables: Record<string, any>) => {
         this.variables = mapKeys(variables, (_v, k) => this.variableMap[k]);
-        refetch({ ...this.variables, ...this.container.variables });
-        if (skip) {
-          setSkip(false);
-        }
+        const allVariables = {
+          ...this.variables,
+          ...this.container.variables,
+        };
+        load({ variables: allVariables });
       },
-      [refetch, skip],
+      [load],
     );
 
     return {

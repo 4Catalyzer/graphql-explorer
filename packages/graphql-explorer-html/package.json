@@ -15,7 +15,7 @@
     "lint": "4c lint src './*'",
     "prebuild": "rimraf build",
     "release": "4c release",
-    "start": "DEV_SERVER=true webpack-dev-server --hot --mode development",
+    "start": "DEV_SERVER=true webpack-dev-server --mode development",
     "test": "yarn lint && yarn typecheck",
     "typecheck": "yarn tsc --noEmit -p tsconfig.build.json"
   },
@@ -63,17 +63,17 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "apollo-boost": "^0.4.7",
+    "@apollo/client": "^3.1.3",
     "apollo-link-http": "^1.5.16",
     "astroturf": "^0.10.2",
     "core-js": "^3.6.4",
-    "graphql": "^15.0.0",
+    "graphql": "^15.3.0",
     "graphql-explorer": "^0.3.2",
-    "query-string": "^6.11.0",
+    "query-string": "^6.13.1",
     "react": "^16.12.0",
-    "react-bootstrap": "^1.0.0-beta.16",
+    "react-bootstrap": "^1.3.0",
     "react-dom": "^16.12.0",
-    "react-formal": "^2.1.0",
+    "react-formal": "^2.1.2",
     "yup": "^0.29.0"
   }
 }

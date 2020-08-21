@@ -1,8 +1,8 @@
 // False positive; this class is not a component.
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 // eslint-disable-next-line max-classes-per-file
 import * as g from 'graphql';
 import startCase from 'lodash/startCase';
@@ -123,6 +123,7 @@ export default class MutationQueryBuilder implements ResolveableQueryBuilder {
 
     const [mutate, { data, ...result }] = useMutation(query, {
       ...options,
+      fetchPolicy: 'no-cache',
       onCompleted: onCompleted && ((d) => onCompleted(this.getResult(d))),
     });
 

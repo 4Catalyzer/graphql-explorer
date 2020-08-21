@@ -22,7 +22,10 @@ export default interface QueryBuilder<T extends g.GraphQLType>
   title: string;
 }
 
-export type QueryOptions = Omit<QueryHookOptions, 'variables' | 'skip'>;
+export type QueryOptions = Omit<
+  QueryHookOptions,
+  'variables' | 'skip' | 'fetchPolicy'
+>;
 export type QueryPayload = {
   data: any;
   error?: ApolloError;

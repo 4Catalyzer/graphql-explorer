@@ -20,7 +20,7 @@
     ]
   },
   "resolutions": {
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "devDependencies": {
     "@4c/cli": "^2.1.11",
