@@ -1,5 +1,5 @@
+import { ApolloError } from '@apollo/client';
 import { QueryHookOptions } from '@apollo/react-hooks';
-import { ApolloError } from 'apollo-boost';
 import * as g from 'graphql';
 
 import Serializeable from './serialization';
@@ -22,7 +22,10 @@ export default interface QueryBuilder<T extends g.GraphQLType>
   title: string;
 }
 
-export type QueryOptions = Omit<QueryHookOptions, 'variables' | 'skip'>;
+export type QueryOptions = Omit<
+  QueryHookOptions,
+  'variables' | 'skip' | 'fetchPolicy'
+>;
 export type QueryPayload = {
   data: any;
   error?: ApolloError;

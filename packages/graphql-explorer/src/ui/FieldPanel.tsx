@@ -28,17 +28,19 @@ export default function FieldPanel({
 }: Props) {
   const hasArgs = queryBuilder.args.length > 0;
   const queryProps = queryBuilder.useQuery();
-  const { data, loading, error, refetch, execute } = queryProps;
+  const { data, loading, error, refetch, execute, called } = queryProps;
   const skip = useMemo(
     () => queryBuilder.args.some((a) => a.type instanceof GraphQLNonNull),
     [queryBuilder.args],
   );
   useEffect(() => {
-    if (!skip) execute({});
-  }, [execute, skip]);
+    if (!skip && !loading && !called) execute({});
+  }, [execute, skip, loading, called]);
   const handleSubmit = useCallback(execute, [execute]);
   const handleSelect = useCallback(
-    (newBuilder: FieldQueryBuilder) => onPushPanel(index, newBuilder),
+    (newBuilder: FieldQueryBuilder) => {
+      return onPushPanel(index, newBuilder);
+    },
     [index, onPushPanel],
   );
 

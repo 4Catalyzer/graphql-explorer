@@ -1,4 +1,4 @@
-import ApolloClient from 'apollo-boost';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import config from 'graphql-explorer/lib/config';
 import { addCommonFields } from 'graphql-explorer/lib/inputFields';
 import addRelayTypes from 'graphql-explorer/lib/relay';
@@ -42,7 +42,10 @@ function App() {
     }
   }, [connectionParams]);
   const client = useMemo(
-    () => (connectionParams ? new ApolloClient(connectionParams) : null),
+    () =>
+      connectionParams
+        ? new ApolloClient({ ...connectionParams, cache: new InMemoryCache() })
+        : null,
     [connectionParams],
   );
 

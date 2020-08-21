@@ -1,5 +1,5 @@
+import { ApolloClient } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { ApolloClient } from 'apollo-boost';
 import React, {
   useCallback,
   useEffect,
@@ -23,10 +23,16 @@ export default function Panels({
   client,
   colWidth = '40rem',
 }: Props) {
-  const [panels, setPanels] = useState<ResolveableQueryBuilder[]>([]);
+  const panelIdCounter = useRef(0);
+  const [panels, setPanels] = useState<
+    { panel: ResolveableQueryBuilder; panelId: number }[]
+  >([]);
   const pushPanel = useCallback(
-    (index: number, q: ResolveableQueryBuilder) => {
-      setPanels([...panels.slice(0, index), q]);
+    (index: number, panel: ResolveableQueryBuilder) => {
+      setPanels([
+        ...panels.slice(0, index),
+        { panel, panelId: panelIdCounter.current++ },
+      ]);
     },
     [panels],
   );
@@ -38,12 +44,11 @@ export default function Panels({
   );
   const panelsToDisplay = useMemo(() => {
     const rootPanel = <RootPanel onPushPanel={pushPanel} key="root" />;
-    const extraPanels = panels.map((queryBuilder, idx) => {
+    const extraPanels = panels.map(({ panel, panelId }, idx) => {
       return (
         <FieldPanel
-          // eslint-disable-next-line react/no-array-index-key
-          key={`${idx}_${queryBuilder.title}_${queryBuilder}`}
-          queryBuilder={queryBuilder}
+          key={panelId}
+          queryBuilder={panel}
           index={idx + 1}
           onPushPanel={pushPanel}
           onClose={() => closePanel(idx)}

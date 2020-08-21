@@ -11,7 +11,7 @@ const schema = yup
       .string()
       .default('https://api.graph.cool/simple/v1/swapi')
       .required(),
-    headers: jsonField().default({}),
+    headers: jsonField().default({}) as yup.Schema<Record<string, any>>,
   })
   .required();
 
