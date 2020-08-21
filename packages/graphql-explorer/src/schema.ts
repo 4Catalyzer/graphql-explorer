@@ -57,7 +57,14 @@ export function getSchemaFromType(
   }
   // treat all the other scalar types as string
   if (type instanceof g.GraphQLScalarType) {
-    return yup.string().meta({ field }).default(undefined);
+    return (
+      yup
+        .string()
+        .meta({ field })
+        .default(undefined)
+        // explicitly set empty strings as undefined
+        .transform((v) => (v === '' ? undefined : v))
+    );
   }
 
   if (type instanceof g.GraphQLEnumType) {
