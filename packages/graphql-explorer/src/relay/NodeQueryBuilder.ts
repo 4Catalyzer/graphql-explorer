@@ -10,7 +10,8 @@ import config from '../config';
 import Serializeable from '../serialization';
 import { isNode } from './helpers';
 
-export default class NodeQueryBuilder extends FieldQueryBuilder
+export default class NodeQueryBuilder
+  extends FieldQueryBuilder
   implements Serializeable {
   public id: string;
 
