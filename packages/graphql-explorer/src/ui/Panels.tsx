@@ -56,7 +56,7 @@ export default function Panels({
       );
     });
     return [rootPanel, ...extraPanels];
-  }, [closePanel, panels, pushPanel]);
+  }, [RootPanel, closePanel, panels, pushPanel]);
 
   const numCols = panelsToDisplay.length;
   const gridTemplateColumns = Array.from(Array(numCols))
