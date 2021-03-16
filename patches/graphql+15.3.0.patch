@@ -1,0 +1,96 @@
+diff --git a/node_modules/graphql/type/definition.d.ts b/node_modules/graphql/type/definition.d.ts
+index edda9e7..032aba1 100644
+--- a/node_modules/graphql/type/definition.d.ts
++++ b/node_modules/graphql/type/definition.d.ts
+@@ -40,8 +40,8 @@ export type GraphQLType =
+   | GraphQLUnionType
+   | GraphQLEnumType
+   | GraphQLInputObjectType
+-  | GraphQLList<any>
+-  | GraphQLNonNull<any>;
++  | GraphQLList<GraphQLType>
++  | GraphQLNonNull<GraphQLType>;
+ 
+ export function isType(type: any): type is GraphQLType;
+ 
+@@ -71,13 +71,13 @@ export function isInputObjectType(type: any): type is GraphQLInputObjectType;
+ 
+ export function assertInputObjectType(type: any): GraphQLInputObjectType;
+ 
+-export function isListType(type: any): type is GraphQLList<any>;
++export function isListType(type: any): type is GraphQLList<GraphQLType>;
+ 
+-export function assertListType(type: any): GraphQLList<any>;
++export function assertListType(type: any): GraphQLList<GraphQLType>;
+ 
+-export function isNonNullType(type: any): type is GraphQLNonNull<any>;
++export function isNonNullType(type: any): type is GraphQLNonNull<GraphQLType>;
+ 
+-export function assertNonNullType(type: any): GraphQLNonNull<any>;
++export function assertNonNullType(type: any): GraphQLNonNull<GraphQLType>;
+ 
+ /**
+  * These types may be used as input types for arguments and directives.
+@@ -87,12 +87,12 @@ export type GraphQLInputType =
+   | GraphQLScalarType
+   | GraphQLEnumType
+   | GraphQLInputObjectType
+-  | GraphQLList<any>
++  | GraphQLList<GraphQLType>
+   | GraphQLNonNull<
+       | GraphQLScalarType
+       | GraphQLEnumType
+       | GraphQLInputObjectType
+-      | GraphQLList<any>
++      | GraphQLList<GraphQLType>
+     >;
+ 
+ export function isInputType(type: any): type is GraphQLInputType;
+@@ -109,14 +109,14 @@ export type GraphQLOutputType =
+   | GraphQLInterfaceType
+   | GraphQLUnionType
+   | GraphQLEnumType
+-  | GraphQLList<any>
++  | GraphQLList<GraphQLType>
+   | GraphQLNonNull<
+       | GraphQLScalarType
+       | GraphQLObjectType
+       | GraphQLInterfaceType
+       | GraphQLUnionType
+       | GraphQLEnumType
+-      | GraphQLList<any>
++      | GraphQLList<GraphQLType>
+     >;
+ 
+ export function isOutputType(type: any): type is GraphQLOutputType;
+@@ -219,7 +219,7 @@ interface _GraphQLNonNull<T extends GraphQLNullableType> {
+ 
+ export const GraphQLNonNull: _GraphQLNonNull<GraphQLNullableType>;
+ 
+-export type GraphQLWrappingType = GraphQLList<any> | GraphQLNonNull<any>;
++export type GraphQLWrappingType = GraphQLList<GraphQLType> | GraphQLNonNull<GraphQLType>;
+ 
+ export function isWrappingType(type: any): type is GraphQLWrappingType;
+ 
+@@ -235,19 +235,14 @@ export type GraphQLNullableType =
+   | GraphQLUnionType
+   | GraphQLEnumType
+   | GraphQLInputObjectType
+-  | GraphQLList<any>;
++  | GraphQLList<GraphQLType>;
+ 
+ export function isNullableType(type: any): type is GraphQLNullableType;
+ 
+ export function assertNullableType(type: any): GraphQLNullableType;
+ 
+ export function getNullableType(type: undefined): undefined;
+-export function getNullableType<T extends GraphQLNullableType>(type: T): T;
+-export function getNullableType<T extends GraphQLNullableType>(
+-  // FIXME Disabled because of https://github.com/yaacovCR/graphql-tools-fork/issues/40#issuecomment-586671219
+-  // eslint-disable-next-line @typescript-eslint/unified-signatures
+-  type: GraphQLNonNull<T>,
+-): T;
++export function getNullableType<T extends GraphQLType>(type: T): GraphQLNullableType;
+ 
+ /**
+  * These named types do not include modifiers like List or NonNull.

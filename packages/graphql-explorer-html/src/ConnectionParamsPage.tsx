@@ -1,4 +1,4 @@
-import { JsonInput, jsonField } from 'graphql-explorer/lib/JsonInput';
+import { JsonInput, jsonField } from 'graphql-explorer/lib/ui/JsonInput';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
@@ -9,7 +9,7 @@ const schema = yup
   .object({
     uri: yup
       .string()
-      .default('https://api.graph.cool/simple/v1/swapi')
+      .default('https://swapi-graphql.netlify.app/.netlify/functions/index')
       .required(),
     headers: jsonField().default({}) as yup.Schema<Record<string, any>>,
   })

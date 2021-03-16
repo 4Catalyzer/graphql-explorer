@@ -79,7 +79,6 @@
     "copy-to-clipboard": "^3.2.0",
     "graphql": "^15.3.0",
     "lodash": "^4.17.20",
-    "query-string": "^7.0.0",
     "react-bootstrap": "^1.3.0",
     "react-formal": "^2.1.2",
     "react-icons": "^3.11.0",

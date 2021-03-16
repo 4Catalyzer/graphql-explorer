@@ -1,64 +1,54 @@
-import { ApolloClient } from '@apollo/client';
-import { ApolloProvider } from '@apollo/react-hooks';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ResolveableQueryBuilder } from '../QueryBuilder';
-import FieldPanel from './FieldPanel';
-import RootQueryPanel from './RootQueryPanel';
+import PanelContainer from './PanelContainer';
 
 interface Props {
-  RootPanel: typeof RootQueryPanel;
-  client: ApolloClient<any>;
   colWidth?: string;
+  initialPanel: React.ReactNode;
 }
 
-export default function Panels({
-  RootPanel,
-  client,
-  colWidth = '40rem',
-}: Props) {
+function usePanelState(initialPanel: React.ReactNode) {
   const panelIdCounter = useRef(0);
   const [panels, setPanels] = useState<
-    { panel: ResolveableQueryBuilder; panelId: number }[]
-  >([]);
+    { panel: React.ReactNode; panelId: number }[]
+  >([{ panel: initialPanel, panelId: panelIdCounter.current++ }]);
+
   const pushPanel = useCallback(
-    (index: number, panel: ResolveableQueryBuilder) => {
+    (panelId: number, panel: React.ReactNode) => {
+      const index = panels.findIndex((p) => p.panelId === panelId);
       setPanels([
-        ...panels.slice(0, index),
+        ...panels.slice(0, index + 1),
         { panel, panelId: panelIdCounter.current++ },
       ]);
     },
     [panels],
   );
+
   const closePanel = useCallback(
-    (index: number) => {
+    (panelId: number) => {
+      const index = panels.findIndex((p) => p.panelId === panelId);
       setPanels([...panels.slice(0, index)]);
     },
     [panels],
   );
-  const panelsToDisplay = useMemo(() => {
-    const rootPanel = <RootPanel onPushPanel={pushPanel} key="root" />;
-    const extraPanels = panels.map(({ panel, panelId }, idx) => {
-      return (
-        <FieldPanel
-          key={panelId}
-          queryBuilder={panel}
-          index={idx + 1}
-          onPushPanel={pushPanel}
-          onClose={() => closePanel(idx)}
-        />
-      );
-    });
-    return [rootPanel, ...extraPanels];
-  }, [RootPanel, closePanel, panels, pushPanel]);
 
-  const numCols = panelsToDisplay.length;
+  const closeChildPanel = useCallback(
+    (panelId: number) => {
+      const index = panels.findIndex((p) => p.panelId === panelId);
+      setPanels([...panels.slice(0, index + 1)]);
+    },
+    [panels],
+  );
+
+  return { panels, pushPanel, closePanel, closeChildPanel };
+}
+
+export default function Panels({ colWidth = '40rem', initialPanel }: Props) {
+  const { panels, pushPanel, closePanel, closeChildPanel } = usePanelState(
+    initialPanel,
+  );
+
+  const numCols = panels.length;
   const gridTemplateColumns = Array.from(Array(numCols))
     .map(() => colWidth)
     .join(' ');
@@ -68,20 +58,28 @@ export default function Panels({
     if (containerRef.current) {
       containerRef.current.scrollLeft = +100000000000;
     }
-  }, [panelsToDisplay.length]);
+  }, [numCols]);
 
   return (
-    <ApolloProvider client={client}>
-      <div
-        ref={containerRef}
-        className="ge-Panels-container"
-        // the two 1px add some margin
-        style={{ gridTemplateColumns: `1px ${gridTemplateColumns} 1px` }}
-      >
-        <span />
-        {panelsToDisplay}
-        <span />
-      </div>
-    </ApolloProvider>
+    <div
+      ref={containerRef}
+      className="ge-Panels"
+      // the two 1px add some margin
+      style={{ gridTemplateColumns: `1px ${gridTemplateColumns} 1px` }}
+    >
+      <span />
+      {panels.map(({ panel, panelId }) => (
+        <PanelContainer
+          key={panelId}
+          panelId={panelId}
+          pushPanel={pushPanel}
+          closePanel={closePanel}
+          closeChildPanel={closeChildPanel}
+        >
+          {panel}
+        </PanelContainer>
+      ))}
+      <span />
+    </div>
   );
 }
