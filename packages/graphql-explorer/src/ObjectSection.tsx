@@ -13,13 +13,30 @@ import Panel from './Panel';
 import { SectionProps } from './logic/resolvers';
 import PanelContainer, { usePanelContext } from './ui/PanelContainer';
 
+interface FieldComponentProps {
+  title: string;
+  canExecute: boolean;
+  item: any;
+}
+
+function FieldComponent({ title, canExecute, item }: FieldComponentProps) {
+  return (
+    <>
+      <b>{title}</b>
+      {!canExecute && `: ${item}`}
+    </>
+  );
+}
+
 interface ObjectSectionFieldProps {
+  type: g.GraphQLObjectType;
   field: g.GraphQLField<any, any>;
   fieldValue: any;
   executeQuery: SectionProps<Obj, g.GraphQLObjectType>['executeQuery'];
 }
 
 function ObjectSectionField({
+  type,
   field,
   fieldValue,
   executeQuery,
@@ -33,6 +50,10 @@ function ObjectSectionField({
   const resolver = explorer.resolveType(fieldType);
 
   const canExecute = isObject || (!hasValue && !!executeQuery);
+  const Component = useMemo(() => {
+    const fieldResolver = explorer.resolveField(type, field);
+    return fieldResolver?.Component ?? FieldComponent;
+  }, [explorer, field, type]);
 
   const handleClick = () => {
     let newPanel: React.ReactNode;
@@ -92,8 +113,7 @@ function ObjectSectionField({
         whiteSpace: 'nowrap',
       }}
     >
-      <b>{title}</b>
-      {!canExecute && `: ${fieldValue}`}
+      <Component title={title} item={fieldValue} canExecute={canExecute} />
     </ListGroup.Item>
   );
 }
@@ -123,6 +143,7 @@ export default function ObjectSection({
       executeQuery={executeQuery}
       field={field}
       fieldValue={item[field.name]}
+      type={type}
     />
   ));
   return (

@@ -41,7 +41,9 @@ export interface InputFieldResolver {
   ) => boolean;
 
   getSchema: (type: g.GraphQLInputType) => YupSchemaWithRequired;
-  Component: React.ElementType<Obj & { value: unknown }>;
+  Component?: React.ElementType<
+    Obj & { value: any; onChange: (i: any) => any }
+  >;
 }
 
 export interface FieldResolver {

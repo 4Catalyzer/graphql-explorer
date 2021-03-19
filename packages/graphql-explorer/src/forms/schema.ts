@@ -46,7 +46,6 @@ export default class SchemaBuilder {
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
   ): YupSchemaWithRequired {
-    // TODO re-add custom inputs
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
