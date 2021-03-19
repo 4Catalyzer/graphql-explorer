@@ -6,7 +6,7 @@ import Form, { NestedForm } from 'react-formal';
 import * as yup from 'yup';
 
 import FormField from './FormField';
-import { SchemaMeta } from './Schema';
+import { SchemaMeta } from './schema';
 
 interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;

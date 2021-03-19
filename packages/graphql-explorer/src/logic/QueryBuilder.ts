@@ -2,7 +2,7 @@ import * as g from 'graphql';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 
-import { EnumValue } from '../forms/Schema';
+import { EnumValue } from '../forms/schema';
 import { isNode } from '../helpers';
 import { ConfigurationInterface } from './Configuration';
 

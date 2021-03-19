@@ -3,7 +3,7 @@ import { ApolloClient, gql } from '@apollo/client';
 import * as g from 'graphql';
 import camelCase from 'lodash/camelCase';
 
-import SchemaBuilder from '../forms/Schema';
+import SchemaBuilder from '../forms/schema';
 import { isNode } from '../helpers';
 import connectionResolver from '../resolvers/connectionResolver';
 import jsonInputResolver from '../resolvers/jsonInputResolver';

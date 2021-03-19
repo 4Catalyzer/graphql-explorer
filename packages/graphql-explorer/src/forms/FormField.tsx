@@ -4,7 +4,7 @@ import Form from 'react-formal';
 import DropdownList from 'react-widgets/lib/DropdownList';
 
 import { resolveLazy } from './FormFields';
-import { SchemaMeta } from './Schema';
+import { SchemaMeta } from './schema';
 
 export interface Props {
   children?: React.ReactNode;

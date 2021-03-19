@@ -1,6 +1,6 @@
 import * as g from 'graphql';
 
-import { YupSchemaWithRequired } from '../forms/Schema';
+import { YupSchemaWithRequired } from '../forms/schema';
 
 export interface SectionProps<T, TType extends g.GraphQLNullableType> {
   type: TType;
