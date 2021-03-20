@@ -1,0 +1,36 @@
+.ge-Panels {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  scroll-behavior: smooth;
+  grid-gap: 1rem;
+}
+
+.ge-Panel-container {
+  overflow: auto;
+}
+
+.ge-Panel-card {
+  overflow: auto;
+}
+
+.ge-Panel-divider {
+  margin: 0;
+}
+
+.ge-PanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ge-Table-fixed {
+  table-layout: fixed;
+
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

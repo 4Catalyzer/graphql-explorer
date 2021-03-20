@@ -1,8 +1,8 @@
 @import '../../../node_modules/react-widgets/lib/scss/react-widgets';
 
-@import './ui/FormField';
-@import './ui/FormFields';
-@import './ui/ObjectPanelBody';
-@import './ui/Panel';
-@import './ui/PanelHeader';
-@import './ui/Panels';
+html {
+  font-size: 14px;
+}
+
+@import './ui/style';
+@import './forms/style';

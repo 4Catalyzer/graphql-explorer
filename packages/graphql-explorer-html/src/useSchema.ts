@@ -1,4 +1,4 @@
-import { GraphQLSchema } from 'graphql';
+import * as g from 'graphql';
 import { FetchSchemaIntrospector } from 'graphql-explorer/lib/introspection';
 import { useEffect, useState } from 'react';
 
@@ -7,7 +7,27 @@ import { ConnectionParams } from './ConnectionParamsPage';
 type State =
   | { status: 'error'; message: string }
   | { status: 'loading' }
-  | { status: 'resolved'; schema: GraphQLSchema };
+  | { status: 'resolved'; schema: g.GraphQLSchema };
+
+// an example of how it's possible to clean the schema before passing it to
+// graphql explorer
+function cleanSchema(schema: g.GraphQLSchema) {
+  const mutationFields = schema.getMutationType()?.getFields() || {};
+  Object.entries(mutationFields).forEach(([mutationName, mutation]) => {
+    if (mutationName.toLowerCase().endsWith('orerror')) {
+      delete mutationFields[mutationName];
+    }
+    // eslint-disable-next-line no-param-reassign
+    mutation.args = mutation.args.filter((a) => a.name !== 'clientMutationId');
+  });
+
+  Object.values(schema.getTypeMap()).forEach((type) => {
+    if (g.isInputObjectType(type) || g.isObjectType(type)) {
+      const argFields = type.getFields();
+      delete argFields.clientMutationId;
+    }
+  });
+}
 
 export default function useSchema(params?: ConnectionParams) {
   const [state, setState] = useState<State>({ status: 'loading' });
@@ -25,6 +45,7 @@ export default function useSchema(params?: ConnectionParams) {
           body: JSON.stringify({ query }),
         }));
         const schema = await introspector.introspect();
+        cleanSchema(schema);
         setState({ status: 'resolved', schema });
       } catch (error) {
         setState({ status: 'error', message: error.message });

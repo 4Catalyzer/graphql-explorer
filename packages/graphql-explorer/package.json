@@ -2,7 +2,6 @@
   "name": "graphql-explorer",
   "version": "0.4.0",
   "main": "lib/index.js",
-  "module": "lib/es/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/4Catalyzer/graphql-explorer.git"
@@ -10,9 +9,9 @@
   "author": "4Catalyzer",
   "license": "MIT",
   "scripts": {
-    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' lib/style.css",
+    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' styles/style.css",
     "build": "4c build --copy-files false src && yarn build:styles",
-    "build:styles": "node-sass src -o lib && yarn xxx:remove-relative-css",
+    "build:styles": "node-sass src -o styles && yarn xxx:remove-relative-css",
     "format": "4c format src './*'",
     "lint": "4c lint src './*'",
     "prepublishOnly": "yarn run build",
@@ -22,7 +21,8 @@
     "testonly": "jest"
   },
   "files": [
-    "lib"
+    "lib",
+    "styles"
   ],
   "publishConfig": {
     "access": "public"
@@ -79,7 +79,6 @@
     "copy-to-clipboard": "^3.2.0",
     "graphql": "^15.3.0",
     "lodash": "^4.17.20",
-    "query-string": "^7.0.0",
     "react-bootstrap": "^1.3.0",
     "react-formal": "^2.1.2",
     "react-icons": "^3.11.0",

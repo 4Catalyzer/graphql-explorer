@@ -11,7 +11,7 @@ module.exports = (args, { mode }) => {
 
   const config = {
     entry: './src/index.tsx',
-    devtool: 'module-source-map',
+    devtool: 'cheap-module-source-map',
     output: {
       path: path.resolve('./build/'),
       publicPath: PRODUCTION ? '/static/' : '/',

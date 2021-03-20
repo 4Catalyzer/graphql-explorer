@@ -1,19 +1,8 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import config from 'graphql-explorer/lib/config';
-import { addCommonFields } from 'graphql-explorer/lib/inputFields';
-import addRelayTypes from 'graphql-explorer/lib/relay';
-import { deserializeQueryBuilder } from 'graphql-explorer/lib/serialization';
-import FieldPanel from 'graphql-explorer/lib/ui/FieldPanel';
-import Panels from 'graphql-explorer/lib/ui/Panels';
-import RootQueryPanel from 'graphql-explorer/lib/ui/RootQueryPanel';
-import qs from 'query-string';
-import React, {
-  ComponentProps,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { GraphQLSchema } from 'graphql';
+import Explorer from 'graphql-explorer/lib/Explorer';
+import ExplorerConfiguration from 'graphql-explorer/lib/logic/Configuration';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -24,9 +13,6 @@ import ConnectionParamsPage, {
 } from './ConnectionParamsPage';
 import useSchema from './useSchema';
 
-type Location = 'ROOT_QUERY' | { query: string };
-
-type PanelProps = ComponentProps<typeof RootQueryPanel>;
 const CACHE_KEY = 'graphql-explorer-connection';
 
 function App() {
@@ -50,6 +36,7 @@ function App() {
   );
 
   const schemaState = useSchema(connectionParams);
+  const [schema, setSchema] = useState<GraphQLSchema>();
   const [state, setState] = useState<'error' | 'loading' | 'resolved'>(
     'loading',
   );
@@ -62,39 +49,18 @@ function App() {
   );
   useEffect(() => {
     if (schemaState.status === 'resolved') {
-      config.setSchema(schemaState.schema);
-      addCommonFields();
-      addRelayTypes();
+      setSchema(schemaState.schema);
       setState('resolved');
     }
     if (schemaState.status === 'error') {
       setState('error');
     }
-  }, [schemaState]);
+  }, [schemaState, setSchema]);
 
-  const location: Location = useMemo(() => {
-    const { query } = qs.parse(window.location.search);
-    if (typeof query === 'string') return { query };
-
-    return 'ROOT_QUERY';
-  }, []);
-
-  const rootPanel = useMemo(() => {
-    if (state !== 'resolved') return null;
-    if (location === 'ROOT_QUERY')
-      return ({ onPushPanel }: PanelProps) => (
-        <RootQueryPanel onPushPanel={onPushPanel} />
-      );
-
-    const queryBuilder = deserializeQueryBuilder(location.query);
-    return ({ onPushPanel }: PanelProps) => (
-      <FieldPanel
-        queryBuilder={queryBuilder}
-        index={0}
-        onPushPanel={onPushPanel}
-      />
-    );
-  }, [location, state]);
+  const explorerConfig = useMemo(() => {
+    if (!schema || !client) return undefined;
+    return new ExplorerConfiguration(schema, client);
+  }, [client, schema]);
 
   if (!connectionParams) {
     return (
@@ -105,7 +71,7 @@ function App() {
     );
   }
 
-  if (state === 'loading') {
+  if (state === 'loading' || !explorerConfig) {
     return (
       <div style={{ margin: '100px auto', width: 500 }}>
         <Spinner animation="border" />
@@ -142,7 +108,7 @@ function App() {
           bottom: '1rem',
         }}
       >
-        <Panels RootPanel={rootPanel!} client={client!} />
+        <Explorer config={explorerConfig} />
       </div>
     </>
   );
