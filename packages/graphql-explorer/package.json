@@ -20,7 +20,10 @@
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "testonly": "jest"
   },
-  "files": ["lib", "styles"],
+  "files": [
+    "lib",
+    "styles"
+  ],
   "publishConfig": {
     "access": "public"
   },
