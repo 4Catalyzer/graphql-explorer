@@ -1,6 +1,6 @@
 import * as g from 'graphql';
 import React, { useCallback, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { ListSectionBase } from './ListSection';

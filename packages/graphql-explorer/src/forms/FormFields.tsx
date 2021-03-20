@@ -58,12 +58,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
             </Button>
           </div>
         ))}
-        <Button
-          // eslint-disable-next-line no-underscore-dangle
-          onClick={() => helpers.add(subType.default())}
-        >
-          +
-        </Button>
+        <Button onClick={() => helpers.push(subType.default())}>+</Button>
       </div>
     ),
     [name, subType],

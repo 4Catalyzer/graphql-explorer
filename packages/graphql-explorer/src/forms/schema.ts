@@ -25,8 +25,6 @@ export class EnumValue {
   }
 }
 
-const INPUT_OBJECT_CACHE: Record<string, yup.ObjectSchema<any>> = {};
-
 function makeRequired(
   type: g.GraphQLInputType,
   schema: YupSchemaWithRequired,
@@ -40,6 +38,10 @@ function makeRequired(
 }
 
 export default class SchemaBuilder {
+  inputObjectCache: Record<string, yup.ObjectSchema<any>> = {};
+
+  enumObjectCache: Record<string, EnumValue[]> = {};
+
   constructor(protected config: ConfigurationInterface) {}
 
   getSchemaFromType(
@@ -83,9 +85,14 @@ export default class SchemaBuilder {
       // the reason we us EnumValue is because during serialization, the enum
       // values don't have quotes, like strings do, so we box it in a specific
       // class to make sure it gets serialized properly. see `serializeInputValue`
+      if (!(type.name in this.enumObjectCache)) {
+        this.enumObjectCache[type.name] = type
+          .getValues()
+          .map((e) => new EnumValue(e.value));
+      }
       return yup
         .mixed()
-        .oneOf(type.getValues().map((e) => new EnumValue(e.value)))
+        .oneOf(this.enumObjectCache[type.name])
         .meta({ field, isEnum: true });
     }
 
@@ -98,20 +105,20 @@ export default class SchemaBuilder {
     }
 
     if (type instanceof g.GraphQLInputObjectType) {
-      if (!INPUT_OBJECT_CACHE[type.name]) {
+      if (!this.inputObjectCache[type.name]) {
         const objectFields: yup.ObjectSchemaDefinition<any> = {};
         Object.values(type.getFields()).forEach((subField) => {
           objectFields[subField.name] = yup.lazy(() =>
             this.getSchemaFromType(subField.type, subField),
           );
         });
-        INPUT_OBJECT_CACHE[type.name] = yup
+        this.inputObjectCache[type.name] = yup
           .object(objectFields)
           .meta({ field })
           .default(undefined);
       }
 
-      return INPUT_OBJECT_CACHE[type.name];
+      return this.inputObjectCache[type.name];
     }
 
     throw new Error(`unsupported type ${type}`);

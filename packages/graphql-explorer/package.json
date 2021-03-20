@@ -2,7 +2,6 @@
   "name": "graphql-explorer",
   "version": "0.4.0",
   "main": "lib/index.js",
-  "module": "lib/es/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/4Catalyzer/graphql-explorer.git"
@@ -10,9 +9,9 @@
   "author": "4Catalyzer",
   "license": "MIT",
   "scripts": {
-    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' lib/style.css",
+    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' styles/style.css",
     "build": "4c build --copy-files false src && yarn build:styles",
-    "build:styles": "node-sass src -o lib && yarn xxx:remove-relative-css",
+    "build:styles": "node-sass src -o styles && yarn xxx:remove-relative-css",
     "format": "4c format src './*'",
     "lint": "4c lint src './*'",
     "prepublishOnly": "yarn run build",
@@ -21,9 +20,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "testonly": "jest"
   },
-  "files": [
-    "lib"
-  ],
+  "files": ["lib", "styles"],
   "publishConfig": {
     "access": "public"
   },
