@@ -113,7 +113,12 @@ function ObjectSectionField({
         whiteSpace: 'nowrap',
       }}
     >
-      <Component title={title} item={fieldValue} canExecute={canExecute} />
+      <Component
+        title={title}
+        item={fieldValue}
+        canExecute={canExecute}
+        field={field}
+      />
     </ListGroup.Item>
   );
 }

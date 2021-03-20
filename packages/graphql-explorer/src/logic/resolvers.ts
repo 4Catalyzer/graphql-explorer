@@ -52,5 +52,10 @@ export interface FieldResolver {
     field: g.GraphQLField<any, any>,
   ) => boolean;
 
-  Component: React.ElementType<{ item: any }>;
+  Component: React.ElementType<{
+    item: any;
+    title: string;
+    canExecute: boolean;
+    field: g.GraphQLField<any, any>;
+  }>;
 }
