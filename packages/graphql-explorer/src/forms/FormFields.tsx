@@ -12,22 +12,22 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends yup.Schema<any>>(
+export function resolveLazy<T extends yup.BaseSchema<any>>(
   schema: T & { resolve?: (opts: any) => T },
 ): T {
   return schema.resolve ? schema.resolve({}) : schema;
 }
 
 export function isYupArray(
-  s: yup.Schema<unknown>,
-): s is yup.ArraySchema<unknown> {
-  // eslint-disable-next-line no-underscore-dangle
-  return (s as any)._type === 'array';
+  s: yup.BaseSchema<unknown>,
+): s is yup.ArraySchema<yup.BaseSchema<any>> {
+  return s.type === 'array';
 }
 
-export function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
-  // eslint-disable-next-line no-underscore-dangle
-  return (s as any)._type === 'object';
+export function isYupObject(
+  s: yup.BaseSchema<any>,
+): s is yup.ObjectSchema<any> {
+  return s.type === 'object';
 }
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
@@ -37,7 +37,7 @@ type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
-  const subType = resolveLazy((schema as any)._subType as yup.Schema<any>);
+  const subType = resolveLazy((schema as any)._subType as yup.BaseSchema<any>);
 
   const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (
@@ -52,13 +52,14 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
             <Button
               onClick={() => helpers.remove(i)}
               variant="danger"
+              size="sm"
               className="ge-FormFields-field-array-button"
             >
               -
             </Button>
           </div>
         ))}
-        <Button onClick={() => helpers.push(subType.default())}>+</Button>
+        <Button onClick={() => helpers.push(subType.getDefault())}>+</Button>
       </div>
     ),
     [name, subType],
@@ -84,7 +85,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = (schema.meta() as SchemaMeta).field.type;
+  const gqlType = ((schema.meta() as unknown) as SchemaMeta).field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
@@ -108,11 +109,11 @@ function NestedFormFields({
 
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
-    (field: yup.Schema<unknown>, fieldName: string) => {
+    (field: yup.BaseSchema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
-      const { Component } = field.meta() as SchemaMeta;
+      const { Component } = (field.meta() as unknown) as SchemaMeta;
 
       // we use the array and nested helpers only if a component is not specified
       if (!Component) {
@@ -137,7 +138,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
   // hide the label IFF the current type has only one field, and this field
   // is an object type - to reduce nesting
   const shouldShowLabel = useMemo(() => {
-    const subFields = Object.values(schema.fields);
+    const subFields: yup.BaseSchema[] = Object.values(schema.fields);
     if (subFields.length > 1) return true;
     const [subField] = subFields;
     return !(subField && isYupObject(subField));
@@ -145,16 +146,18 @@ export default function FormFields({ schema }: FormFieldsProps) {
 
   const fields = useMemo(
     () =>
-      Object.entries(schema.fields).map(([fieldName, field]) => (
-        <BsForm.Group key={fieldName} controlId={fieldName}>
-          <div className="d-flex">
-            {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
-            <div className="d-flex flex-column flex-grow-1">
-              {renderField(field, fieldName)}
+      Object.entries(schema.fields).map(
+        ([fieldName, field]: [string, yup.BaseSchema]) => (
+          <BsForm.Group key={fieldName} controlId={fieldName}>
+            <div className="d-flex">
+              {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
+              <div className="d-flex flex-column flex-grow-1">
+                {renderField(field, fieldName)}
+              </div>
             </div>
-          </div>
-        </BsForm.Group>
-      )),
+          </BsForm.Group>
+        ),
+      ),
     [renderField, schema.fields, shouldShowLabel],
   );
 

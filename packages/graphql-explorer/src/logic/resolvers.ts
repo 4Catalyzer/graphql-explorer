@@ -1,6 +1,5 @@
 import * as g from 'graphql';
-
-import { YupSchemaWithRequired } from '../forms/schema';
+import { BaseSchema } from 'yup';
 
 export interface SectionProps<T, TType extends g.GraphQLNullableType> {
   type: TType;
@@ -40,7 +39,7 @@ export interface InputFieldResolver {
     field: g.GraphQLArgument | g.GraphQLInputField,
   ) => boolean;
 
-  getSchema: (type: g.GraphQLInputType) => YupSchemaWithRequired;
+  getSchema: (type: g.GraphQLInputType) => BaseSchema;
   Component?: React.ElementType<
     Obj & { value: any; onChange: (i: any) => any }
   >;

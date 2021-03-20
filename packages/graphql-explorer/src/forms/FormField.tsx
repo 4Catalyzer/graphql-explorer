@@ -49,14 +49,14 @@ const FormField = React.forwardRef(
           // eslint-disable-next-line no-underscore-dangle
           (schema as any)._whitelist && (schema as any)._whitelist.list;
 
-        const { Component, field } = schema.meta() as SchemaMeta;
+        const { Component, field } = (schema.meta() as unknown) as SchemaMeta;
         let Input: React.ElementType<any> | undefined = as || Component;
 
         if (!Input) {
           if (whitelist && whitelist.size > 0) {
             Input = DropdownList;
             fieldProps.data = Array.from(whitelist);
-            fieldProps.textField = String;
+            // fieldProps.textField = String;
           } else if (schema.type === 'boolean') {
             Input = Check;
           } else {
