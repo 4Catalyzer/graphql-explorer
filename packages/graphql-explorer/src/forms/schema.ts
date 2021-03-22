@@ -4,14 +4,6 @@ import * as yup from 'yup';
 
 import { ConfigurationInterface } from '../logic/Configuration';
 
-export type YupSchemaWithRequired =
-  | yup.StringSchema
-  | yup.ObjectSchema
-  | yup.NumberSchema
-  | yup.MixedSchema
-  | yup.BooleanSchema
-  | yup.NotRequiredArraySchema<any>;
-
 export interface SchemaMeta {
   field: g.GraphQLInputField;
   Component?: React.ElementType<any>;
@@ -25,13 +17,10 @@ export class EnumValue {
   }
 }
 
-function makeRequired(
-  type: g.GraphQLInputType,
-  schema: YupSchemaWithRequired,
-) {
+function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema<any>) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
-    return schema.default([]);
+    return (schema as yup.ArraySchema<any>).default([]);
   }
 
   return schema.required();
@@ -47,7 +36,7 @@ export default class SchemaBuilder {
   getSchemaFromType(
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
-  ): YupSchemaWithRequired {
+  ): yup.BaseSchema<any> {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
@@ -106,7 +95,7 @@ export default class SchemaBuilder {
 
     if (type instanceof g.GraphQLInputObjectType) {
       if (!this.inputObjectCache[type.name]) {
-        const objectFields: yup.ObjectSchemaDefinition<any> = {};
+        const objectFields: yup.ObjectSchema<any>['fields'] = {};
         Object.values(type.getFields()).forEach((subField) => {
           objectFields[subField.name] = yup.lazy(() =>
             this.getSchemaFromType(subField.type, subField),
@@ -115,7 +104,7 @@ export default class SchemaBuilder {
         this.inputObjectCache[type.name] = yup
           .object(objectFields)
           .meta({ field })
-          .default(undefined);
+          .default(undefined) as yup.ObjectSchema<any>;
       }
 
       return this.inputObjectCache[type.name];
@@ -125,7 +114,7 @@ export default class SchemaBuilder {
   }
 
   getSchemaFromArguments(args: (g.GraphQLArgument | g.GraphQLInputField)[]) {
-    const subFields: { [idx: string]: yup.Schema<any> } = {};
+    const subFields: { [idx: string]: yup.BaseSchema<any> } = {};
 
     for (const argument of args) {
       subFields[argument.name] = this.getSchemaFromType(

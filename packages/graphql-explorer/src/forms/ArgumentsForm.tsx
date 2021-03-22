@@ -1,6 +1,6 @@
 import * as g from 'graphql';
 import React, { ReactNode, useMemo } from 'react';
-import { Schema } from 'yup';
+import { BaseSchema } from 'yup';
 
 import { useExplorer } from '../ExplorerContext';
 import Form from './Form';
@@ -12,9 +12,9 @@ interface Props extends Record<string, any> {
   defaultValue?: Record<string, any>;
 }
 
-function generateDefaultValue(_schema: Schema<any>, defaultValue: any) {
+function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
   const schema = resolveLazy(_schema);
-  let obj = schema.default();
+  let obj = schema.getDefault();
 
   if (!isYupObject(schema)) {
     return defaultValue === undefined ? obj : defaultValue;

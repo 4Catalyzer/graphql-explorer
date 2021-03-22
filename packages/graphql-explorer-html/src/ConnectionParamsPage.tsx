@@ -11,7 +11,7 @@ const schema = yup
       .string()
       .default('https://swapi-graphql.netlify.app/.netlify/functions/index')
       .required(),
-    headers: jsonField().default({}) as yup.Schema<Record<string, any>>,
+    headers: jsonField().default({}) as yup.BaseSchema<Record<string, any>>,
   })
   .required();
 
@@ -28,7 +28,7 @@ export default function ConnectionParamsPage({
 }: Props) {
   return (
     <Form
-      defaultValue={connectionParams ?? schema.default()}
+      defaultValue={connectionParams ?? schema.getDefault()}
       onSubmit={onChange}
       schema={schema}
       style={{
