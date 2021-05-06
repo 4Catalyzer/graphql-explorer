@@ -3,6 +3,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import sortBy from 'lodash/sortBy';
 import startCase from 'lodash/startCase';
 import React, { useMemo } from 'react';
+import { ListGroupItem } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdExpandMore } from 'react-icons/md';
@@ -35,7 +36,7 @@ interface ObjectSectionFieldProps {
   executeQuery: SectionProps<Obj, g.GraphQLObjectType>['executeQuery'];
 }
 
-function ObjectSectionField({
+export function ObjectSectionField({
   type,
   field,
   fieldValue,
@@ -123,11 +124,16 @@ function ObjectSectionField({
   );
 }
 
+interface ObjectSectionProps extends SectionProps<Obj, g.GraphQLObjectType> {
+  extraFields: ListGroupItem | ListGroupItem[];
+}
+
 export default function ObjectSection({
   item,
   type,
   executeQuery: executeQueryBase,
-}: SectionProps<Obj, g.GraphQLObjectType>) {
+  extraFields,
+}: ObjectSectionProps) {
   const explorer = useExplorer();
 
   const executeQuery: typeof executeQueryBase = useMemo(() => {
@@ -164,7 +170,10 @@ export default function ObjectSection({
           <MdExpandMore className="float-right" />
         </Accordion.Toggle>
         <Accordion.Collapse eventKey="fields">
-          <ListGroup variant="flush">{fields}</ListGroup>
+          <ListGroup variant="flush">
+            {extraFields}
+            {fields}
+          </ListGroup>
         </Accordion.Collapse>
       </Accordion>
     </>
