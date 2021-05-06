@@ -125,7 +125,7 @@ export function ObjectSectionField({
 }
 
 interface ObjectSectionProps extends SectionProps<Obj, g.GraphQLObjectType> {
-  extraFields: ListGroupItem | ListGroupItem[];
+  extraFields?: ListGroupItem | ListGroupItem[];
 }
 
 export default function ObjectSection({
