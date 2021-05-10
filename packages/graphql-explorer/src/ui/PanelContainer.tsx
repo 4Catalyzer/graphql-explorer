@@ -31,15 +31,15 @@ function PanelContainer({
     [panelId, pushPanel],
   );
 
-  const onclosePanel = useCallback(() => closePanel(panelId), [
-    closePanel,
-    panelId,
-  ]);
+  const onclosePanel = useCallback(
+    () => closePanel(panelId),
+    [closePanel, panelId],
+  );
 
-  const onCloseChildPanel = useCallback(() => closeChildPanel(panelId), [
-    panelId,
-    closeChildPanel,
-  ]);
+  const onCloseChildPanel = useCallback(
+    () => closeChildPanel(panelId),
+    [panelId, closeChildPanel],
+  );
 
   return (
     <div className="ge-Panel-container">
