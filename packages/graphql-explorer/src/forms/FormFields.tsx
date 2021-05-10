@@ -85,7 +85,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = ((schema.meta() as unknown) as SchemaMeta).field.type;
+  const gqlType = (schema.meta() as unknown as SchemaMeta).field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
@@ -113,7 +113,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
-      const { Component } = (field.meta() as unknown) as SchemaMeta;
+      const { Component } = field.meta() as unknown as SchemaMeta;
 
       // we use the array and nested helpers only if a component is not specified
       if (!Component) {

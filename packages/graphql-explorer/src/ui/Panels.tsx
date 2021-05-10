@@ -44,9 +44,8 @@ function usePanelState(initialPanel: React.ReactNode) {
 }
 
 export default function Panels({ colWidth = '40rem', initialPanel }: Props) {
-  const { panels, pushPanel, closePanel, closeChildPanel } = usePanelState(
-    initialPanel,
-  );
+  const { panels, pushPanel, closePanel, closeChildPanel } =
+    usePanelState(initialPanel);
 
   const numCols = panels.length;
   const gridTemplateColumns = Array.from(Array(numCols))

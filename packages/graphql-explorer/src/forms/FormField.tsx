@@ -49,7 +49,7 @@ const FormField = React.forwardRef(
           // eslint-disable-next-line no-underscore-dangle
           (schema as any)._whitelist && (schema as any)._whitelist.list;
 
-        const { Component, field } = (schema.meta() as unknown) as SchemaMeta;
+        const { Component, field } = schema.meta() as unknown as SchemaMeta;
         let Input: React.ElementType<any> | undefined = as || Component;
 
         if (!Input) {
