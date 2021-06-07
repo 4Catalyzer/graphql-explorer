@@ -53,7 +53,7 @@ export interface ConfigurationInterface {
 
   rootQuery: (fragment: string) => Promise<any>;
   nodeQuery: QueryFunc;
-  mutate: (fragment: string) => Promise<any>;
+  mutate: (fragment: string, variables: Obj) => Promise<any>;
 }
 
 export default class Configuration implements ConfigurationInterface {
@@ -125,7 +125,9 @@ export default class Configuration implements ConfigurationInterface {
   }
 
   async nodeQuery(fragment: string, item: Obj<any>, type: g.GraphQLNamedType) {
-    const nodeArgs = this.queryBuilder.serializeArgs({ id: item.id });
+    const args = this.schema.getQueryType()!.getFields().node.args!;
+    const input = { id: item.id };
+    const nodeArgs = this.queryBuilder.serializeArgsInline(input, args);
     const data = await this.rootQuery(`{
       node ${nodeArgs} {
         ... on ${type.name} ${fragment}
@@ -134,12 +136,13 @@ export default class Configuration implements ConfigurationInterface {
     return data.node;
   }
 
-  async mutate(fragment: string) {
+  async mutate(fragment: string, variables: Obj) {
     console.log('executing', fragment);
     try {
       const response = await this.client.mutate({
         mutation: gql(fragment),
         fetchPolicy: 'no-cache',
+        variables,
       });
       return response.data;
     } catch (err) {
