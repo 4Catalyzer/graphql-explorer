@@ -11,7 +11,7 @@
   "scripts": {
     "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' styles/style.css",
     "build": "4c build --copy-files false src && yarn build:styles",
-    "build:styles": "node-sass src -o styles && yarn xxx:remove-relative-css",
+    "build:styles": "sass src:styles && yarn xxx:remove-relative-css",
     "format": "4c format src './*'",
     "lint": "4c lint src './*'",
     "prepublishOnly": "yarn run build",
@@ -61,7 +61,6 @@
     "husky": "^5.2.0",
     "jest": "^27.0.3",
     "lint-staged": "^10.5.4",
-    "node-sass": "^5.0.0",
     "prettier": "^2.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -82,6 +81,7 @@
     "react-formal": "^2.2.2",
     "react-icons": "^4.2.0",
     "react-widgets": "5.0.0-beta.16",
+    "sass": "^1.34.1",
     "yup": "^0.32.9"
   },
   "peerDependencies": {
