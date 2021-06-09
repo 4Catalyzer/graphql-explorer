@@ -37,15 +37,14 @@ function MutationSectionListItem({
             ? explorer.queryBuilder.getNestedFragment(outputType)
             : '';
 
-          const [varDefs, varAssignements] =
-            explorer.queryBuilder.serializeVariableDefinitions(
-              Object.keys(input),
-              mutation.args,
-            );
+          const vars = explorer.queryBuilder.serializeVariableDefinitions(
+            Object.keys(input),
+            mutation.args,
+          );
 
           const resp = await explorer.mutate(
-            `mutation ${varDefs} {
-              item: ${mutation.name} ${varAssignements} ${fragment}
+            `mutation ${vars.definitions} {
+              item: ${mutation.name} ${vars.assignments} ${fragment}
             }`,
             input,
           );

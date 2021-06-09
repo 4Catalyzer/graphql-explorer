@@ -173,9 +173,10 @@ export default class QueryBuilder {
   serializeVariableDefinitions(
     argNames: string[],
     argDefinitions: g.GraphQLArgument[],
-  ): [string, string] {
+  ) {
     if (argNames.length === 0) {
-      return ['', ''];
+      // we need to return empty strings because empty parens are not allowed
+      return { assignements: '', definitions: '' };
     }
 
     const argsByName = keyBy(argDefinitions, (a) => a.name);
@@ -190,7 +191,10 @@ export default class QueryBuilder {
       assignments.push(`${arg}: ${varName}`);
     });
 
-    return [`(${definitions.join(', ')})`, `(${assignments.join(', ')})`];
+    return {
+      definitions: `(${definitions.join(', ')})`,
+      assignments: `(${assignments.join(', ')})`,
+    };
   }
 
   isScalarType(type: g.GraphQLNullableType) {
