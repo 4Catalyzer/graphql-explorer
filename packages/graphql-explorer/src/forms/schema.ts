@@ -9,14 +9,6 @@ export interface SchemaMeta {
   Component?: React.ElementType<any>;
 }
 
-export class EnumValue {
-  constructor(public value: string) {}
-
-  toString() {
-    return this.value;
-  }
-}
-
 function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema<any>) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
@@ -29,7 +21,7 @@ function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema<any>) {
 export default class SchemaBuilder {
   inputObjectCache: Record<string, yup.ObjectSchema<any>> = {};
 
-  enumObjectCache: Record<string, EnumValue[]> = {};
+  enumObjectCache: Record<string, string[]> = {};
 
   constructor(protected config: ConfigurationInterface) {}
 
@@ -71,18 +63,13 @@ export default class SchemaBuilder {
     }
 
     if (type instanceof g.GraphQLEnumType) {
-      // the reason we us EnumValue is because during serialization, the enum
-      // values don't have quotes, like strings do, so we box it in a specific
-      // class to make sure it gets serialized properly. see `serializeInputValue`
       if (!(type.name in this.enumObjectCache)) {
-        this.enumObjectCache[type.name] = type
-          .getValues()
-          .map((e) => new EnumValue(e.value));
+        this.enumObjectCache[type.name] = type.getValues().map((e) => e.value);
       }
       return yup
         .mixed()
         .oneOf(this.enumObjectCache[type.name])
-        .meta({ field, isEnum: true });
+        .meta({ field });
     }
 
     if (type instanceof g.GraphQLList) {

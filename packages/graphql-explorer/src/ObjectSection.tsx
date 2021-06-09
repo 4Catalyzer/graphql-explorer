@@ -77,7 +77,10 @@ function ObjectSectionField({
             input,
             fragment = explorer.queryBuilder.getFragment(fieldType),
           ) => {
-            const itemArgs = explorer.queryBuilder.serializeArgs(input);
+            const itemArgs = explorer.queryBuilder.serializeArgsInline(
+              input,
+              field.args,
+            );
 
             const resp: any = await executeQuery!(`{
                 item: ${field.name} ${itemArgs} ${fragment}

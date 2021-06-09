@@ -1,8 +1,8 @@
 import * as g from 'graphql';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
+import keyBy from 'lodash/keyBy';
 
-import { EnumValue } from '../forms/schema';
 import { isNode } from '../helpers';
 import { ConfigurationInterface } from './Configuration';
 
@@ -123,7 +123,11 @@ export default class QueryBuilder {
     }`;
   }
 
-  serializeInputValue(input: any): string {
+  serializeInputValue(input: any, argType: g.GraphQLInputType): string {
+    const rawArgType = g.getNamedType(argType) as g.GraphQLInputType;
+    if (g.isEnumType(rawArgType)) {
+      return input;
+    }
     if (
       typeof input === 'string' ||
       typeof input === 'number' ||
@@ -134,31 +138,63 @@ export default class QueryBuilder {
     }
     if (isArray(input)) {
       const arrayItems = input
-        .map((i) => this.serializeInputValue(i))
+        .map((i) => this.serializeInputValue(i, rawArgType))
         .join(', ');
       return `[${arrayItems}]`;
     }
     if (isPlainObject(input)) {
+      const objectFields = g.assertInputObjectType(rawArgType).getFields();
+
       const objectItems = Object.entries(input)
         .filter(([, v]) => v !== undefined)
-        .map(([k, v]) => `${k}: ${this.serializeInputValue(v)}`)
+        .map(
+          ([k, v]) =>
+            `${k}: ${this.serializeInputValue(v, objectFields[k].type)}`,
+        )
         .join(', ');
       return `{${objectItems}}`;
-    }
-    if (input instanceof EnumValue) {
-      return input.toString();
     }
 
     throw new Error(`invalid type for input: ${input}`);
   }
 
-  serializeArgs(args: Obj) {
+  serializeArgsInline(args: Obj, argDefinitions: g.GraphQLArgument[]) {
+    const argsByName = keyBy(argDefinitions, (a) => a.name);
     const serializedArgs = Object.entries(args)
       .filter(([, v]) => v !== undefined)
-      .map(([k, v]) => `${k}: ${this.serializeInputValue(v)}`)
+      .map(
+        ([k, v]) => `${k}: ${this.serializeInputValue(v, argsByName[k].type)}`,
+      )
       .join(', ');
 
     return serializedArgs && `(${serializedArgs})`;
+  }
+
+  serializeVariableDefinitions(
+    argNames: string[],
+    argDefinitions: g.GraphQLArgument[],
+  ) {
+    if (argNames.length === 0) {
+      // we need to return empty strings because empty parens are not allowed
+      return { assignements: '', definitions: '' };
+    }
+
+    const argsByName = keyBy(argDefinitions, (a) => a.name);
+
+    const definitions: string[] = [];
+    const assignments: string[] = [];
+
+    argNames.forEach((arg) => {
+      const varType = argsByName[arg].type.toString();
+      const varName = `$${arg}`;
+      definitions.push(`${varName}: ${varType}`);
+      assignments.push(`${arg}: ${varName}`);
+    });
+
+    return {
+      definitions: `(${definitions.join(', ')})`,
+      assignments: `(${assignments.join(', ')})`,
+    };
   }
 
   isScalarType(type: g.GraphQLNullableType) {
