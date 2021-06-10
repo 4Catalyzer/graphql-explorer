@@ -37,8 +37,9 @@ function App() {
 
   const schemaState = useSchema(connectionParams);
   const [schema, setSchema] = useState<GraphQLSchema>();
-  const [state, setState] =
-    useState<'error' | 'loading' | 'resolved'>('loading');
+  const [state, setState] = useState<'error' | 'loading' | 'resolved'>(
+    'loading',
+  );
   const handleSubmitConnection = useCallback(
     (params) => {
       setState('loading');
