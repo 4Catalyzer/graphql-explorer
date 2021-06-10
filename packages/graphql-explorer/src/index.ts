@@ -13,11 +13,10 @@ import {
 export {
   Explorer,
   ExplorerConfiguration,
-  FieldResolver,
-  InputFieldResolver,
   ListSection,
   MutationSection,
   ObjectSection,
   ScalarSection,
-  TypeResolver,
 };
+
+export type { FieldResolver, InputFieldResolver, TypeResolver };
