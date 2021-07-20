@@ -30,7 +30,7 @@ module.exports = (args, { mode }) => {
         },
         rules.astroturf.sass({ enableCssProp: true }),
         rules.css(),
-        rules.fastSass(),
+        rules.sass(),
         {
           oneOf: [rules.fonts(), rules.audioVideo(), rules.images()],
         },
