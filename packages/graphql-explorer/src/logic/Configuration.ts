@@ -193,6 +193,7 @@ export default class Configuration implements ConfigurationInterface {
     }
 
     const mutationType = this.schema.getMutationType();
+    if (!mutationType) return [];
     const mutations = Object.values(mutationType?.getFields() || {});
 
     if (this.schema.getQueryType()?.name === type.name) {

@@ -1,8 +1,8 @@
 {
   "name": "graphql-explorer-html",
-  "version": "1.0.0-alpha.3",
-  "main": "build/index.js",
-  "module": "build/es/index.js",
+  "version": "1.0.0-alpha.4",
+  "main": "build/main.js",
+  "module": "build/es/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/4Catalyzer/graphql-explorer.git"
@@ -14,6 +14,7 @@
     "format": "4c format src './*'",
     "lint": "4c lint src './*'",
     "prebuild": "rimraf build",
+    "prepublishOnly": "yarn run build",
     "release": "4c release",
     "start": "DEV_SERVER=true webpack serve --mode development",
     "test": "yarn lint && yarn typecheck",

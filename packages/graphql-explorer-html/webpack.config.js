@@ -57,7 +57,7 @@ module.exports = (args, { mode }) => {
       },
     },
     devServer: {
-      port: 3000,
+      port: 3001,
       historyApiFallback: {
         index: '/',
       },
@@ -72,7 +72,7 @@ module.exports = (args, { mode }) => {
   };
 
   if (PRODUCTION) {
-    config.plugins.push(plugins.extractCss(), plugins.hashedModuleIds({}));
+    config.plugins.push(plugins.extractCss());
     config.devtool = 'source-map';
   }
 
