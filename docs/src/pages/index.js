@@ -12,9 +12,11 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className="container">
+        <div className={styles.logoWrapper}>
           <img className={styles.logo} src={useBaseUrl('/img/logo.svg')} />
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+        </div>
+        <h1 className="hero__title">{siteConfig.title}</h1>
+        <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
@@ -23,7 +25,7 @@ function HomepageHeader() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            to="/docs">
             Documentation
           </Link>
         </div>
@@ -45,15 +47,3 @@ export default function Home() {
     </Layout>
   );
 }
-
-// getting started
-  // installation
-  // integrate
-// api config
-// styling
-// customization
-  // customize inputs
-  // cutomize queries
-  // customize mutations
-  // customize outputs
-// standalone graphql-explorer-html
