@@ -49,7 +49,7 @@ export default class QueryBuilder {
       .map((field) => {
         if (field.args.length !== 0) return '';
         const fragment = this.getFragment(g.getNullableType(field.type));
-        if (!fragment) return '';
+        if (fragment == null) return '';
         return `${field.name} ${fragment}`;
       })
       .filter(Boolean);
