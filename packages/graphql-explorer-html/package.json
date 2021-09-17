@@ -1,6 +1,6 @@
 {
   "name": "graphql-explorer-html",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "main": "build/main.js",
   "module": "build/es/main.js",
   "repository": {
@@ -68,7 +68,7 @@
     "astroturf": "^0.10.5",
     "core-js": "^3.9.1",
     "graphql": "^15.5.0",
-    "graphql-explorer": "^1.0.0-alpha.5",
+    "graphql-explorer": "^1.0.0-alpha.6",
     "react": "^17.0.0",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.0",
