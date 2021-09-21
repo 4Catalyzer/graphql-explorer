@@ -63,11 +63,10 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.12",
-    "apollo-link-http": "^1.5.16",
+    "@apollo/client": "^3.4.13",
     "astroturf": "^0.10.5",
     "core-js": "^3.9.1",
-    "graphql": "^15.5.0",
+    "graphql": "^15.6.0",
     "graphql-explorer": "^1.0.0-alpha.6",
     "react": "^17.0.0",
     "react-bootstrap": "^1.5.2",

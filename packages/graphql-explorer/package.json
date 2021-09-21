@@ -67,15 +67,14 @@
     "travis-deploy-once": "^5.0.11"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.12",
+    "@apollo/client": "^3.4.13",
     "@apollo/react-hooks": "^4.0.0",
     "@types/lodash": "^4.14.168",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
-    "apollo-link-http": "^1.5.16",
     "bootstrap": "^4.6.0",
     "copy-to-clipboard": "^3.2.0",
-    "graphql": "^15.5.0",
+    "graphql": "^15.6.0",
     "lodash": "^4.17.21",
     "react-bootstrap": "^1.5.2",
     "react-formal": "^2.2.2",
