@@ -176,7 +176,7 @@ export default class QueryBuilder {
   ) {
     if (argNames.length === 0) {
       // we need to return empty strings because empty parens are not allowed
-      return { assignements: '', definitions: '' };
+      return { assignments: '', definitions: '' };
     }
 
     const argsByName = keyBy(argDefinitions, (a) => a.name);
