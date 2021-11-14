@@ -34,7 +34,7 @@ It's important to know that the order in which the resolvers are added in the re
 configuration.inputFieldResolvers = [myInputFieldResolver, ...configuration.inputFieldResolvers];
 ```
 
-## Cutomize types
+## Customize types
 
 GraphQL explorer dynamically creates sensible queries for all types and displays the data in predefined panels. If you wish to change specific behavior for a type, you can add a new `TypeResolver` to the [`Configuration.typeResolvers`](https://github.com/4Catalyzer/graphql-explorer/blob/d789b73120778562179653201e3e2e77875f5305/packages/graphql-explorer/src/logic/Configuration.ts#L64) field.
 
