@@ -47,7 +47,7 @@ export default function useSchema(params?: ConnectionParams) {
         const schema = await introspector.introspect();
         cleanSchema(schema);
         setState({ status: 'resolved', schema });
-      } catch (error) {
+      } catch (error: any) {
         setState({ status: 'error', message: error.message });
       }
     }
