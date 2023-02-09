@@ -41,7 +41,7 @@ function App() {
     'loading',
   );
   const handleSubmitConnection = useCallback(
-    (params) => {
+    (params: any) => {
       setState('loading');
       setConnectionParams(params);
     },
@@ -59,7 +59,7 @@ function App() {
 
   const explorerConfig = useMemo(() => {
     if (!schema || !client) return undefined;
-    return new ExplorerConfiguration(schema, client);
+    return new ExplorerConfiguration(schema as any, client);
   }, [client, schema]);
 
   if (!connectionParams) {

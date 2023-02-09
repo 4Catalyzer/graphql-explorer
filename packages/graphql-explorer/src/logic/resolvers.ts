@@ -1,5 +1,5 @@
 import * as g from 'graphql';
-import { BaseSchema } from 'yup';
+import { Schema } from 'yup';
 
 export interface SectionProps<T, TType extends g.GraphQLNullableType> {
   type: TType;
@@ -30,7 +30,7 @@ export interface TypeResolver<T extends g.GraphQLNullableType> {
   }[];
 
   getDefaultArgs?: (type: g.GraphQLNullableType) => Obj;
-  getFormArgs?: (args: g.GraphQLArgument[]) => g.GraphQLArgument[];
+  getFormArgs?: (args: readonly g.GraphQLArgument[]) => g.GraphQLArgument[];
 }
 
 export interface InputFieldResolver {
@@ -39,7 +39,7 @@ export interface InputFieldResolver {
     field: g.GraphQLArgument | g.GraphQLInputField,
   ) => boolean;
 
-  getSchema: (type: g.GraphQLInputType) => BaseSchema;
+  getSchema: (type: g.GraphQLInputType) => Schema;
   Component?: React.ElementType<
     Obj & { value: any; onChange: (i: any) => any }
   >;

@@ -12,32 +12,30 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends yup.BaseSchema<any>>(
+export function resolveLazy<T extends yup.Schema>(
   schema: T & { resolve?: (opts: any) => T },
 ): T {
   return schema.resolve ? schema.resolve({}) : schema;
 }
 
 export function isYupArray(
-  s: yup.BaseSchema<unknown>,
-): s is yup.ArraySchema<yup.BaseSchema<any>> {
+  s: yup.Schema<unknown>,
+): s is yup.ArraySchema<yup.Schema[], any> {
   return s.type === 'array';
 }
 
-export function isYupObject(
-  s: yup.BaseSchema<any>,
-): s is yup.ObjectSchema<any> {
+export function isYupObject(s: yup.Schema): s is yup.ObjectSchema<any> {
   return s.type === 'object';
 }
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
 type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
-  schema: yup.ArraySchema<any>;
+  schema: yup.ArraySchema<any[], any>;
 };
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
-  const subType = resolveLazy((schema as any)._subType as yup.BaseSchema<any>);
+  const subType = resolveLazy((schema as any)._subType as yup.Schema);
 
   const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (
@@ -109,7 +107,7 @@ function NestedFormFields({
 
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
-    (field: yup.BaseSchema<unknown>, fieldName: string) => {
+    (field: yup.Schema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
@@ -138,16 +136,16 @@ export default function FormFields({ schema }: FormFieldsProps) {
   // hide the label IFF the current type has only one field, and this field
   // is an object type - to reduce nesting
   const shouldShowLabel = useMemo(() => {
-    const subFields: yup.BaseSchema[] = Object.values(schema.fields);
+    const subFields = Object.values(schema.fields);
     if (subFields.length > 1) return true;
     const [subField] = subFields;
-    return !(subField && isYupObject(subField));
+    return !(subField && isYupObject(subField as yup.ObjectSchema<any>));
   }, [schema.fields]);
 
   const fields = useMemo(
     () =>
       Object.entries(schema.fields).map(
-        ([fieldName, field]: [string, yup.BaseSchema]) => (
+        ([fieldName, field]: [string, yup.Schema]) => (
           <BsForm.Group key={fieldName} controlId={fieldName}>
             <div className="d-flex">
               {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}

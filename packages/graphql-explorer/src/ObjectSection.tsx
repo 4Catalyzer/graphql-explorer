@@ -90,7 +90,7 @@ function ObjectSectionField({
           formArgs={
             resolver?.getFormArgs
               ? resolver?.getFormArgs(field.args)
-              : field.args
+              : (field.args as any)
           }
           defaultFormValue={
             resolver?.getDefaultArgs
@@ -155,21 +155,19 @@ export default function ObjectSection({
     />
   ));
   return (
-    <>
-      <Accordion defaultActiveKey="fields">
-        <MutationSection item={item} type={type} />
-        <Accordion.Toggle
-          as={PanelContainer.Header}
-          eventKey="fields"
-          style={{ cursor: 'pointer' }}
-        >
-          <span>Fields</span>
-          <MdExpandMore className="float-right" />
-        </Accordion.Toggle>
-        <Accordion.Collapse eventKey="fields">
-          <ListGroup variant="flush">{fields}</ListGroup>
-        </Accordion.Collapse>
-      </Accordion>
-    </>
+    <Accordion defaultActiveKey="fields">
+      <MutationSection item={item} type={type} />
+      <Accordion.Button
+        as={PanelContainer.Header}
+        eventKey="fields"
+        style={{ cursor: 'pointer' }}
+      >
+        <span>Fields</span>
+        <MdExpandMore className="float-right" />
+      </Accordion.Button>
+      <Accordion.Collapse eventKey="fields">
+        <ListGroup variant="flush">{fields}</ListGroup>
+      </Accordion.Collapse>
+    </Accordion>
   );
 }

@@ -50,7 +50,7 @@ function MutationSectionListItem({
           );
           return resp.item;
         }}
-        formArgs={mutation.args}
+        formArgs={mutation.args as any}
         defaultFormValue={defaultValue}
         allowSubFragment={false}
       />
@@ -90,14 +90,14 @@ export default function MutationSection({ type, item }: Props) {
   ));
   return (
     <>
-      <Accordion.Toggle
+      <Accordion.Button
         as={PanelContainer.Header}
         eventKey="mutations"
         style={{ cursor: 'pointer' }}
       >
         <span>Mutations</span>
         <MdExpandMore className="float-right" />
-      </Accordion.Toggle>
+      </Accordion.Button>
       <Accordion.Collapse eventKey="mutations">
         <ListGroup variant="flush">{mutationItems}</ListGroup>
       </Accordion.Collapse>

@@ -9,10 +9,10 @@ export interface SchemaMeta {
   Component?: React.ElementType<any>;
 }
 
-function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema<any>) {
+function makeRequired(type: g.GraphQLInputType, schema: yup.Schema) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
-    return (schema as yup.ArraySchema<any>).default([]);
+    return (schema as yup.ArraySchema<any[], any>).default([]);
   }
 
   return schema.required();
@@ -28,7 +28,7 @@ export default class SchemaBuilder {
   getSchemaFromType(
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
-  ): yup.BaseSchema<any> {
+  ): yup.Schema {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
@@ -48,14 +48,14 @@ export default class SchemaBuilder {
       return yup.number().meta({ field });
     }
     if (type === g.GraphQLBoolean) {
-      return yup.bool().meta({ field }).default(false);
+      return yup.bool().meta({ field }).default(false) as any;
     }
     // treat all the other scalar types as string
     if (type instanceof g.GraphQLScalarType) {
       return (
         yup
           .string()
-          .meta({ field })
+          .meta({})
           .default(undefined)
           // explicitly set empty strings as undefined
           .transform((v) => (v === '' ? undefined : v))
@@ -91,7 +91,7 @@ export default class SchemaBuilder {
         this.inputObjectCache[type.name] = yup
           .object(objectFields)
           .meta({ field })
-          .default(undefined) as yup.ObjectSchema<any>;
+          .default(undefined) as any;
       }
 
       return this.inputObjectCache[type.name];
@@ -101,7 +101,7 @@ export default class SchemaBuilder {
   }
 
   getSchemaFromArguments(args: (g.GraphQLArgument | g.GraphQLInputField)[]) {
-    const subFields: { [idx: string]: yup.BaseSchema<any> } = {};
+    const subFields: { [idx: string]: yup.Schema } = {};
 
     for (const argument of args) {
       subFields[argument.name] = this.getSchemaFromType(

@@ -3,8 +3,8 @@ import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import keyBy from 'lodash/keyBy';
 
-import { isNode } from '../helpers';
 import { ConfigurationInterface } from './Configuration';
+import { isNode } from '../helpers';
 
 export default class QueryBuilder {
   constructor(protected config: ConfigurationInterface) {}
@@ -158,7 +158,10 @@ export default class QueryBuilder {
     throw new Error(`invalid type for input: ${input}`);
   }
 
-  serializeArgsInline(args: Obj, argDefinitions: g.GraphQLArgument[]) {
+  serializeArgsInline(
+    args: Obj,
+    argDefinitions: readonly g.GraphQLArgument[],
+  ) {
     const argsByName = keyBy(argDefinitions, (a) => a.name);
     const serializedArgs = Object.entries(args)
       .filter(([, v]) => v !== undefined)
@@ -172,7 +175,7 @@ export default class QueryBuilder {
 
   serializeVariableDefinitions(
     argNames: string[],
-    argDefinitions: g.GraphQLArgument[],
+    argDefinitions: readonly g.GraphQLArgument[],
   ) {
     if (argNames.length === 0) {
       // we need to return empty strings because empty parens are not allowed

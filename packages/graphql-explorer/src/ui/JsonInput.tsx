@@ -17,7 +17,10 @@ interface JsonInputProps extends Record<string, any> {
 }
 
 export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
-  const serialize = useCallback((v) => JSON.stringify(v, undefined, 2), []);
+  const serialize = useCallback(
+    (v: any) => JSON.stringify(v, undefined, 2),
+    [],
+  );
 
   const [innerValue, setInnerValue] = useState(serialize(value));
   const parsedInnerValue = useMemo(() => {

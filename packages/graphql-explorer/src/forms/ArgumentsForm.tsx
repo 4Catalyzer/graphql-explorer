@@ -1,10 +1,10 @@
 import * as g from 'graphql';
 import React, { ReactNode, useMemo } from 'react';
-import { BaseSchema } from 'yup';
+import { Schema } from 'yup';
 
-import { useExplorer } from '../ExplorerContext';
 import Form from './Form';
 import { isYupObject, resolveLazy } from './FormFields';
+import { useExplorer } from '../ExplorerContext';
 
 interface Props extends Record<string, any> {
   args: g.GraphQLArgument[];
@@ -12,7 +12,7 @@ interface Props extends Record<string, any> {
   defaultValue?: Record<string, any>;
 }
 
-function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
+function generateDefaultValue(_schema: Schema, defaultValue: any) {
   const schema = resolveLazy(_schema);
   let obj = schema.getDefault();
 
@@ -28,7 +28,7 @@ function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
       }
       obj[k] = defaultValue[k];
       if (typeof obj[k] === 'object') {
-        obj[k] = generateDefaultValue(schema.fields[k], obj[k]);
+        obj[k] = generateDefaultValue(schema.fields[k] as any, obj[k]);
       }
     });
 
@@ -49,8 +49,8 @@ export default function ArgumentsForm({
   );
 
   return (
-    <Form schema={schema} defaultValue={fullDefaultValue} {...props}>
-      <Form.Fields schema={schema} />
+    <Form schema={schema as any} defaultValue={fullDefaultValue} {...props}>
+      <Form.Fields schema={schema as any} />
       {children}
       <Form.Submit>Submit</Form.Submit>
     </Form>

@@ -46,7 +46,7 @@ export default function ConnectionSection({
       <ListSectionBase items={items} itemType={itemType} />
       <PanelContainer.Body>
         <Button
-          block
+          // block
           onClick={handleMore}
           disabled={
             !executeQuery || loading || !connection.pageInfo.hasNextPage

@@ -41,9 +41,18 @@ function PanelContainer({
     [panelId, closeChildPanel],
   );
 
+  // const panelValue = useMemo(() => {
+  //   return {
+  //     closePanel: onclosePanel,
+  //     pushPanel: onPushPanel,
+  //     closeChildPanel: onCloseChildPanel,
+  //   };
+  // }, [onCloseChildPanel, onPushPanel, onclosePanel]);
+
   return (
     <div className="ge-Panel-container">
       <PanelContext.Provider
+        // eslint-disable-next-line react/jsx-no-constructed-context-values
         value={{
           closePanel: onclosePanel,
           pushPanel: onPushPanel,
