@@ -74,6 +74,6 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-formal": "^2.7.0",
-    "yup": "^1.0.0"
+    "yup": "^0.32.11"
   }
 }

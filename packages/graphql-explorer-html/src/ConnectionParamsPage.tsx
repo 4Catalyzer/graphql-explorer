@@ -11,7 +11,7 @@ const schema = yup
       .string()
       .default('https://swapi-graphql.netlify.app/.netlify/functions/index')
       .required(),
-    headers: jsonField().default({}),
+    headers: jsonField().default({}) as yup.BaseSchema<Record<string, any>>,
   })
   .required();
 

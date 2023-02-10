@@ -10867,7 +10867,7 @@ __metadata:
     webpack-atoms: ^17.1.0
     webpack-cli: ^5.0.1
     webpack-dev-server: ^4.11.1
-    yup: ^1.0.0
+    yup: ^0.32.11
   languageName: unknown
   linkType: soft
 
@@ -10883,7 +10883,7 @@ __metadata:
 
 "graphql-explorer@file:../graphql-explorer::locator=graphql-explorer-html%40workspace%3Apackages%2Fgraphql-explorer-html":
   version: 1.0.0-alpha.6
-  resolution: "graphql-explorer@file:../graphql-explorer#../graphql-explorer::hash=7b9a4f&locator=graphql-explorer-html%40workspace%3Apackages%2Fgraphql-explorer-html"
+  resolution: "graphql-explorer@file:../graphql-explorer#../graphql-explorer::hash=c9afc8&locator=graphql-explorer-html%40workspace%3Apackages%2Fgraphql-explorer-html"
   dependencies:
     "@apollo/client": ^3.7.7
     "@apollo/react-hooks": ^4.0.0
@@ -10905,7 +10905,7 @@ __metadata:
     graphql: ^15.5.0
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 0f25fd9b17feab939105404179e83af3d7ed99bc5fe31f7937854eecf2518093028eda78b2cb7c05b663b8103bab9b57b716ac38ab300da0e8e88fac6931dad4
+  checksum: 079cd8e8b3ea87640de1bcfedb23e65e9801f2cdbdcd8d0c92f02432c2b1a854be7183ff62e080474bdfa12c34b169500b79943d0d4d73e28ee4b777a8319124
   languageName: node
   linkType: hard
 
@@ -21432,7 +21432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:>=0.32.11, yup@npm:^1.0.0":
+"yup@npm:>=0.32.11":
   version: 1.0.0
   resolution: "yup@npm:1.0.0"
   dependencies:
