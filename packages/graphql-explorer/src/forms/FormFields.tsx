@@ -12,30 +12,30 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends yup.Schema>(
+export function resolveLazy<T extends yup.BaseSchema>(
   schema: T & { resolve?: (opts: any) => T },
 ): T {
   return schema.resolve ? schema.resolve({}) : schema;
 }
 
 export function isYupArray(
-  s: yup.Schema<unknown>,
-): s is yup.ArraySchema<yup.Schema[], any> {
+  s: yup.BaseSchema<unknown>,
+): s is yup.ArraySchema<yup.BaseSchema, any> {
   return s.type === 'array';
 }
 
-export function isYupObject(s: yup.Schema): s is yup.ObjectSchema<any> {
+export function isYupObject(s: yup.BaseSchema): s is yup.ObjectSchema<any> {
   return s.type === 'object';
 }
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
 type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
-  schema: yup.ArraySchema<any[], any>;
+  schema: yup.ArraySchema<any, any>;
 };
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
-  const subType = resolveLazy((schema as any)._subType as yup.Schema);
+  const subType = resolveLazy((schema as any)._subType as yup.BaseSchema);
 
   const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (
@@ -107,7 +107,7 @@ function NestedFormFields({
 
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
-    (field: yup.Schema<unknown>, fieldName: string) => {
+    (field: yup.BaseSchema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
@@ -145,7 +145,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
   const fields = useMemo(
     () =>
       Object.entries(schema.fields).map(
-        ([fieldName, field]: [string, yup.Schema]) => (
+        ([fieldName, field]: [string, yup.BaseSchema]) => (
           <BsForm.Group key={fieldName} controlId={fieldName}>
             <div className="d-flex">
               {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}

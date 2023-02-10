@@ -34,5 +34,6 @@
     "graphql-explorer-html/build/*": [
       "packages/graphql-explorer-html/src/*"
     ]
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }

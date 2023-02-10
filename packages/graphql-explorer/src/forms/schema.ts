@@ -6,13 +6,13 @@ import { ConfigurationInterface } from '../logic/Configuration';
 
 export interface SchemaMeta {
   field: g.GraphQLInputField;
-  Component?: React.ElementType<any>;
+  Component?: React.ElementType;
 }
 
-function makeRequired(type: g.GraphQLInputType, schema: yup.Schema) {
+function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
-    return (schema as yup.ArraySchema<any[], any>).default([]);
+    return (schema as yup.ArraySchema<any, any>).default([]);
   }
 
   return schema.required();
@@ -28,7 +28,7 @@ export default class SchemaBuilder {
   getSchemaFromType(
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
-  ): yup.Schema {
+  ): yup.BaseSchema {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
@@ -55,7 +55,7 @@ export default class SchemaBuilder {
       return (
         yup
           .string()
-          .meta({})
+          .meta({ field })
           .default(undefined)
           // explicitly set empty strings as undefined
           .transform((v) => (v === '' ? undefined : v))
@@ -101,7 +101,7 @@ export default class SchemaBuilder {
   }
 
   getSchemaFromArguments(args: (g.GraphQLArgument | g.GraphQLInputField)[]) {
-    const subFields: { [idx: string]: yup.Schema } = {};
+    const subFields: { [idx: string]: yup.BaseSchema } = {};
 
     for (const argument of args) {
       subFields[argument.name] = this.getSchemaFromType(

@@ -82,7 +82,7 @@
     "react-icons": "^4.7.1",
     "react-widgets": "5.8.4",
     "sass": "^1.58.0",
-    "yup": "^1.0.0"
+    "yup": "^0.32.11"
   },
   "peerDependencies": {
     "graphql": "^15.5.0",
