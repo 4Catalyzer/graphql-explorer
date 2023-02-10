@@ -4,14 +4,14 @@ import sortBy from 'lodash/sortBy';
 import startCase from 'lodash/startCase';
 import React, { useMemo } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import AccordionItem from 'react-bootstrap/AccordionItem';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { MdExpandMore } from 'react-icons/md';
 
 import { useExplorer } from './ExplorerContext';
 import MutationSection from './MutationSection';
 import Panel from './Panel';
 import { SectionProps } from './logic/resolvers';
-import PanelContainer, { usePanelContext } from './ui/PanelContainer';
+import { usePanelContext } from './ui/PanelContainer';
 
 interface FieldComponentProps {
   title: string;
@@ -157,17 +157,12 @@ export default function ObjectSection({
   return (
     <Accordion defaultActiveKey="fields">
       <MutationSection item={item} type={type} />
-      <Accordion.Button
-        as={PanelContainer.Header}
-        eventKey="fields"
-        style={{ cursor: 'pointer' }}
-      >
-        <span>Fields</span>
-        <MdExpandMore className="float-right" />
-      </Accordion.Button>
-      <Accordion.Collapse eventKey="fields">
-        <ListGroup variant="flush">{fields}</ListGroup>
-      </Accordion.Collapse>
+      <AccordionItem eventKey="fields">
+        <Accordion.Header>Fields</Accordion.Header>
+        <Accordion.Body>
+          <ListGroup variant="flush">{fields}</ListGroup>
+        </Accordion.Body>
+      </AccordionItem>
     </Accordion>
   );
 }

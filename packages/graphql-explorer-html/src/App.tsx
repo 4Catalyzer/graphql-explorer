@@ -59,7 +59,7 @@ function App() {
 
   const explorerConfig = useMemo(() => {
     if (!schema || !client) return undefined;
-    return new ExplorerConfiguration(schema as any, client);
+    return new ExplorerConfiguration(schema, client);
   }, [client, schema]);
 
   if (!connectionParams) {

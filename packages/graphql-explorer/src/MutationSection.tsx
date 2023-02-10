@@ -2,17 +2,13 @@ import * as g from 'graphql';
 import startCase from 'lodash/startCase';
 import React, { useCallback } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import AccordionItem from 'react-bootstrap/AccordionItem';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { MdExpandMore } from 'react-icons/md';
 
 import { useExplorer } from './ExplorerContext';
 import Panel from './Panel';
-import PanelContainer, { usePanelContext } from './ui/PanelContainer';
+import { usePanelContext } from './ui/PanelContainer';
 
-interface MutationSection {
-  type: g.GraphQLObjectType;
-  item: Obj;
-}
 interface MutationSectionListItemProps {
   mutation: g.GraphQLField<any, any>;
   defaultValue: Obj | undefined;
@@ -89,18 +85,11 @@ export default function MutationSection({ type, item }: Props) {
     <MutationSectionListItem key={m.mutation.name} {...m} />
   ));
   return (
-    <>
-      <Accordion.Button
-        as={PanelContainer.Header}
-        eventKey="mutations"
-        style={{ cursor: 'pointer' }}
-      >
-        <span>Mutations</span>
-        <MdExpandMore className="float-right" />
-      </Accordion.Button>
-      <Accordion.Collapse eventKey="mutations">
+    <AccordionItem eventKey="mutations">
+      <Accordion.Header>Mutations</Accordion.Header>
+      <Accordion.Body>
         <ListGroup variant="flush">{mutationItems}</ListGroup>
-      </Accordion.Collapse>
-    </>
+      </Accordion.Body>
+    </AccordionItem>
   );
 }

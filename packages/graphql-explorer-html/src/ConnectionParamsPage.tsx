@@ -31,10 +31,11 @@ export default function ConnectionParamsPage({
       defaultValue={connectionParams ?? schema.getDefault()}
       onSubmit={onChange}
       schema={schema as any}
-      // style={{
-      //   width: '500px',
-      //   margin: '100px auto',
-      // }}
+      // @ts-ignore
+      style={{
+        width: '500px',
+        margin: '100px auto',
+      }}
     >
       <h3>Connect to a GraphQL Endpoint</h3>
       <BsForm.Group>
