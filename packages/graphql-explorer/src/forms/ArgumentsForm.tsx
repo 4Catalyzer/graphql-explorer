@@ -49,8 +49,8 @@ export default function ArgumentsForm({
   );
 
   return (
-    <Form schema={schema as any} defaultValue={fullDefaultValue} {...props}>
-      <Form.Fields schema={schema as any} />
+    <Form schema={schema} defaultValue={fullDefaultValue} {...props}>
+      <Form.Fields schema={schema} />
       {children}
       <Form.Submit>Submit</Form.Submit>
     </Form>

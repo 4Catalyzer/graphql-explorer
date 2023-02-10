@@ -20,7 +20,7 @@ export function resolveLazy<T extends yup.BaseSchema>(
 
 export function isYupArray(
   s: yup.BaseSchema<unknown>,
-): s is yup.ArraySchema<yup.BaseSchema, any> {
+): s is yup.ArraySchema<yup.BaseSchema> {
   return s.type === 'array';
 }
 
@@ -30,7 +30,7 @@ export function isYupObject(s: yup.BaseSchema): s is yup.ObjectSchema<any> {
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
 type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
-  schema: yup.ArraySchema<any, any>;
+  schema: yup.ArraySchema<any>;
 };
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
@@ -136,10 +136,10 @@ export default function FormFields({ schema }: FormFieldsProps) {
   // hide the label IFF the current type has only one field, and this field
   // is an object type - to reduce nesting
   const shouldShowLabel = useMemo(() => {
-    const subFields = Object.values(schema.fields);
+    const subFields: yup.BaseSchema[] = Object.values(schema.fields);
     if (subFields.length > 1) return true;
     const [subField] = subFields;
-    return !(subField && isYupObject(subField as yup.ObjectSchema<any>));
+    return !(subField && isYupObject(subField));
   }, [schema.fields]);
 
   const fields = useMemo(

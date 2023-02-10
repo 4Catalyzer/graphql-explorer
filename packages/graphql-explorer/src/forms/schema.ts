@@ -12,7 +12,7 @@ export interface SchemaMeta {
 function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
-    return (schema as yup.ArraySchema<any, any>).default([]);
+    return (schema as yup.ArraySchema<any>).default([]);
   }
 
   return schema.required();
@@ -48,7 +48,7 @@ export default class SchemaBuilder {
       return yup.number().meta({ field });
     }
     if (type === g.GraphQLBoolean) {
-      return yup.bool().meta({ field }).default(false) as any;
+      return yup.bool().meta({ field }).default(false);
     }
     // treat all the other scalar types as string
     if (type instanceof g.GraphQLScalarType) {
@@ -91,7 +91,7 @@ export default class SchemaBuilder {
         this.inputObjectCache[type.name] = yup
           .object(objectFields)
           .meta({ field })
-          .default(undefined) as any;
+          .default(undefined) as yup.ObjectSchema<any>;
       }
 
       return this.inputObjectCache[type.name];
