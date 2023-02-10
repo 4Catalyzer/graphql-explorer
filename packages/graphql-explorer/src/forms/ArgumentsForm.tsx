@@ -28,7 +28,7 @@ function generateDefaultValue(_schema: BaseSchema, defaultValue: any) {
       }
       obj[k] = defaultValue[k];
       if (typeof obj[k] === 'object') {
-        obj[k] = generateDefaultValue(schema.fields[k] as any, obj[k]);
+        obj[k] = generateDefaultValue(schema.fields[k], obj[k]);
       }
     });
 
