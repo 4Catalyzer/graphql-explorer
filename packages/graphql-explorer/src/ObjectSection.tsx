@@ -90,7 +90,7 @@ function ObjectSectionField({
           formArgs={
             resolver?.getFormArgs
               ? resolver?.getFormArgs(field.args)
-              : (field.args as any)
+              : field.args
           }
           defaultFormValue={
             resolver?.getDefaultArgs
