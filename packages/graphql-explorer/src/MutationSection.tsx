@@ -46,7 +46,7 @@ function MutationSectionListItem({
           );
           return resp.item;
         }}
-        formArgs={mutation.args as any}
+        formArgs={mutation.args}
         defaultFormValue={defaultValue}
         allowSubFragment={false}
       />

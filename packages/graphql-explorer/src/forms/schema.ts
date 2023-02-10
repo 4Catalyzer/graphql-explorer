@@ -100,7 +100,9 @@ export default class SchemaBuilder {
     throw new Error(`unsupported type ${type}`);
   }
 
-  getSchemaFromArguments(args: (g.GraphQLArgument | g.GraphQLInputField)[]) {
+  getSchemaFromArguments(
+    args: readonly (g.GraphQLArgument | g.GraphQLInputField)[],
+  ) {
     const subFields: { [idx: string]: yup.BaseSchema } = {};
 
     for (const argument of args) {

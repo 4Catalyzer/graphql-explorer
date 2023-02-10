@@ -7,7 +7,7 @@ import { isYupObject, resolveLazy } from './FormFields';
 import { useExplorer } from '../ExplorerContext';
 
 interface Props extends Record<string, any> {
-  args: g.GraphQLArgument[];
+  args: readonly g.GraphQLArgument[];
   children?: ReactNode;
   defaultValue?: Record<string, any>;
 }
