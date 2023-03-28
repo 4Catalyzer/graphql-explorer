@@ -65,7 +65,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.12",
     "apollo-link-http": "^1.5.16",
-    "astroturf": "^0.10.5",
+    "astroturf": "^1.2.0",
     "core-js": "^3.9.1",
     "graphql": "^15.5.0",
     "graphql-explorer": "^1.0.0-alpha.6",
