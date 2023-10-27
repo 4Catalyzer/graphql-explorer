@@ -41,7 +41,7 @@
     "testEnvironment": "jsdom"
   },
   "devDependencies": {
-    "@4c/babel-preset": "^9.0.0",
+    "@4c/babel-preset": "^10.2.1",
     "@4c/jest-preset": "^1.6.2",
     "@4c/prettier-config": "^1.1.0",
     "@4c/tsconfig": "^0.4.0",
