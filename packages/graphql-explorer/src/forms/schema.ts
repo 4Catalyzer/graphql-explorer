@@ -6,10 +6,10 @@ import { ConfigurationInterface } from '../logic/Configuration';
 
 export interface SchemaMeta {
   field: g.GraphQLInputField;
-  Component?: React.ElementType<any>;
+  Component?: React.ElementType;
 }
 
-function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema<any>) {
+function makeRequired(type: g.GraphQLInputType, schema: yup.BaseSchema) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
     return (schema as yup.ArraySchema<any>).default([]);
@@ -28,7 +28,7 @@ export default class SchemaBuilder {
   getSchemaFromType(
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
-  ): yup.BaseSchema<any> {
+  ): yup.BaseSchema {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
@@ -100,8 +100,10 @@ export default class SchemaBuilder {
     throw new Error(`unsupported type ${type}`);
   }
 
-  getSchemaFromArguments(args: (g.GraphQLArgument | g.GraphQLInputField)[]) {
-    const subFields: { [idx: string]: yup.BaseSchema<any> } = {};
+  getSchemaFromArguments(
+    args: readonly (g.GraphQLArgument | g.GraphQLInputField)[],
+  ) {
+    const subFields: { [idx: string]: yup.BaseSchema } = {};
 
     for (const argument of args) {
       subFields[argument.name] = this.getSchemaFromType(

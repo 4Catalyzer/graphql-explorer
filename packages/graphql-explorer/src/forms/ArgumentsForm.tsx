@@ -2,17 +2,17 @@ import * as g from 'graphql';
 import React, { ReactNode, useMemo } from 'react';
 import { BaseSchema } from 'yup';
 
-import { useExplorer } from '../ExplorerContext';
 import Form from './Form';
 import { isYupObject, resolveLazy } from './FormFields';
+import { useExplorer } from '../ExplorerContext';
 
 interface Props extends Record<string, any> {
-  args: g.GraphQLArgument[];
+  args: readonly g.GraphQLArgument[];
   children?: ReactNode;
   defaultValue?: Record<string, any>;
 }
 
-function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
+function generateDefaultValue(_schema: BaseSchema, defaultValue: any) {
   const schema = resolveLazy(_schema);
   let obj = schema.getDefault();
 

@@ -30,7 +30,8 @@ export default function ConnectionParamsPage({
     <Form
       defaultValue={connectionParams ?? schema.getDefault()}
       onSubmit={onChange}
-      schema={schema}
+      schema={schema as any}
+      // @ts-ignore
       style={{
         width: '500px',
         margin: '100px auto',

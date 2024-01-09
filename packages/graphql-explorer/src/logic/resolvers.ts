@@ -30,7 +30,7 @@ export interface TypeResolver<T extends g.GraphQLNullableType> {
   }[];
 
   getDefaultArgs?: (type: g.GraphQLNullableType) => Obj;
-  getFormArgs?: (args: g.GraphQLArgument[]) => g.GraphQLArgument[];
+  getFormArgs?: (args: readonly g.GraphQLArgument[]) => g.GraphQLArgument[];
 }
 
 export interface InputFieldResolver {

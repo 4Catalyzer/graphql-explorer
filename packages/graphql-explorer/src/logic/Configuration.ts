@@ -3,6 +3,8 @@ import { ApolloClient, gql } from '@apollo/client';
 import * as g from 'graphql';
 import camelCase from 'lodash/camelCase';
 
+import QueryBuilder from './QueryBuilder';
+import { FieldResolver, InputFieldResolver, TypeResolver } from './resolvers';
 import SchemaBuilder from '../forms/schema';
 import { isNode } from '../helpers';
 import connectionResolver from '../resolvers/connectionResolver';
@@ -10,18 +12,16 @@ import jsonInputResolver from '../resolvers/jsonInputResolver';
 import listResolver from '../resolvers/listResolver';
 import objectResolver from '../resolvers/objectResolver';
 import scalarResolver from '../resolvers/scalarResolver';
-import QueryBuilder from './QueryBuilder';
-import { FieldResolver, InputFieldResolver, TypeResolver } from './resolvers';
 
 type QueryFunc = (
   fragment: string,
-  item: Obj<any>,
+  item: Obj,
   type: g.GraphQLNamedType,
 ) => Promise<any>;
 
 type MutationDefinition = {
   mutation: g.GraphQLField<any, any>;
-  defaultValue: Obj<any> | undefined;
+  defaultValue: Obj | undefined;
 };
 
 export interface ConfigurationInterface {
@@ -124,7 +124,7 @@ export default class Configuration implements ConfigurationInterface {
     }
   }
 
-  async nodeQuery(fragment: string, item: Obj<any>, type: g.GraphQLNamedType) {
+  async nodeQuery(fragment: string, item: Obj, type: g.GraphQLNamedType) {
     const args = this.schema.getQueryType()!.getFields().node.args!;
     const input = { id: item.id };
     const nodeArgs = this.queryBuilder.serializeArgsInline(input, args);
@@ -158,7 +158,7 @@ export default class Configuration implements ConfigurationInterface {
 
     return mutations
       .map((mutation) => {
-        let fields: g.GraphQLInputField[] = mutation.args;
+        let fields = mutation.args;
         let parentField: string | undefined;
 
         if (fields.length === 1) {

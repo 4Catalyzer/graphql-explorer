@@ -12,7 +12,7 @@ interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends yup.BaseSchema<any>>(
+export function resolveLazy<T extends yup.BaseSchema>(
   schema: T & { resolve?: (opts: any) => T },
 ): T {
   return schema.resolve ? schema.resolve({}) : schema;
@@ -20,13 +20,11 @@ export function resolveLazy<T extends yup.BaseSchema<any>>(
 
 export function isYupArray(
   s: yup.BaseSchema<unknown>,
-): s is yup.ArraySchema<yup.BaseSchema<any>> {
+): s is yup.ArraySchema<yup.BaseSchema> {
   return s.type === 'array';
 }
 
-export function isYupObject(
-  s: yup.BaseSchema<any>,
-): s is yup.ObjectSchema<any> {
+export function isYupObject(s: yup.BaseSchema): s is yup.ObjectSchema<any> {
   return s.type === 'object';
 }
 
@@ -37,7 +35,7 @@ type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   // eslint-disable-next-line no-underscore-dangle
-  const subType = resolveLazy((schema as any)._subType as yup.BaseSchema<any>);
+  const subType = resolveLazy((schema as any)._subType as yup.BaseSchema);
 
   const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (

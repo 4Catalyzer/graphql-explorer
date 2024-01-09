@@ -12,7 +12,7 @@ import PanelContainer, { usePanelContext } from './ui/PanelContainer';
 interface Props {
   title: string;
   type: GraphQLNullableType;
-  formArgs: GraphQLArgument[];
+  formArgs: readonly GraphQLArgument[];
   defaultFormValue?: Obj | undefined;
   execute: (input: Obj, fragment?: string) => Promise<unknown>;
   allowSubFragment: boolean;
