@@ -55,7 +55,7 @@
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^8.0.3",
-    "lint-staged": "^12.1.2",
+    "lint-staged": "^15.5.2",
     "prettier": "^2.5.0",
     "webpack": "^5.64.4",
     "webpack-atoms": "^17.1.0",
