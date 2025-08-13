@@ -23,7 +23,7 @@
     "typescript": "^4.5.2"
   },
   "devDependencies": {
-    "@4c/cli": "^3.0.1",
+    "@4c/cli": "^4.0.4",
     "lerna": "^4.0.0",
     "typescript": "^4.5.2"
   },
