@@ -73,7 +73,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "apollo-link-http": "^1.5.16",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.0",
     "copy-to-clipboard": "^3.2.0",
     "graphql": "^15.5.0",
     "lodash": "^4.17.21",
