@@ -37,7 +37,6 @@
     }
   ],
   "rules": {
-    "import/no-cycle": 0,
-    "no-underscore-dangle": "off"
+    "import/no-cycle": 0
   }
 }

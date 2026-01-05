@@ -46,6 +46,7 @@ const FormField = React.forwardRef<any, Props>(
 
         const schema = resolveLazy(meta.schema! as any);
         const whitelist: Set<string> =
+          // eslint-disable-next-line no-underscore-dangle
           schema._whitelist && schema._whitelist.list;
 
         const { Component, field } = schema.meta() as unknown as SchemaMeta;
