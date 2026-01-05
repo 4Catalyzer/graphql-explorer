@@ -30,7 +30,6 @@
         "@typescript-eslint/no-explicit-any": "off",
         "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
         "react/prop-types": "off",
-        "no-use-before-define": "off",
         "no-useless-constructor": "off",
         "no-empty-function": "off"
       }
