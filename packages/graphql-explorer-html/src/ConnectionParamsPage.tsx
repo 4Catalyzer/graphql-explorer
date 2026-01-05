@@ -3,6 +3,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
+import type { Schema } from 'yup';
 import * as yup from 'yup';
 
 const schema = yup
@@ -11,7 +12,7 @@ const schema = yup
       .string()
       .default('https://swapi-graphql.netlify.app/.netlify/functions/index')
       .required(),
-    headers: jsonField().default({}) as yup.BaseSchema<Record<string, any>>,
+    headers: jsonField().default({}) as unknown as Schema<Record<string, any>>,
   })
   .required();
 
@@ -26,8 +27,13 @@ export default function ConnectionParamsPage({
   connectionParams,
   onChange,
 }: Props) {
+  const FormComponent = Form as any;
+  const FieldComponent = Form.Field as any;
+  const MessageComponent = Form.Message as any;
+  const SubmitComponent = Form.Submit as any;
+
   return (
-    <Form
+    <FormComponent
       defaultValue={connectionParams ?? schema.getDefault()}
       onSubmit={onChange}
       schema={schema}
@@ -39,16 +45,16 @@ export default function ConnectionParamsPage({
       <h3>Connect to a GraphQL Endpoint</h3>
       <BsForm.Group>
         <BsForm.Label>Graphql API url</BsForm.Label>
-        <Form.Field as={BsForm.Control} name="uri" />
+        <FieldComponent as={BsForm.Control} name="uri" />
       </BsForm.Group>
       <BsForm.Group>
         <BsForm.Label>Headers</BsForm.Label>
-        <Form.Field name="headers" as={JsonInput} />
+        <FieldComponent name="headers" as={JsonInput} />
       </BsForm.Group>
       <p style={{ color: 'red' }}>
-        <Form.Message for="" />
+        <MessageComponent for="" />
       </p>
-      <Form.Submit as={Button}>SUBMIT</Form.Submit>
-    </Form>
+      <SubmitComponent as={Button}>SUBMIT</SubmitComponent>
+    </FormComponent>
   );
 }

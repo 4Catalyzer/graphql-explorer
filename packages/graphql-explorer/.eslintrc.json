@@ -1,16 +1,144 @@
 {
-  "plugins": ["prettier"],
-  "extends": [
-    "4catalyzer-react",
-    "4catalyzer-jest",
-    "prettier",
-    "4catalyzer-typescript"
-  ],
+  "extends": ["4catalyzer-react", "prettier"],
   "env": {
     "browser": true
   },
+  "settings": {
+    "import/extensions": [".js", ".ts", ".tsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".tsx"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "rules": {
+        "import/named": "off",
+        "import/no-unresolved": "off",
+        "import/default": "off",
+        "import/namespace": "off",
+        "import/no-cycle": 0,
+
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
+          "error",
+          {
+            "ignoreTypeValueShadow": true,
+            "ignoreFunctionTypeParameterNameValueShadow": true
+          }
+        ],
+
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/consistent-type-assertions": [
+          "error",
+          {
+            "assertionStyle": "as",
+            "objectLiteralTypeAssertions": "never"
+          }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "camelcase": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": [
+              "classProperty",
+              "objectLiteralProperty",
+              "typeProperty",
+              "classMethod",
+              "objectLiteralMethod",
+              "typeMethod",
+              "accessor",
+              "enumMember"
+            ],
+            "format": null,
+            "modifiers": ["requiresQuotes"]
+          },
+          {
+            "selector": "default",
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "enumMember",
+            "format": ["UPPER_CASE"]
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "ignoreRestSiblings": false,
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "error",
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "error",
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-expressions": "error",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": [
+          "error",
+          {
+            "allow": ["constructors"]
+          }
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+          "error",
+          {
+            "lib": "never",
+            "path": "never",
+            "types": "never"
+          }
+        ],
+        "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
+        "react/prop-types": "off"
+      }
+    },
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        "import/export": "off",
+        "import/no-duplicates": "off",
+        "max-classes-per-file": "off",
+        "react/prefer-stateless-function": "off",
+        "react/static-property-placement": "off"
+      }
+    }
+  ],
   "rules": {
-    "prettier/prettier": "error",
-    "import/no-cycle": 0
+    "import/no-cycle": 0,
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "object-curly-newline": "off",
+    "function-paren-newline": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "react/no-unused-prop-types": "off"
   }
 }

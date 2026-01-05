@@ -12,7 +12,7 @@ import PanelContainer, { usePanelContext } from './ui/PanelContainer';
 interface Props {
   title: string;
   type: GraphQLNullableType;
-  formArgs: GraphQLArgument[];
+  formArgs: readonly GraphQLArgument[];
   defaultFormValue?: Obj | undefined;
   execute: (input: Obj, fragment?: string) => Promise<unknown>;
   allowSubFragment: boolean;
@@ -83,7 +83,7 @@ export default function Panel({
   }, [defaultFormValue, formArgs, setInput]);
   const mainSection = useMemo(() => {
     if (waitingForInput) return null;
-    if (loading)
+    if (loading) {
       return (
         <PanelContainer.Body>
           <div style={{ justifyContent: 'center', display: 'flex' }}>
@@ -94,7 +94,8 @@ export default function Panel({
           </div>
         </PanelContainer.Body>
       );
-    if (error)
+    }
+    if (error) {
       return (
         <ListGroup variant="flush">
           <ListGroup.Item variant="danger">
@@ -104,12 +105,14 @@ export default function Panel({
           </ListGroup.Item>
         </ListGroup>
       );
-    if (!item)
+    }
+    if (!item) {
       return (
         <PanelContainer.Body>
           <h4>No item found</h4>
         </PanelContainer.Body>
       );
+    }
 
     const Section = explorer.resolveType(type)?.Section;
     if (!Section) return null;

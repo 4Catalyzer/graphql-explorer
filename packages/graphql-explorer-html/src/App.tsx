@@ -41,7 +41,7 @@ function App() {
     'loading',
   );
   const handleSubmitConnection = useCallback(
-    (params) => {
+    (params: ConnectionParams) => {
       setState('loading');
       setConnectionParams(params);
     },

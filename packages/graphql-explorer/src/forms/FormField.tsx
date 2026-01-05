@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import BsForm from 'react-bootstrap/Form';
 import Form from 'react-formal';
-import DropdownList from 'react-widgets/lib/DropdownList';
+import DropdownList from 'react-widgets/DropdownList';
 
 import { resolveLazy } from './FormFields';
 import { SchemaMeta } from './schema';
 
 export interface Props {
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((innerProps: any) => React.ReactNode);
   as?: typeof Form.Field;
   name: string;
 }
@@ -26,7 +26,7 @@ const Message = (props: { for: string }) => {
 
 function Check({ value, onChange, ...props }: { value: any; onChange: any }) {
   const realOnChange = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange(e.target.checked);
     },
     [onChange],
@@ -34,8 +34,8 @@ function Check({ value, onChange, ...props }: { value: any; onChange: any }) {
   return <BsForm.Check {...props} checked={value} onChange={realOnChange} />;
 }
 
-const FormField = React.forwardRef(
-  ({ children, as, ...props }: Props, ref) => (
+const FormField = React.forwardRef<any, Props>(
+  ({ children, as, ...props }, ref) => (
     <Form.Field ref={ref} {...props}>
       {(innerProps, meta) => {
         if (typeof children === 'function') return children(innerProps);
@@ -44,10 +44,9 @@ const FormField = React.forwardRef(
           [idx: string]: any;
         };
 
-        const schema = resolveLazy(meta.schema!);
+        const schema = resolveLazy(meta.schema! as any);
         const whitelist: Set<string> =
-          // eslint-disable-next-line no-underscore-dangle
-          (schema as any)._whitelist && (schema as any)._whitelist.list;
+          schema._whitelist && schema._whitelist.list;
 
         const { Component, field } = schema.meta() as unknown as SchemaMeta;
         let Input: React.ElementType<any> | undefined = as || Component;

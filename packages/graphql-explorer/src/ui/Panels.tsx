@@ -40,7 +40,12 @@ function usePanelState(initialPanel: React.ReactNode) {
     [panels],
   );
 
-  return { panels, pushPanel, closePanel, closeChildPanel };
+  return {
+    panels,
+    pushPanel,
+    closePanel,
+    closeChildPanel,
+  };
 }
 
 export default function Panels({ colWidth = '40rem', initialPanel }: Props) {
