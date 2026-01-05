@@ -72,10 +72,7 @@ export default class Configuration implements ConfigurationInterface {
 
   fieldResolvers: FieldResolver[] = [];
 
-  constructor(
-    public schema: g.GraphQLSchema,
-    protected client: ApolloClient<unknown>,
-  ) {
+  constructor(public schema: g.GraphQLSchema, protected client: ApolloClient) {
     this.queryBuilder = new QueryBuilder(this);
     this.schemaBuilder = new SchemaBuilder(this);
   }
@@ -113,7 +110,7 @@ export default class Configuration implements ConfigurationInterface {
   async rootQuery(fragment: string) {
     console.log('executing', fragment);
     try {
-      const response = await this.client.query({
+      const response = await this.client.query<Obj>({
         query: gql(fragment),
         fetchPolicy: 'no-cache',
       });
@@ -133,7 +130,7 @@ export default class Configuration implements ConfigurationInterface {
         ... on ${type.name} ${fragment}
       }
     }`);
-    return data.node;
+    return data?.node;
   }
 
   async mutate(fragment: string, variables: Obj) {
