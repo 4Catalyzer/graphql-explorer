@@ -4,37 +4,37 @@ import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
 import Form, { NestedForm } from 'react-formal';
 import * as yup from 'yup';
-import type { ArraySchema, ObjectSchema, Schema } from 'yup';
 
 import FormField from './FormField';
 import { SchemaMeta } from './schema';
 
 interface FormFieldsProps {
-  schema: ObjectSchema<any>;
+  schema: yup.ObjectSchema<any>;
 }
 
-export function resolveLazy<T extends Schema<any>>(
+export function resolveLazy<T extends yup.Schema<any>>(
   schema: T & { resolve?: (opts: any) => T },
 ): T {
   return schema.resolve ? schema.resolve({}) : schema;
 }
 
-export function isYupArray(s: Schema<unknown>): s is ArraySchema<any, any> {
+export function isYupArray(
+  s: yup.Schema<unknown>,
+): s is yup.ArraySchema<any, any> {
   return s.type === 'array';
 }
 
-export function isYupObject(s: Schema<any>): s is ObjectSchema<any> {
+export function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
   return s.type === 'object';
 }
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
 type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
-  schema: ArraySchema<any, any>;
+  schema: yup.ArraySchema<any, any>;
 };
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
-  // eslint-disable-next-line no-underscore-dangle
-  const subType = resolveLazy((schema as any).innerType as Schema<any>);
+  const subType = resolveLazy(schema.innerType as yup.Schema<any>);
 
   const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (
@@ -82,7 +82,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = (schema.meta() as unknown as SchemaMeta).field.type;
+  const gqlType = schema.meta()?.field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
@@ -106,7 +106,7 @@ function NestedFormFields({
 
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
-    (field: Schema<unknown>, fieldName: string) => {
+    (field: yup.Schema<unknown>, fieldName: string) => {
       // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
@@ -135,7 +135,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
   // hide the label IFF the current type has only one field, and this field
   // is an object type - to reduce nesting
   const shouldShowLabel = useMemo(() => {
-    const subFields = Object.values(schema.fields) as Schema<any>[];
+    const subFields = Object.values(schema.fields) as yup.Schema<any>[];
     if (subFields.length > 1) return true;
     const [subField] = subFields;
     return !(subField && isYupObject(subField));
@@ -144,7 +144,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
   const fields = useMemo(
     () =>
       Object.entries(schema.fields).map(
-        ([fieldName, field]: [string, Schema<any>]) => (
+        ([fieldName, field]: [string, yup.Schema<any>]) => (
           <BsForm.Group key={fieldName} controlId={fieldName}>
             <div className="d-flex">
               {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
