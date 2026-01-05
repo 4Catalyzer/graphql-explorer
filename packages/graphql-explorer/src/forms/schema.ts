@@ -1,7 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 import * as g from 'graphql';
 import * as yup from 'yup';
-import type { ArraySchema, ObjectSchema, Schema } from 'yup';
 
 import { ConfigurationInterface } from '../logic/Configuration';
 
@@ -10,17 +9,17 @@ export interface SchemaMeta {
   Component?: React.ElementType<any>;
 }
 
-function makeRequired(type: g.GraphQLInputType, schema: Schema<any>) {
+function makeRequired(type: g.GraphQLInputType, schema: yup.Schema<any>) {
   if (type instanceof g.GraphQLList) {
     // array's `required` semantic requires the array to not be empty
-    return (schema as ArraySchema<any, any>).default([]);
+    return (schema as yup.ArraySchema<any, any>).default([]);
   }
 
   return schema.required();
 }
 
 export default class SchemaBuilder {
-  inputObjectCache: Record<string, ObjectSchema<any>> = {};
+  inputObjectCache: Record<string, yup.ObjectSchema<any>> = {};
 
   enumObjectCache: Record<string, string[]> = {};
 
@@ -29,7 +28,7 @@ export default class SchemaBuilder {
   getSchemaFromType(
     type: g.GraphQLInputType,
     field: g.GraphQLArgument | g.GraphQLInputField,
-  ): Schema<any> {
+  ): yup.Schema<any> {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
       return customInput
@@ -52,7 +51,7 @@ export default class SchemaBuilder {
       return yup
         .bool()
         .meta({ field })
-        .default(false) as unknown as Schema<any>;
+        .default(false) as unknown as yup.Schema<any>;
     }
     // treat all the other scalar types as string
     if (type instanceof g.GraphQLScalarType) {
@@ -86,7 +85,7 @@ export default class SchemaBuilder {
 
     if (type instanceof g.GraphQLInputObjectType) {
       if (!this.inputObjectCache[type.name]) {
-        const objectFields: ObjectSchema<any>['fields'] = {};
+        const objectFields: yup.ObjectSchema<any>['fields'] = {};
         Object.values(type.getFields()).forEach((subField) => {
           objectFields[subField.name] = yup.lazy(() =>
             this.getSchemaFromType(subField.type, subField),
@@ -95,7 +94,7 @@ export default class SchemaBuilder {
         this.inputObjectCache[type.name] = yup
           .object(objectFields)
           .meta({ field })
-          .default(undefined) as unknown as ObjectSchema<any>;
+          .default(undefined) as unknown as yup.ObjectSchema<any>;
       }
 
       return this.inputObjectCache[type.name];
@@ -107,7 +106,7 @@ export default class SchemaBuilder {
   getSchemaFromArguments(
     args: readonly (g.GraphQLArgument | g.GraphQLInputField)[],
   ) {
-    const subFields: { [idx: string]: Schema<any> } = {};
+    const subFields: { [idx: string]: yup.Schema<any> } = {};
 
     for (const argument of args) {
       subFields[argument.name] = this.getSchemaFromType(
