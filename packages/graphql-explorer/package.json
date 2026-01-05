@@ -27,6 +27,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "prettier": "@4c/prettier-config",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -35,7 +36,6 @@
   "lint-staged": {
     "*": "yarn 4c lint --fix"
   },
-  "prettier": "@4c/prettier-config",
   "jest": {
     "testEnvironment": "jsdom",
     "extensionsToTreatAsEsm": [
