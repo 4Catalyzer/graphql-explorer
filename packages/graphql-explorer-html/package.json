@@ -63,7 +63,7 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.12",
+    "@apollo/client": "^4.0.11",
     "apollo-link-http": "^1.5.16",
     "astroturf": "^1.2.0",
     "core-js": "^3.9.1",
