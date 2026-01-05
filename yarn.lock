@@ -10679,7 +10679,6 @@ __metadata:
     react-bootstrap: "npm:^2.10.0"
     react-dom: "npm:^19.0.0"
     react-formal: "npm:^2.4.4"
-    typescript: "npm:^5.9.3"
     webpack: "npm:^5.99.0"
     webpack-atoms: "npm:^17.1.0"
     webpack-cli: "npm:^6.0.0"

@@ -18,7 +18,7 @@
     "release": "4c release",
     "start": "DEV_SERVER=true webpack serve --mode development",
     "test": "yarn lint && yarn typecheck",
-    "typecheck": "yarn tsc --noEmit -p tsconfig.build.json"
+    "typecheck": "yarn run -T tsc --noEmit -p tsconfig.build.json"
   },
   "files": [
     "build"
@@ -53,7 +53,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "typescript": "^5.9.3",
     "webpack": "^5.99.0",
     "webpack-atoms": "^17.1.0",
     "webpack-cli": "^6.0.0",
