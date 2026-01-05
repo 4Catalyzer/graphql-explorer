@@ -11,6 +11,7 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "import/no-cycle": 0
+    "import/no-cycle": 0,
+    "no-empty-function": ["error", { "allow": ["constructors"] }]
   }
 }

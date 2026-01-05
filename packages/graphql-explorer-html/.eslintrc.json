@@ -5,6 +5,7 @@
     "browser": true
   },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-empty-function": ["error", { "allow": ["constructors"] }]
   }
 }
