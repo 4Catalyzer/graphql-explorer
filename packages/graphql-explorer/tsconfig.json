@@ -2,6 +2,7 @@
   "extends": "@4c/tsconfig/web",
   "compilerOptions": {
     "rootDir": "src",
+    "outDir": "lib",
     "composite": true,
     "declarationMap": true
   },

@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { GraphQLSchema } from 'graphql';
 import Explorer from 'graphql-explorer/lib/Explorer';
 import ExplorerConfiguration from 'graphql-explorer/lib/logic/Configuration';
@@ -30,7 +30,13 @@ function App() {
   const client = useMemo(
     () =>
       connectionParams
-        ? new ApolloClient({ ...connectionParams, cache: new InMemoryCache() })
+        ? new ApolloClient({
+            cache: new InMemoryCache(),
+            link: new HttpLink({
+              uri: connectionParams.uri,
+              headers: connectionParams.headers,
+            }),
+          })
         : null,
     [connectionParams],
   );
@@ -41,7 +47,7 @@ function App() {
     'loading',
   );
   const handleSubmitConnection = useCallback(
-    (params) => {
+    (params: ConnectionParams) => {
       setState('loading');
       setConnectionParams(params);
     },
@@ -59,7 +65,7 @@ function App() {
 
   const explorerConfig = useMemo(() => {
     if (!schema || !client) return undefined;
-    return new ExplorerConfiguration(schema, client);
+    return new ExplorerConfiguration(schema, client as any);
   }, [client, schema]);
 
   if (!connectionParams) {

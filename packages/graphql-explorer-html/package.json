@@ -18,7 +18,7 @@
     "release": "4c release",
     "start": "DEV_SERVER=true webpack serve --mode development",
     "test": "yarn lint && yarn typecheck",
-    "typecheck": "yarn tsc --noEmit -p tsconfig.build.json"
+    "typecheck": "yarn run -T tsc --noEmit -p tsconfig.build.json"
   },
   "files": [
     "build"
@@ -36,43 +36,37 @@
     "*": "yarn 4c lint --fix"
   },
   "devDependencies": {
-    "@4c/babel-preset": "^10.2.1",
-    "@4c/cli": "^3.0.1",
+    "@4c/cli": "^4.0.4",
     "@4c/prettier-config": "^1.1.0",
-    "@4c/tsconfig": "^0.4.0",
-    "@babel/preset-typescript": "^7.16.0",
-    "@types/lodash": "^4.14.177",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "eslint-config-4catalyzer-react": "^1.1.3",
-    "eslint-config-4catalyzer-typescript": "^3.1.2",
+    "@4c/tsconfig": "^0.4.1",
+    "@types/lodash": "^4.17.21",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint-config-4catalyzer-react": "^1.3.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^5.4.1",
-    "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^12.1.2",
-    "prettier": "^2.5.0",
-    "webpack": "^5.64.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "webpack": "^5.104.1",
     "webpack-atoms": "^17.1.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.12",
-    "apollo-link-http": "^1.5.16",
+    "@apollo/client": "^4.0.11",
     "astroturf": "^1.2.0",
-    "core-js": "^3.9.1",
-    "graphql": "^15.5.0",
+    "core-js": "^3.47.0",
+    "graphql": "^16.12.0",
     "graphql-explorer": "^1.0.0-alpha.6",
-    "react": "^17.0.0",
-    "react-bootstrap": "^1.5.2",
-    "react-dom": "^17.0.0",
-    "react-formal": "^2.1.2",
-    "yup": "^0.32.9"
+    "react": "^19.2.3",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.3",
+    "react-formal": "^2.7.1",
+    "yup": "^1.7.1"
   }
 }

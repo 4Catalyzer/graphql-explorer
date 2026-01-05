@@ -28,7 +28,7 @@ export function ListSectionBase({ items, itemType }: ListSectionBaseProps) {
     if (baseFragment === undefined) return undefined;
     const resolvedQuery = explorer.resolveQuery(itemType);
 
-    if (!resolvedQuery)
+    if (!resolvedQuery) {
       return (item: any) => {
         const title = startCase(itemType.name);
         const newPanel = (
@@ -42,6 +42,7 @@ export function ListSectionBase({ items, itemType }: ListSectionBaseProps) {
         );
         pushPanel(newPanel);
       };
+    }
 
     return (item: any) => {
       const title = startCase(itemType.name);

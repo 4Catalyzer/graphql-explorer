@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import Card from 'react-bootstrap/Card';
 
 interface Props {
@@ -41,15 +41,18 @@ function PanelContainer({
     [panelId, closeChildPanel],
   );
 
+  const contextValue = useMemo(
+    () => ({
+      closePanel: onclosePanel,
+      pushPanel: onPushPanel,
+      closeChildPanel: onCloseChildPanel,
+    }),
+    [onclosePanel, onPushPanel, onCloseChildPanel],
+  );
+
   return (
     <div className="ge-Panel-container">
-      <PanelContext.Provider
-        value={{
-          closePanel: onclosePanel,
-          pushPanel: onPushPanel,
-          closeChildPanel: onCloseChildPanel,
-        }}
-      >
+      <PanelContext.Provider value={contextValue}>
         <Card className="ge-Panel-card">{children}</Card>
       </PanelContext.Provider>
     </div>

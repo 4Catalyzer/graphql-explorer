@@ -1,18 +1,18 @@
 import * as g from 'graphql';
 import React, { ReactNode, useMemo } from 'react';
-import { BaseSchema } from 'yup';
+import type { Schema } from 'yup';
 
 import { useExplorer } from '../ExplorerContext';
 import Form from './Form';
 import { isYupObject, resolveLazy } from './FormFields';
 
 interface Props extends Record<string, any> {
-  args: g.GraphQLArgument[];
+  args: readonly g.GraphQLArgument[];
   children?: ReactNode;
   defaultValue?: Record<string, any>;
 }
 
-function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
+function generateDefaultValue(_schema: Schema<any>, defaultValue: any) {
   const schema = resolveLazy(_schema);
   let obj = schema.getDefault();
 
@@ -28,7 +28,7 @@ function generateDefaultValue(_schema: BaseSchema<any>, defaultValue: any) {
       }
       obj[k] = defaultValue[k];
       if (typeof obj[k] === 'object') {
-        obj[k] = generateDefaultValue(schema.fields[k], obj[k]);
+        obj[k] = generateDefaultValue(schema.fields[k] as Schema<any>, obj[k]);
       }
     });
 

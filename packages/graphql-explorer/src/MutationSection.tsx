@@ -89,18 +89,17 @@ export default function MutationSection({ type, item }: Props) {
     <MutationSectionListItem key={m.mutation.name} {...m} />
   ));
   return (
-    <>
-      <Accordion.Toggle
+    <Accordion.Item eventKey="mutations">
+      <Accordion.Header
         as={PanelContainer.Header}
-        eventKey="mutations"
         style={{ cursor: 'pointer' }}
       >
         <span>Mutations</span>
-        <MdExpandMore className="float-right" />
-      </Accordion.Toggle>
-      <Accordion.Collapse eventKey="mutations">
+        <MdExpandMore className="float-end" />
+      </Accordion.Header>
+      <Accordion.Body>
         <ListGroup variant="flush">{mutationItems}</ListGroup>
-      </Accordion.Collapse>
-    </>
+      </Accordion.Body>
+    </Accordion.Item>
   );
 }

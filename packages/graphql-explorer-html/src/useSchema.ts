@@ -38,7 +38,7 @@ export default function useSchema(params?: ConnectionParams) {
       const { headers, uri } = params;
       try {
         setState({ status: 'loading' });
-        const introspector = new FetchSchemaIntrospector((query) => ({
+        const introspector = new FetchSchemaIntrospector((query: string) => ({
           url: uri,
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...headers },

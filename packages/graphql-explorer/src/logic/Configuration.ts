@@ -5,13 +5,13 @@ import camelCase from 'lodash/camelCase';
 
 import SchemaBuilder from '../forms/schema';
 import { isNode } from '../helpers';
+import QueryBuilder from './QueryBuilder';
+import { FieldResolver, InputFieldResolver, TypeResolver } from './resolvers';
 import connectionResolver from '../resolvers/connectionResolver';
 import jsonInputResolver from '../resolvers/jsonInputResolver';
 import listResolver from '../resolvers/listResolver';
 import objectResolver from '../resolvers/objectResolver';
 import scalarResolver from '../resolvers/scalarResolver';
-import QueryBuilder from './QueryBuilder';
-import { FieldResolver, InputFieldResolver, TypeResolver } from './resolvers';
 
 type QueryFunc = (
   fragment: string,
@@ -72,10 +72,7 @@ export default class Configuration implements ConfigurationInterface {
 
   fieldResolvers: FieldResolver[] = [];
 
-  constructor(
-    public schema: g.GraphQLSchema,
-    protected client: ApolloClient<unknown>,
-  ) {
+  constructor(public schema: g.GraphQLSchema, protected client: ApolloClient) {
     this.queryBuilder = new QueryBuilder(this);
     this.schemaBuilder = new SchemaBuilder(this);
   }
@@ -113,7 +110,7 @@ export default class Configuration implements ConfigurationInterface {
   async rootQuery(fragment: string) {
     console.log('executing', fragment);
     try {
-      const response = await this.client.query({
+      const response = await this.client.query<Obj>({
         query: gql(fragment),
         fetchPolicy: 'no-cache',
       });
@@ -125,7 +122,7 @@ export default class Configuration implements ConfigurationInterface {
   }
 
   async nodeQuery(fragment: string, item: Obj<any>, type: g.GraphQLNamedType) {
-    const args = this.schema.getQueryType()!.getFields().node.args!;
+    const { args } = this.schema.getQueryType()!.getFields().node;
     const input = { id: item.id };
     const nodeArgs = this.queryBuilder.serializeArgsInline(input, args);
     const data = await this.rootQuery(`{
@@ -133,7 +130,7 @@ export default class Configuration implements ConfigurationInterface {
         ... on ${type.name} ${fragment}
       }
     }`);
-    return data.node;
+    return data?.node;
   }
 
   async mutate(fragment: string, variables: Obj) {
@@ -158,7 +155,7 @@ export default class Configuration implements ConfigurationInterface {
 
     return mutations
       .map((mutation) => {
-        let fields: g.GraphQLInputField[] = mutation.args;
+        let fields: readonly g.GraphQLInputField[] = mutation.args;
         let parentField: string | undefined;
 
         if (fields.length === 1) {

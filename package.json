@@ -2,7 +2,6 @@
   "name": "graphql-explorer-root",
   "private": true,
   "author": "Giacomo Tagliabue",
-  "prettier": "@4c/prettier-config",
   "scripts": {
     "test": "lerna run test"
   },
@@ -19,13 +18,10 @@
       "packages/*"
     ]
   },
-  "resolutions": {
-    "typescript": "^4.5.2"
-  },
   "devDependencies": {
-    "@4c/cli": "^3.0.1",
-    "lerna": "^4.0.0",
-    "typescript": "^4.5.2"
+    "@4c/cli": "^4.0.4",
+    "lerna": "^9.0.3",
+    "typescript": "^5.9.3"
   },
   "workspace-sources": {
     "graphql-explorer/lib/*": [

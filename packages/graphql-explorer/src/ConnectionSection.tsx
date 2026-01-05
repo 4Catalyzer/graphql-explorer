@@ -45,15 +45,16 @@ export default function ConnectionSection({
     <>
       <ListSectionBase items={items} itemType={itemType} />
       <PanelContainer.Body>
-        <Button
-          block
-          onClick={handleMore}
-          disabled={
-            !executeQuery || loading || !connection.pageInfo.hasNextPage
-          }
-        >
-          {loading ? <Spinner size="sm" animation="border" /> : <>+</>}
-        </Button>
+        <div className="d-grid">
+          <Button
+            onClick={handleMore}
+            disabled={
+              !executeQuery || loading || !connection.pageInfo.hasNextPage
+            }
+          >
+            {loading ? <Spinner size="sm" animation="border" /> : <>+</>}
+          </Button>
+        </div>
       </PanelContainer.Body>
     </>
   );

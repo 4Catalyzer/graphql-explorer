@@ -155,21 +155,20 @@ export default function ObjectSection({
     />
   ));
   return (
-    <>
-      <Accordion defaultActiveKey="fields">
-        <MutationSection item={item} type={type} />
-        <Accordion.Toggle
+    <Accordion defaultActiveKey="fields">
+      <MutationSection item={item} type={type} />
+      <Accordion.Item eventKey="fields">
+        <Accordion.Header
           as={PanelContainer.Header}
-          eventKey="fields"
           style={{ cursor: 'pointer' }}
         >
           <span>Fields</span>
-          <MdExpandMore className="float-right" />
-        </Accordion.Toggle>
-        <Accordion.Collapse eventKey="fields">
+          <MdExpandMore className="float-end" />
+        </Accordion.Header>
+        <Accordion.Body>
           <ListGroup variant="flush">{fields}</ListGroup>
-        </Accordion.Collapse>
-      </Accordion>
-    </>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   );
 }
