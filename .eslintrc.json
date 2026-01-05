@@ -38,7 +38,6 @@
   ],
   "rules": {
     "import/no-cycle": 0,
-    "no-underscore-dangle": "off",
-    "react/no-unused-prop-types": "off"
+    "no-underscore-dangle": "off"
   }
 }
