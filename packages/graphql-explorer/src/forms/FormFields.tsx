@@ -42,7 +42,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
         {(value || []).map((i, idx) => (
           <div
             className="ge-FormFields-field-array-container"
-            // eslint-disable-next-line react/no-array-index-key
+             
             key={idx}
           >
             <FormField name={`${name}[${idx}]`} />
@@ -98,7 +98,7 @@ function NestedFormFields({
 
   return (
     <NestedForm name={fieldName}>
-      {/* eslint-disable-next-line no-use-before-define */}
+      { }
       <FormFields schema={schema} />
     </NestedForm>
   );
@@ -107,7 +107,7 @@ function NestedFormFields({
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
     (field: yup.Schema<unknown>, fieldName: string) => {
-      // eslint-disable-next-line no-param-reassign
+       
       field = resolveLazy(field);
       // schema.meta() is undefined for root objects
       const { Component } = field.meta() as unknown as SchemaMeta;

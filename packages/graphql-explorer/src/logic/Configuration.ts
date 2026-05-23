@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import { ApolloClient, gql } from '@apollo/client';
 import * as g from 'graphql';
 import camelCase from 'lodash/camelCase';

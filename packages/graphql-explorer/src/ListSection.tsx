@@ -102,7 +102,7 @@ export function ListSectionBase({ items, itemType }: ListSectionBaseProps) {
     () =>
       items.map((item, index) => {
         return (
-          // eslint-disable-next-line react/no-array-index-key
+           
           <Table.Row key={index} data={item} onClick={handleItemClick}>
             {getRowContent(item)}
           </Table.Row>

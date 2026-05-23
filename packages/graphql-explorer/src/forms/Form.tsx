@@ -6,9 +6,9 @@ import FormBase from 'react-formal';
 import FormField from './FormField';
 import FormFields from './FormFields';
 
-interface FormComponentProps extends Record<string, any> {}
+interface FormComponentProps extends Record<string, any> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
-function Form(props: FormComponentProps) {
+function Form(props: FormComponentProps): React.ReactElement {
   return React.createElement(FormBase, { as: BsForm, ...props });
 }
 

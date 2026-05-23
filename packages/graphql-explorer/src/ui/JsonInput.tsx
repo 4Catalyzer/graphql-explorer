@@ -26,7 +26,7 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
   const parsedInnerValue = useMemo(() => {
     try {
       return JSON.parse(innerValue);
-    } catch (e) {
+    } catch {
       return INVALID_JSON;
     }
   }, [innerValue]);
@@ -47,7 +47,7 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
       try {
         const parsedNewValue = JSON.parse(newValue);
         onChange(parsedNewValue);
-      } catch (ex) {
+      } catch {
         onChange(INVALID_JSON);
       }
 
