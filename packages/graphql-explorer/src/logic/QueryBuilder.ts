@@ -1,10 +1,10 @@
-import * as g from 'graphql';
-import isArray from 'lodash/isArray';
-import isPlainObject from 'lodash/isPlainObject';
-import keyBy from 'lodash/keyBy';
+import * as g from "graphql";
+import isArray from "lodash/isArray";
+import isPlainObject from "lodash/isPlainObject";
+import keyBy from "lodash/keyBy";
 
-import { isNode } from '../helpers';
-import { ConfigurationInterface } from './Configuration';
+import { isNode } from "../helpers";
+import { ConfigurationInterface } from "./Configuration";
 
 export default class QueryBuilder {
   constructor(protected config: ConfigurationInterface) {}
@@ -17,7 +17,7 @@ export default class QueryBuilder {
     if (getObjectFragment) return getObjectFragment(type);
 
     if (this.isScalarType(type)) {
-      return '';
+      return "";
     }
     if (g.isObjectType(type)) {
       return `{
@@ -27,7 +27,7 @@ export default class QueryBuilder {
     if (g.isListType(type)) {
       const itemType = g.getNullableType(type.ofType);
       if (this.isScalarType(itemType)) {
-        return '';
+        return "";
       }
       if (g.isObjectType(itemType)) {
         return `{
@@ -47,9 +47,9 @@ export default class QueryBuilder {
   getNestedFragment(type: g.GraphQLObjectType) {
     const objectFragments = Object.values(type.getFields())
       .map((field) => {
-        if (field.args.length !== 0) return '';
+        if (field.args.length !== 0) return "";
         const fragment = this.getFragment(g.getNullableType(field.type));
-        if (fragment == null) return '';
+        if (fragment == null) return "";
         return `${field.name} ${fragment}`;
       })
       .filter(Boolean);
@@ -70,10 +70,10 @@ export default class QueryBuilder {
       .map((f) => f.name);
   }
 
-  DEFAULT_LIST_FIELDS = new Set(['title', 'name', 'id']);
+  DEFAULT_LIST_FIELDS = new Set(["title", "name", "id"]);
 
   filterListFields(field: string) {
-    return this.DEFAULT_LIST_FIELDS.has(field) || field.endsWith('Id');
+    return this.DEFAULT_LIST_FIELDS.has(field) || field.endsWith("Id");
   }
 
   /**
@@ -103,7 +103,7 @@ export default class QueryBuilder {
       .map(({ fType, field }) => {
         const subFragment = this.getObjectTypeFragment(
           fType,
-          ['id', 'name', 'title'].filter((f) => f in fType.getFields()),
+          ["id", "name", "title"].filter((f) => f in fType.getFields()),
         );
         return `${field.name} { ${subFragment} }`;
       });
@@ -115,7 +115,7 @@ export default class QueryBuilder {
    * given a type, returns a GraphQL fragment string with the defined fields
    */
   getObjectTypeFragment(type: g.GraphQLObjectType, fragments: string[]) {
-    const fragmentFields = fragments.join('\n');
+    const fragmentFields = fragments.join("\n");
 
     return `... on ${type.name} {
       __typename
@@ -129,9 +129,9 @@ export default class QueryBuilder {
       return input;
     }
     if (
-      typeof input === 'string' ||
-      typeof input === 'number' ||
-      typeof input === 'boolean' ||
+      typeof input === "string" ||
+      typeof input === "number" ||
+      typeof input === "boolean" ||
       input === null
     ) {
       return JSON.stringify(input);
@@ -139,7 +139,7 @@ export default class QueryBuilder {
     if (isArray(input)) {
       const arrayItems = input
         .map((i) => this.serializeInputValue(i, rawArgType))
-        .join(', ');
+        .join(", ");
       return `[${arrayItems}]`;
     }
     if (isPlainObject(input)) {
@@ -151,24 +151,21 @@ export default class QueryBuilder {
           ([k, v]) =>
             `${k}: ${this.serializeInputValue(v, objectFields[k].type)}`,
         )
-        .join(', ');
+        .join(", ");
       return `{${objectItems}}`;
     }
 
     throw new Error(`invalid type for input: ${input}`);
   }
 
-  serializeArgsInline(
-    args: Obj,
-    argDefinitions: readonly g.GraphQLArgument[],
-  ) {
+  serializeArgsInline(args: Obj, argDefinitions: readonly g.GraphQLArgument[]) {
     const argsByName = keyBy(argDefinitions, (a) => a.name);
     const serializedArgs = Object.entries(args)
       .filter(([, v]) => v !== undefined)
       .map(
         ([k, v]) => `${k}: ${this.serializeInputValue(v, argsByName[k].type)}`,
       )
-      .join(', ');
+      .join(", ");
 
     return serializedArgs && `(${serializedArgs})`;
   }
@@ -179,7 +176,7 @@ export default class QueryBuilder {
   ) {
     if (argNames.length === 0) {
       // we need to return empty strings because empty parens are not allowed
-      return { assignments: '', definitions: '' };
+      return { assignments: "", definitions: "" };
     }
 
     const argsByName = keyBy(argDefinitions, (a) => a.name);
@@ -195,8 +192,8 @@ export default class QueryBuilder {
     });
 
     return {
-      definitions: `(${definitions.join(', ')})`,
-      assignments: `(${assignments.join(', ')})`,
+      definitions: `(${definitions.join(", ")})`,
+      assignments: `(${assignments.join(", ")})`,
     };
   }
 

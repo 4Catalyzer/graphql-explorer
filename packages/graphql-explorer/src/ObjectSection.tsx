@@ -1,17 +1,17 @@
-import * as g from 'graphql';
-import isPlainObject from 'lodash/isPlainObject';
-import sortBy from 'lodash/sortBy';
-import startCase from 'lodash/startCase';
-import React, { useMemo } from 'react';
-import Accordion from 'react-bootstrap/Accordion';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { MdExpandMore } from 'react-icons/md';
+import * as g from "graphql";
+import isPlainObject from "lodash/isPlainObject";
+import sortBy from "lodash/sortBy";
+import startCase from "lodash/startCase";
+import React, { useMemo } from "react";
+import Accordion from "react-bootstrap/Accordion";
+import ListGroup from "react-bootstrap/ListGroup";
+import { MdExpandMore } from "react-icons/md";
 
-import { useExplorer } from './ExplorerContext';
-import MutationSection from './MutationSection';
-import Panel from './Panel';
-import { SectionProps } from './logic/resolvers';
-import PanelContainer, { usePanelContext } from './ui/PanelContainer';
+import { useExplorer } from "./ExplorerContext";
+import MutationSection from "./MutationSection";
+import Panel from "./Panel";
+import { SectionProps } from "./logic/resolvers";
+import PanelContainer, { usePanelContext } from "./ui/PanelContainer";
 
 interface FieldComponentProps {
   title: string;
@@ -32,7 +32,7 @@ interface ObjectSectionFieldProps {
   type: g.GraphQLObjectType;
   field: g.GraphQLField<any, any>;
   fieldValue: any;
-  executeQuery: SectionProps<Obj, g.GraphQLObjectType>['executeQuery'];
+  executeQuery: SectionProps<Obj, g.GraphQLObjectType>["executeQuery"];
 }
 
 function ObjectSectionField({
@@ -110,9 +110,9 @@ function ObjectSectionField({
       onClick={canExecute ? handleClick : undefined}
       key={field.name}
       style={{
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
       }}
     >
       <Component
@@ -159,7 +159,7 @@ export default function ObjectSection({
       <Accordion.Item eventKey="fields">
         <Accordion.Header
           as={PanelContainer.Header}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         >
           <span>Fields</span>
           <MdExpandMore className="float-end" />

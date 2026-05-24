@@ -1,13 +1,13 @@
-import * as g from 'graphql';
-import startCase from 'lodash/startCase';
-import React, { useCallback } from 'react';
-import Accordion from 'react-bootstrap/Accordion';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { MdExpandMore } from 'react-icons/md';
+import * as g from "graphql";
+import startCase from "lodash/startCase";
+import React, { useCallback } from "react";
+import Accordion from "react-bootstrap/Accordion";
+import ListGroup from "react-bootstrap/ListGroup";
+import { MdExpandMore } from "react-icons/md";
 
-import { useExplorer } from './ExplorerContext';
-import Panel from './Panel';
-import PanelContainer, { usePanelContext } from './ui/PanelContainer';
+import { useExplorer } from "./ExplorerContext";
+import Panel from "./Panel";
+import PanelContainer, { usePanelContext } from "./ui/PanelContainer";
 
 interface MutationSection {
   type: g.GraphQLObjectType;
@@ -35,7 +35,7 @@ function MutationSectionListItem({
         execute={async (input) => {
           const fragment = g.isObjectType(outputType)
             ? explorer.queryBuilder.getNestedFragment(outputType)
-            : '';
+            : "";
 
           const vars = explorer.queryBuilder.serializeVariableDefinitions(
             Object.keys(input),
@@ -92,7 +92,7 @@ export default function MutationSection({ type, item }: Props) {
     <Accordion.Item eventKey="mutations">
       <Accordion.Header
         as={PanelContainer.Header}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       >
         <span>Mutations</span>
         <MdExpandMore className="float-end" />

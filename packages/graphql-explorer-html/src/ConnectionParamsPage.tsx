@@ -1,16 +1,16 @@
-import { JsonInput, jsonField } from 'graphql-explorer/lib/ui/JsonInput';
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import BsForm from 'react-bootstrap/Form';
-import Form from 'react-formal';
-import type { Schema } from 'yup';
-import * as yup from 'yup';
+import { JsonInput, jsonField } from "graphql-explorer/lib/ui/JsonInput";
+import React from "react";
+import Button from "react-bootstrap/Button";
+import BsForm from "react-bootstrap/Form";
+import Form from "react-formal";
+import type { Schema } from "yup";
+import * as yup from "yup";
 
 const schema = yup
   .object({
     uri: yup
       .string()
-      .default('https://swapi-graphql.netlify.app/.netlify/functions/index')
+      .default("https://swapi-graphql.netlify.app/.netlify/functions/index")
       .required(),
     headers: jsonField().default({}) as unknown as Schema<Record<string, any>>,
   })
@@ -38,8 +38,8 @@ export default function ConnectionParamsPage({
       onSubmit={onChange}
       schema={schema}
       style={{
-        width: '500px',
-        margin: '100px auto',
+        width: "500px",
+        margin: "100px auto",
       }}
     >
       <h3>Connect to a GraphQL Endpoint</h3>
@@ -51,7 +51,7 @@ export default function ConnectionParamsPage({
         <BsForm.Label>Headers</BsForm.Label>
         <FieldComponent name="headers" as={JsonInput} />
       </BsForm.Group>
-      <p style={{ color: 'red' }}>
+      <p style={{ color: "red" }}>
         <MessageComponent for="" />
       </p>
       <SubmitComponent as={Button}>SUBMIT</SubmitComponent>

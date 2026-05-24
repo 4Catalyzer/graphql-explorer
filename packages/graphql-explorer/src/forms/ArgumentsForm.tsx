@@ -1,10 +1,10 @@
-import * as g from 'graphql';
-import React, { ReactNode, useMemo } from 'react';
-import type { Schema } from 'yup';
+import * as g from "graphql";
+import React, { ReactNode, useMemo } from "react";
+import type { Schema } from "yup";
 
-import { useExplorer } from '../ExplorerContext';
-import Form from './Form';
-import { isYupObject, resolveLazy } from './FormFields';
+import { useExplorer } from "../ExplorerContext";
+import Form from "./Form";
+import { isYupObject, resolveLazy } from "./FormFields";
 
 interface Props extends Record<string, any> {
   args: readonly g.GraphQLArgument[];
@@ -27,7 +27,7 @@ function generateDefaultValue(_schema: Schema<any>, defaultValue: any) {
         obj = {};
       }
       obj[k] = defaultValue[k];
-      if (typeof obj[k] === 'object') {
+      if (typeof obj[k] === "object") {
         obj[k] = generateDefaultValue(schema.fields[k] as Schema<any>, obj[k]);
       }
     });

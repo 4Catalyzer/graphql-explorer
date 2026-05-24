@@ -1,10 +1,10 @@
-import * as g from 'graphql';
+import * as g from "graphql";
 
-import { ConfigurationInterface } from '../logic/Configuration';
-import { InputFieldResolver } from '../logic/resolvers';
-import { JsonInput, jsonField } from '../ui/JsonInput';
+import { ConfigurationInterface } from "../logic/Configuration";
+import { InputFieldResolver } from "../logic/resolvers";
+import { JsonInput, jsonField } from "../ui/JsonInput";
 
-const JSON_TYPES = new Set(['JSON', 'JSONObject']);
+const JSON_TYPES = new Set(["JSON", "JSONObject"]);
 
 const jsonInputResolver: (
   config: ConfigurationInterface,

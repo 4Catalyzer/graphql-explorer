@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import PanelContainer from './PanelContainer';
+import PanelContainer from "./PanelContainer";
 
 interface Props {
   colWidth?: string;
@@ -48,14 +48,14 @@ function usePanelState(initialPanel: React.ReactNode) {
   };
 }
 
-export default function Panels({ colWidth = '40rem', initialPanel }: Props) {
+export default function Panels({ colWidth = "40rem", initialPanel }: Props) {
   const { panels, pushPanel, closePanel, closeChildPanel } =
     usePanelState(initialPanel);
 
   const numCols = panels.length;
   const gridTemplateColumns = Array.from(Array(numCols))
     .map(() => colWidth)
-    .join(' ');
+    .join(" ");
 
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

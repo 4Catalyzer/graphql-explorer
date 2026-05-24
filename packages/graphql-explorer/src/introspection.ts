@@ -1,4 +1,4 @@
-import { buildClientSchema } from 'graphql';
+import { buildClientSchema } from "graphql";
 
 const introspectionQuery = `
   query IntrospectionQuery {

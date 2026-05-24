@@ -14,12 +14,6 @@
     "*.{ts,tsx,js,mjs}": "eslint --fix",
     "*": "prettier --write --ignore-unknown"
   },
-  "prettier": {
-    "printWidth": 79,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "quoteProps": "consistent"
-  },
   "workspaces": {
     "packages": [
       "packages/*"

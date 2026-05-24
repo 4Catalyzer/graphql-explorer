@@ -1,5 +1,5 @@
-import * as g from 'graphql';
-import type { Schema } from 'yup';
+import * as g from "graphql";
+import type { Schema } from "yup";
 
 export interface SectionProps<T, TType extends g.GraphQLNullableType> {
   type: TType;

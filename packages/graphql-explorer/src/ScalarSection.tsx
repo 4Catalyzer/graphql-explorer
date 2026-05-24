@@ -1,8 +1,8 @@
-import { GraphQLScalarType } from 'graphql';
-import React from 'react';
+import { GraphQLScalarType } from "graphql";
+import React from "react";
 
-import { SectionProps } from './logic/resolvers';
-import PanelContainer from './ui/PanelContainer';
+import { SectionProps } from "./logic/resolvers";
+import PanelContainer from "./ui/PanelContainer";
 
 export default function ScalarSection({
   item,

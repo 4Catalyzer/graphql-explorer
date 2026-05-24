@@ -1,11 +1,11 @@
-import * as g from 'graphql';
-import React, { useCallback, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
+import * as g from "graphql";
+import React, { useCallback, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 
-import { ListSectionBase } from './ListSection';
-import { SectionProps } from './logic/resolvers';
-import PanelContainer from './ui/PanelContainer';
+import { ListSectionBase } from "./ListSection";
+import { SectionProps } from "./logic/resolvers";
+import PanelContainer from "./ui/PanelContainer";
 
 interface Props extends SectionProps<
   {

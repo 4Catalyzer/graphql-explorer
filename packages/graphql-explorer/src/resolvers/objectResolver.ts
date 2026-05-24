@@ -1,8 +1,8 @@
-import * as g from 'graphql';
+import * as g from "graphql";
 
-import ObjectSection from '../ObjectSection';
-import { ConfigurationInterface } from '../logic/Configuration';
-import { TypeResolver } from '../logic/resolvers';
+import ObjectSection from "../ObjectSection";
+import { ConfigurationInterface } from "../logic/Configuration";
+import { TypeResolver } from "../logic/resolvers";
 
 const objectResolver: (
   config: ConfigurationInterface,
