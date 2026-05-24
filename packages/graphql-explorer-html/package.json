@@ -32,7 +32,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": "eslint --fix",
-    "*.{ts,tsx,js,mjs,json,md,css,scss}": "prettier --write"
+    "*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
     "@4c/tsconfig": "^0.4.1",
