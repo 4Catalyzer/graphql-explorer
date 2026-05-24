@@ -5185,6 +5185,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bootstrap@npm:^5.3.8":
+  version: 5.3.8
+  resolution: "bootstrap@npm:5.3.8"
+  peerDependencies:
+    "@popperjs/core": ^2.11.8
+  checksum: 10c0/0039a9df2c3e7bfa04f1abca199c299ff3b75869d578c0cb1721c6f1f203c91531788a5631ecbee01513481979314d0e4ba0d90c2011e6ce18fc2e0bc93e18d9
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:5.0.5":
   version: 5.0.5
   resolution: "brace-expansion@npm:5.0.5"
@@ -8710,13 +8719,16 @@ __metadata:
     "@types/lodash": "npm:^4.17.24"
     "@types/react": "npm:^19.2.15"
     "@types/react-dom": "npm:^19.2.3"
+    bootstrap: "npm:^5.3.8"
     copy-to-clipboard: "npm:^4.0.2"
+    graphql: "npm:^16.14.0"
     husky: "npm:^9.1.7"
     jest: "npm:^30.4.2"
     jest-environment-jsdom: "npm:^30.4.1"
     lint-staged: "npm:^17.0.5"
     lodash: "npm:^4.18.1"
     react: "npm:^19.2.6"
+    react-bootstrap: "npm:^2.10.10"
     react-dom: "npm:^19.2.6"
     react-formal: "npm:^2.7.1"
     react-icons: "npm:^5.6.0"
@@ -8724,6 +8736,7 @@ __metadata:
     sass: "npm:^1.100.0"
     ts-jest: "npm:^29.4.11"
     typescript: "npm:^5.9.3"
+    yup: "npm:^1.7.1"
   peerDependencies:
     bootstrap: ">=5.0.0"
     graphql: ">=15.0.0"

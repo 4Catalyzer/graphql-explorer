@@ -51,7 +51,7 @@
     "astroturf": "^1.2.0",
     "core-js": "^3.49.0",
     "graphql": "^16.14.0",
-    "graphql-explorer": "^1.0.0-alpha.6",
+    "graphql-explorer": "workspace:*",
     "react": "^19.2.6",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.6",
