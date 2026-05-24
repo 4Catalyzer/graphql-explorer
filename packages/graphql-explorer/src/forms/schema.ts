@@ -1,7 +1,7 @@
-import * as g from "graphql";
-import * as yup from "yup";
+import * as g from 'graphql';
+import * as yup from 'yup';
 
-import { ConfigurationInterface } from "../logic/Configuration";
+import { ConfigurationInterface } from '../logic/Configuration';
 
 export interface SchemaMeta {
   field: g.GraphQLArgument | g.GraphQLInputField;
@@ -75,7 +75,7 @@ export default class SchemaBuilder {
         yup
           .string()
           .default(undefined)
-          .transform((v) => (v === "" ? undefined : v)),
+          .transform((v) => (v === '' ? undefined : v)),
         { field },
       );
     }
@@ -99,7 +99,7 @@ export default class SchemaBuilder {
 
     if (type instanceof g.GraphQLInputObjectType) {
       if (!this.inputObjectCache[type.name]) {
-        const objectFields: yup.ObjectSchema<any>["fields"] = {};
+        const objectFields: yup.ObjectSchema<any>['fields'] = {};
         Object.values(type.getFields()).forEach((subField) => {
           objectFields[subField.name] = yup.lazy(() =>
             this.getSchemaFromType(subField.type, subField),

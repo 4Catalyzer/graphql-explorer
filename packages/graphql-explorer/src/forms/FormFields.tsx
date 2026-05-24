@@ -1,12 +1,12 @@
-import { GraphQLNonNull } from "graphql";
-import React, { useCallback, useMemo, useState } from "react";
-import Button from "react-bootstrap/Button";
-import BsForm from "react-bootstrap/Form";
-import Form, { NestedForm } from "react-formal";
-import * as yup from "yup";
+import { GraphQLNonNull } from 'graphql';
+import React, { useCallback, useMemo, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import BsForm from 'react-bootstrap/Form';
+import Form, { NestedForm } from 'react-formal';
+import * as yup from 'yup';
 
-import FormField from "./FormField";
-import { getFieldMeta } from "./schema";
+import FormField from './FormField';
+import { getFieldMeta } from './schema';
 
 interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
@@ -21,22 +21,22 @@ export function resolveLazy<T extends yup.Schema<any>>(
 export function isYupArray(
   s: yup.Schema<unknown>,
 ): s is yup.ArraySchema<any, any> {
-  return s.type === "array";
+  return s.type === 'array';
 }
 
 export function isYupObject(s: yup.Schema<any>): s is yup.ObjectSchema<any> {
-  return s.type === "object";
+  return s.type === 'object';
 }
 
 type BaseFieldArrayProps = React.ComponentProps<typeof Form.FieldArray>;
-type FieldArrayProps = Omit<BaseFieldArrayProps, "children"> & {
+type FieldArrayProps = Omit<BaseFieldArrayProps, 'children'> & {
   schema: yup.ArraySchema<any, any>;
 };
 
 function FieldArray({ schema, name, ...props }: FieldArrayProps) {
   const subType = resolveLazy(schema.innerType as yup.Schema<any>);
 
-  const renderContent: BaseFieldArrayProps["children"] = useCallback(
+  const renderContent: BaseFieldArrayProps['children'] = useCallback(
     (value, helpers) => (
       <div>
         {(value || []).map((i, idx) => (

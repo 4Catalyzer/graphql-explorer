@@ -1,13 +1,13 @@
-import * as g from "graphql";
-import isPlainObject from "lodash/isPlainObject";
-import startCase from "lodash/startCase";
-import React, { useCallback, useMemo } from "react";
+import * as g from 'graphql';
+import isPlainObject from 'lodash/isPlainObject';
+import startCase from 'lodash/startCase';
+import React, { useCallback, useMemo } from 'react';
 
-import { useExplorer } from "./ExplorerContext";
-import Panel from "./Panel";
-import { SectionProps } from "./logic/resolvers";
-import PanelContainer, { usePanelContext } from "./ui/PanelContainer";
-import Table from "./ui/Table";
+import { useExplorer } from './ExplorerContext';
+import Panel from './Panel';
+import { SectionProps } from './logic/resolvers';
+import PanelContainer, { usePanelContext } from './ui/PanelContainer';
+import Table from './ui/Table';
 
 interface ListSectionBaseProps {
   items: any[];
@@ -66,7 +66,7 @@ export function ListSectionBase({ items, itemType }: ListSectionBaseProps) {
   const fetchedFields = useMemo(() => {
     if (g.isObjectType(itemType) && !!items[0]) {
       const cols = Object.keys(items[0]).filter(
-        (c) => c !== "id" && c !== "__typename",
+        (c) => c !== 'id' && c !== '__typename',
       );
       return cols;
     }
@@ -80,7 +80,7 @@ export function ListSectionBase({ items, itemType }: ListSectionBaseProps) {
 
   const printObject = (obj: Obj) => {
     const otherKeys = Object.keys(obj).filter(
-      (o) => o !== "id" && o !== "__typename",
+      (o) => o !== 'id' && o !== '__typename',
     );
     return otherKeys.length > 0 ? obj[otherKeys[0]] : obj.id;
   };

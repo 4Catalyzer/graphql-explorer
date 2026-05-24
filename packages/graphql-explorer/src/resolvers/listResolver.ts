@@ -1,8 +1,8 @@
-import * as g from "graphql";
+import * as g from 'graphql';
 
-import ListSection from "../ListSection";
-import { ConfigurationInterface } from "../logic/Configuration";
-import { TypeResolver } from "../logic/resolvers";
+import ListSection from '../ListSection';
+import { ConfigurationInterface } from '../logic/Configuration';
+import { TypeResolver } from '../logic/resolvers';
 
 const listResolver: (
   config: ConfigurationInterface,

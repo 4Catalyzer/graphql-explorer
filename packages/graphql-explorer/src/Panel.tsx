@@ -1,13 +1,13 @@
-import { GraphQLArgument, GraphQLNonNull, GraphQLNullableType } from "graphql";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button } from "react-bootstrap";
-import ListGroup from "react-bootstrap/ListGroup";
-import Spinner from "react-bootstrap/Spinner";
-import { MdClose } from "react-icons/md";
+import { GraphQLArgument, GraphQLNonNull, GraphQLNullableType } from 'graphql';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Spinner from 'react-bootstrap/Spinner';
+import { MdClose } from 'react-icons/md';
 
-import { useExplorer } from "./ExplorerContext";
-import ArgumentsForm from "./forms/ArgumentsForm";
-import PanelContainer, { usePanelContext } from "./ui/PanelContainer";
+import { useExplorer } from './ExplorerContext';
+import ArgumentsForm from './forms/ArgumentsForm';
+import PanelContainer, { usePanelContext } from './ui/PanelContainer';
 
 interface Props {
   title: string;
@@ -86,10 +86,10 @@ export default function Panel({
     if (loading) {
       return (
         <PanelContainer.Body>
-          <div style={{ justifyContent: "center", display: "flex" }}>
+          <div style={{ justifyContent: 'center', display: 'flex' }}>
             <Spinner
               animation="border"
-              style={{ height: "3rem", width: "3rem" }}
+              style={{ height: '3rem', width: '3rem' }}
             />
           </div>
         </PanelContainer.Body>

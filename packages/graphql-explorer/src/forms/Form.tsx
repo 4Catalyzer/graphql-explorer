@@ -1,10 +1,10 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import BsForm from "react-bootstrap/Form";
-import FormBase from "react-formal";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import BsForm from 'react-bootstrap/Form';
+import FormBase from 'react-formal';
 
-import FormField from "./FormField";
-import FormFields from "./FormFields";
+import FormField from './FormField';
+import FormFields from './FormFields';
 
 interface FormComponentProps extends Record<string, any> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 

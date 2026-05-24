@@ -1,16 +1,16 @@
-import { ApolloClient, gql } from "@apollo/client";
-import * as g from "graphql";
-import camelCase from "lodash/camelCase";
+import { ApolloClient, gql } from '@apollo/client';
+import * as g from 'graphql';
+import camelCase from 'lodash/camelCase';
 
-import SchemaBuilder from "../forms/schema";
-import { isNode } from "../helpers";
-import QueryBuilder from "./QueryBuilder";
-import { FieldResolver, InputFieldResolver, TypeResolver } from "./resolvers";
-import connectionResolver from "../resolvers/connectionResolver";
-import jsonInputResolver from "../resolvers/jsonInputResolver";
-import listResolver from "../resolvers/listResolver";
-import objectResolver from "../resolvers/objectResolver";
-import scalarResolver from "../resolvers/scalarResolver";
+import SchemaBuilder from '../forms/schema';
+import { isNode } from '../helpers';
+import QueryBuilder from './QueryBuilder';
+import { FieldResolver, InputFieldResolver, TypeResolver } from './resolvers';
+import connectionResolver from '../resolvers/connectionResolver';
+import jsonInputResolver from '../resolvers/jsonInputResolver';
+import listResolver from '../resolvers/listResolver';
+import objectResolver from '../resolvers/objectResolver';
+import scalarResolver from '../resolvers/scalarResolver';
 
 type QueryFunc = (
   fragment: string,
@@ -110,11 +110,11 @@ export default class Configuration implements ConfigurationInterface {
   }
 
   async rootQuery(fragment: string) {
-    console.log("executing", fragment);
+    console.log('executing', fragment);
     try {
       const response = await this.client.query<Obj>({
         query: gql(fragment),
-        fetchPolicy: "no-cache",
+        fetchPolicy: 'no-cache',
       });
       return response.data;
     } catch (err) {
@@ -136,11 +136,11 @@ export default class Configuration implements ConfigurationInterface {
   }
 
   async mutate(fragment: string, variables: Obj) {
-    console.log("executing", fragment);
+    console.log('executing', fragment);
     try {
       const response = await this.client.mutate({
         mutation: gql(fragment),
-        fetchPolicy: "no-cache",
+        fetchPolicy: 'no-cache',
         variables,
       });
       return response.data;

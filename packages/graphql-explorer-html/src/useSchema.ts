@@ -1,24 +1,24 @@
-import * as g from "graphql";
-import { FetchSchemaIntrospector } from "graphql-explorer/lib/introspection";
-import { useEffect, useState } from "react";
+import * as g from 'graphql';
+import { FetchSchemaIntrospector } from 'graphql-explorer/lib/introspection';
+import { useEffect, useState } from 'react';
 
-import { ConnectionParams } from "./ConnectionParamsPage";
+import { ConnectionParams } from './ConnectionParamsPage';
 
 type State =
-  | { status: "error"; message: string }
-  | { status: "loading" }
-  | { status: "resolved"; schema: g.GraphQLSchema };
+  | { status: 'error'; message: string }
+  | { status: 'loading' }
+  | { status: 'resolved'; schema: g.GraphQLSchema };
 
 // an example of how it's possible to clean the schema before passing it to
 // graphql explorer
 function cleanSchema(schema: g.GraphQLSchema) {
   const mutationFields = schema.getMutationType()?.getFields() || {};
   Object.entries(mutationFields).forEach(([mutationName, mutation]) => {
-    if (mutationName.toLowerCase().endsWith("orerror")) {
+    if (mutationName.toLowerCase().endsWith('orerror')) {
       delete mutationFields[mutationName];
     }
 
-    mutation.args = mutation.args.filter((a) => a.name !== "clientMutationId");
+    mutation.args = mutation.args.filter((a) => a.name !== 'clientMutationId');
   });
 
   Object.values(schema.getTypeMap()).forEach((type) => {
@@ -30,25 +30,25 @@ function cleanSchema(schema: g.GraphQLSchema) {
 }
 
 export default function useSchema(params?: ConnectionParams) {
-  const [state, setState] = useState<State>({ status: "loading" });
+  const [state, setState] = useState<State>({ status: 'loading' });
 
   useEffect(() => {
     async function getSchema() {
       if (!params) return;
       const { headers, uri } = params;
       try {
-        setState({ status: "loading" });
+        setState({ status: 'loading' });
         const introspector = new FetchSchemaIntrospector((query: string) => ({
           url: uri,
-          method: "POST",
-          headers: { "Content-Type": "application/json", ...headers },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...headers },
           body: JSON.stringify({ query }),
         }));
         const schema = await introspector.introspect();
         cleanSchema(schema);
-        setState({ status: "resolved", schema });
+        setState({ status: 'resolved', schema });
       } catch (error: any) {
-        setState({ status: "error", message: error.message });
+        setState({ status: 'error', message: error.message });
       }
     }
     getSchema();

@@ -1,17 +1,19 @@
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { GraphQLSchema } from "graphql";
-import Explorer from "graphql-explorer/lib/Explorer";
-import ExplorerConfiguration from "graphql-explorer/lib/logic/Configuration";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Spinner from "react-bootstrap/Spinner";
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { GraphQLSchema } from 'graphql';
+import Explorer from 'graphql-explorer/lib/Explorer';
+import ExplorerConfiguration from 'graphql-explorer/lib/logic/Configuration';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Spinner from 'react-bootstrap/Spinner';
 
-import ConnectionParamsPage, { ConnectionParams } from "./ConnectionParamsPage";
-import useSchema from "./useSchema";
+import ConnectionParamsPage, {
+  ConnectionParams,
+} from './ConnectionParamsPage';
+import useSchema from './useSchema';
 
-const CACHE_KEY = "graphql-explorer-connection";
+const CACHE_KEY = 'graphql-explorer-connection';
 
 function App() {
   const [connectionParams, setConnectionParams] = useState<
@@ -41,23 +43,23 @@ function App() {
 
   const schemaState = useSchema(connectionParams);
   const [schema, setSchema] = useState<GraphQLSchema>();
-  const [state, setState] = useState<"error" | "loading" | "resolved">(
-    "loading",
+  const [state, setState] = useState<'error' | 'loading' | 'resolved'>(
+    'loading',
   );
   const handleSubmitConnection = useCallback(
     (params: ConnectionParams) => {
-      setState("loading");
+      setState('loading');
       setConnectionParams(params);
     },
     [setState, setConnectionParams],
   );
   useEffect(() => {
-    if (schemaState.status === "resolved") {
+    if (schemaState.status === 'resolved') {
       setSchema(schemaState.schema);
-      setState("resolved");
+      setState('resolved');
     }
-    if (schemaState.status === "error") {
-      setState("error");
+    if (schemaState.status === 'error') {
+      setState('error');
     }
   }, [schemaState, setSchema]);
 
@@ -75,17 +77,17 @@ function App() {
     );
   }
 
-  if (state === "loading" || !explorerConfig) {
+  if (state === 'loading' || !explorerConfig) {
     return (
-      <div style={{ margin: "100px auto", width: 500 }}>
+      <div style={{ margin: '100px auto', width: 500 }}>
         <Spinner animation="border" />
         <h3>Loading Schema</h3>
       </div>
     );
   }
-  if (state === "error") {
+  if (state === 'error') {
     return (
-      <div style={{ margin: "100px auto", width: 500 }}>
+      <div style={{ margin: '100px auto', width: 500 }}>
         <h3>There was an error loading the schema</h3>
         <Button onClick={() => setConnectionParams(undefined)}>
           Edit connection parameters
@@ -106,10 +108,10 @@ function App() {
       </Navbar>
       <div
         style={{
-          position: "fixed",
-          width: "100%",
-          top: "5rem",
-          bottom: "1rem",
+          position: 'fixed',
+          width: '100%',
+          top: '5rem',
+          bottom: '1rem',
         }}
       >
         <Explorer config={explorerConfig} />

@@ -1,15 +1,15 @@
-import isEqual from "lodash/isEqual";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Form from "react-bootstrap/Form";
-import * as yup from "yup";
+import isEqual from 'lodash/isEqual';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import * as yup from 'yup';
 
-const INVALID_JSON = Symbol("invalid json"); // sentinel value
+const INVALID_JSON = Symbol('invalid json'); // sentinel value
 
 export const jsonField = () =>
   yup.mixed().test({
-    name: "isJson",
+    name: 'isJson',
     test: (v) => v !== INVALID_JSON,
-    message: "invalid JSON payload",
+    message: 'invalid JSON payload',
   });
 
 interface JsonInputProps extends Record<string, any> {
@@ -61,7 +61,7 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
       {...props}
       as="textarea"
       rows={3}
-      style={{ fontFamily: "monospace" }}
+      style={{ fontFamily: 'monospace' }}
       value={innerValue}
       onChange={handleChange}
     />

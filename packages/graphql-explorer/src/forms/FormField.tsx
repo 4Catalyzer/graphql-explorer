@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import BsForm from "react-bootstrap/Form";
-import Form from "react-formal";
-import DropdownList from "react-widgets/DropdownList";
+import React, { useCallback } from 'react';
+import BsForm from 'react-bootstrap/Form';
+import Form from 'react-formal';
+import DropdownList from 'react-widgets/DropdownList';
 
-import { resolveLazy } from "./FormFields";
-import { getFieldMeta } from "./schema";
+import { resolveLazy } from './FormFields';
+import { getFieldMeta } from './schema';
 
 export interface Props {
   children?: React.ReactNode | ((innerProps: any) => React.ReactNode);
@@ -16,7 +16,9 @@ const Message = (props: { for: string }) => {
   return (
     <Form.Message for={props.for}>
       {(errors: any) => (
-        <div className="invalid-feedback ge-FormField">{errors.join(", ")}</div>
+        <div className="invalid-feedback ge-FormField">
+          {errors.join(', ')}
+        </div>
       )}
     </Form.Message>
   );
@@ -39,7 +41,7 @@ const FormField = React.forwardRef<any, Props>(function FormField(
   return (
     <Form.Field ref={ref} {...props}>
       {(innerProps, meta) => {
-        if (typeof children === "function") return children(innerProps);
+        if (typeof children === 'function') return children(innerProps);
 
         const { ...fieldProps } = innerProps as typeof innerProps & {
           [idx: string]: any;
@@ -59,7 +61,7 @@ const FormField = React.forwardRef<any, Props>(function FormField(
             Input = DropdownList;
             fieldProps.data = Array.from(whitelist);
             // fieldProps.textField = String;
-          } else if (schema.type === "boolean") {
+          } else if (schema.type === 'boolean') {
             Input = Check;
           } else {
             Input = BsForm.Control;

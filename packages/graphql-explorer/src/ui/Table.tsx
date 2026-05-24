@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import BsTable from "react-bootstrap/Table";
+import React, { useCallback } from 'react';
+import BsTable from 'react-bootstrap/Table';
 
 interface Props {
   clickable?: boolean;
@@ -15,8 +15,8 @@ function Table({ clickable, children, header, fixed }: Props) {
       borderless
       hover={clickable}
       size="sm"
-      style={{ cursor: clickable ? "pointer" : undefined }}
-      className={fixed ? "ge-Table-fixed" : undefined}
+      style={{ cursor: clickable ? 'pointer' : undefined }}
+      className={fixed ? 'ge-Table-fixed' : undefined}
     >
       {header && (
         <thead>

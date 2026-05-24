@@ -3,15 +3,15 @@
  * https://relay.dev/graphql/connections.htm
  */
 
-import * as g from "graphql";
-import React from "react";
+import * as g from 'graphql';
+import React from 'react';
 
-import ConnectionSection from "../ConnectionSection";
-import { isNode } from "../helpers";
-import { ConfigurationInterface } from "../logic/Configuration";
-import { TypeResolver } from "../logic/resolvers";
+import ConnectionSection from '../ConnectionSection';
+import { isNode } from '../helpers';
+import { ConfigurationInterface } from '../logic/Configuration';
+import { TypeResolver } from '../logic/resolvers';
 
-const CONNECTION_ARGS = new Set(["first", "after", "last", "before"]);
+const CONNECTION_ARGS = new Set(['first', 'after', 'last', 'before']);
 
 function isEdge(type: g.GraphQLType, nodeType?: g.GraphQLType) {
   type = g.getNullableType(type);
@@ -52,7 +52,7 @@ function isConnection(type: g.GraphQLType): type is g.GraphQLObjectType {
 
   return (
     pageInfoType instanceof g.GraphQLObjectType &&
-    pageInfoType.name === "PageInfo" &&
+    pageInfoType.name === 'PageInfo' &&
     isEdge(edgeType)
   );
 }

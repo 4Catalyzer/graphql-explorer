@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
-import { ConfigurationInterface } from "./logic/Configuration";
+import { ConfigurationInterface } from './logic/Configuration';
 
 export const ExplorerContext = React.createContext<ConfigurationInterface>(
   null as any,

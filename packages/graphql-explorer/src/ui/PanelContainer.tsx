@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useMemo } from "react";
-import Card from "react-bootstrap/Card";
+import React, { useCallback, useContext, useMemo } from 'react';
+import Card from 'react-bootstrap/Card';
 
 interface Props {
   children: React.ReactNode;
