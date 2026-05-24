@@ -35,7 +35,6 @@
     "*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
-    "@4c/tsconfig": "^0.4.1",
     "@types/lodash": "^4.17.24",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
@@ -44,7 +43,7 @@
     "lint-staged": "^17.0.5",
     "webpack": "^5.107.1",
     "webpack-atoms": "^17.1.0",
-    "webpack-cli": "^6.0.1",
+    "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.4"
   },
   "dependencies": {

@@ -52,7 +52,6 @@
     }
   },
   "devDependencies": {
-    "@4c/tsconfig": "^0.4.1",
     "@popperjs/core": "^2.11.8",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

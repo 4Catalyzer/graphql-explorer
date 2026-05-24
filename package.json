@@ -36,7 +36,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "lerna": "^9.0.7",
     "prettier": "^3.8.3",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4"
   },
   "workspace-sources": {

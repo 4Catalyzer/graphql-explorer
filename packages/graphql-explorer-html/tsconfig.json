@@ -1,5 +1,5 @@
 {
-  "extends": "@4c/tsconfig/web",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
     "composite": true,
