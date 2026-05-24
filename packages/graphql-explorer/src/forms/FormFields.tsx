@@ -140,7 +140,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
     () =>
       Object.entries(schema.fields).map(
         ([fieldName, field]: [string, yup.Schema<any>]) => (
-          <BsForm.Group key={fieldName} controlId={fieldName}>
+          <BsForm.Group key={fieldName} controlId={fieldName} className="mb-3">
             <div className="d-flex">
               {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
               <div className="d-flex flex-column flex-grow-1">
