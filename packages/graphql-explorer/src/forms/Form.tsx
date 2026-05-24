@@ -16,6 +16,8 @@ export default Object.assign(Form, {
   Field: FormField,
   Fields: FormFields,
   Submit: (props: React.ComponentProps<typeof Button>) => (
-    <FormBase.Submit as={Button} {...props} />
+    <div className="mt-3">
+      <FormBase.Submit as={Button} {...props} />
+    </div>
   ),
 });

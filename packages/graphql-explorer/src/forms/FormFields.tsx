@@ -6,7 +6,7 @@ import Form, { NestedForm } from 'react-formal';
 import * as yup from 'yup';
 
 import FormField from './FormField';
-import { SchemaMeta } from './schema';
+import { getFieldMeta } from './schema';
 
 interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
@@ -82,7 +82,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = schema.meta()?.field.type;
+  const gqlType = getFieldMeta(schema)?.field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
@@ -109,8 +109,8 @@ export default function FormFields({ schema }: FormFieldsProps) {
     (field: yup.Schema<unknown>, fieldName: string) => {
        
       field = resolveLazy(field);
-      // schema.meta() is undefined for root objects
-      const { Component } = field.meta() as unknown as SchemaMeta;
+      // getFieldMeta() returns undefined for root objects
+      const Component = getFieldMeta(field as yup.Schema<any>)?.Component;
 
       // we use the array and nested helpers only if a component is not specified
       if (!Component) {

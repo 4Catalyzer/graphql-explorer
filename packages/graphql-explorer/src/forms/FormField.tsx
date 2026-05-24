@@ -4,7 +4,7 @@ import Form from 'react-formal';
 import DropdownList from 'react-widgets/DropdownList';
 
 import { resolveLazy } from './FormFields';
-import { SchemaMeta } from './schema';
+import { getFieldMeta } from './schema';
 
 export interface Props {
   children?: React.ReactNode | ((innerProps: any) => React.ReactNode);
@@ -50,7 +50,9 @@ const FormField = React.forwardRef<any, Props>(
            
           schema._whitelist && schema._whitelist.list;
 
-        const { Component, field } = schema.meta() as unknown as SchemaMeta;
+        const fieldMeta = getFieldMeta(schema);
+        const Component = fieldMeta?.Component;
+        const field = fieldMeta?.field;
         let Input: React.ElementType<any> | undefined = as || Component;
 
         if (!Input) {
@@ -68,7 +70,7 @@ const FormField = React.forwardRef<any, Props>(
         return (
           <>
             <Input {...fieldProps}>{children}</Input>
-            {field.description ? (
+            {field?.description ? (
               <BsForm.Text muted>{field.description}</BsForm.Text>
             ) : null}
             <Message for={props.name} />
