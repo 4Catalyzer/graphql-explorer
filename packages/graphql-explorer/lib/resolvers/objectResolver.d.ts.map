@@ -1,0 +1,1 @@
+{"version":3,"file":"objectResolver.d.ts","sourceRoot":"","sources":["../../src/resolvers/objectResolver.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,SAAS,CAAC;AAG7B,OAAO,EAAE,sBAAsB,EAAE,MAAM,wBAAwB,CAAC;AAChE,OAAO,EAAE,YAAY,EAAE,MAAM,oBAAoB,CAAC;AAElD,QAAA,MAAM,cAAc,EAAE,CACpB,MAAM,EAAE,sBAAsB,KAC3B,YAAY,CAAC,CAAC,CAAC,iBAAiB,CAGnC,CAAC;AAEH,eAAe,cAAc,CAAC"}
