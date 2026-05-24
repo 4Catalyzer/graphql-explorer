@@ -15,6 +15,7 @@
     "*": "prettier --write --ignore-unknown"
   },
   "prettier": {
+    "//": "Legacy config to minimize diffs; remove in a future PR to adopt prettier defaults",
     "printWidth": 79,
     "singleQuote": true,
     "trailingComma": "all",
