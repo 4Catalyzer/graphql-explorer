@@ -1,4 +1,3 @@
- 
 import * as g from 'graphql';
 import * as yup from 'yup';
 
@@ -18,7 +17,10 @@ export function getFieldMeta(schema: yup.Schema<any>): SchemaMeta | undefined {
   return fieldMetaMap.get(schema);
 }
 
-function setFieldMeta<T extends yup.Schema<any>>(schema: T, meta: SchemaMeta): T {
+function setFieldMeta<T extends yup.Schema<any>>(
+  schema: T,
+  meta: SchemaMeta,
+): T {
   fieldMetaMap.set(schema, meta);
   return schema;
 }
@@ -62,12 +64,18 @@ export default class SchemaBuilder {
       return setFieldMeta(yup.number(), { field });
     }
     if (type === g.GraphQLBoolean) {
-      return setFieldMeta(yup.bool().default(false) as unknown as yup.Schema<any>, { field });
+      return setFieldMeta(
+        yup.bool().default(false) as unknown as yup.Schema<any>,
+        { field },
+      );
     }
     // treat all the other scalar types as string
     if (type instanceof g.GraphQLScalarType) {
       return setFieldMeta(
-        yup.string().default(undefined).transform((v) => (v === '' ? undefined : v)),
+        yup
+          .string()
+          .default(undefined)
+          .transform((v) => (v === '' ? undefined : v)),
         { field },
       );
     }
@@ -76,7 +84,9 @@ export default class SchemaBuilder {
       if (!(type.name in this.enumObjectCache)) {
         this.enumObjectCache[type.name] = type.getValues().map((e) => e.value);
       }
-      return setFieldMeta(yup.mixed().oneOf(this.enumObjectCache[type.name]), { field });
+      return setFieldMeta(yup.mixed().oneOf(this.enumObjectCache[type.name]), {
+        field,
+      });
     }
 
     if (type instanceof g.GraphQLList) {

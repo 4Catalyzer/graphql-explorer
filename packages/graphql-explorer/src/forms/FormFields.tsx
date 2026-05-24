@@ -40,11 +40,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
     (value, helpers) => (
       <div>
         {(value || []).map((i, idx) => (
-          <div
-            className="ge-FormFields-field-array-container"
-             
-            key={idx}
-          >
+          <div className="ge-FormFields-field-array-container" key={idx}>
             <FormField name={`${name}[${idx}]`} />
             <Button
               onClick={() => helpers.remove(i)}
@@ -98,7 +94,7 @@ function NestedFormFields({
 
   return (
     <NestedForm name={fieldName}>
-      { }
+      {}
       <FormFields schema={schema} />
     </NestedForm>
   );
@@ -107,7 +103,6 @@ function NestedFormFields({
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
     (field: yup.Schema<unknown>, fieldName: string) => {
-       
       field = resolveLazy(field);
       // getFieldMeta() returns undefined for root objects
       const Component = getFieldMeta(field as yup.Schema<any>)?.Component;

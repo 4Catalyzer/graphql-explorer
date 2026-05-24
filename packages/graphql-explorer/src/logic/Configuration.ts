@@ -1,4 +1,3 @@
- 
 import { ApolloClient, gql } from '@apollo/client';
 import * as g from 'graphql';
 import camelCase from 'lodash/camelCase';
@@ -72,7 +71,10 @@ export default class Configuration implements ConfigurationInterface {
 
   fieldResolvers: FieldResolver[] = [];
 
-  constructor(public schema: g.GraphQLSchema, protected client: ApolloClient) {
+  constructor(
+    public schema: g.GraphQLSchema,
+    protected client: ApolloClient,
+  ) {
     this.queryBuilder = new QueryBuilder(this);
     this.schemaBuilder = new SchemaBuilder(this);
   }

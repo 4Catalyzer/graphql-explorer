@@ -14,7 +14,6 @@ import { TypeResolver } from '../logic/resolvers';
 const CONNECTION_ARGS = new Set(['first', 'after', 'last', 'before']);
 
 function isEdge(type: g.GraphQLType, nodeType?: g.GraphQLType) {
-   
   type = g.getNullableType(type);
   if (!(type instanceof g.GraphQLObjectType)) return false;
   const { node, cursor } = type.getFields();

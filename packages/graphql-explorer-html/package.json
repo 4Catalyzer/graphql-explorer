@@ -16,7 +16,7 @@
     "prebuild": "rimraf build",
     "prepublishOnly": "yarn run build",
     "start": "DEV_SERVER=true webpack serve --mode development",
-    "test": "yarn lint && yarn typecheck",
+    "test": "yarn lint && yarn run -T prettier --check 'src/**/*.{ts,tsx}' && yarn typecheck",
     "typecheck": "yarn run -T tsc --noEmit -p tsconfig.build.json"
   },
   "files": [

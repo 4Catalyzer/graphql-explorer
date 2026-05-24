@@ -17,7 +17,7 @@ function cleanSchema(schema: g.GraphQLSchema) {
     if (mutationName.toLowerCase().endsWith('orerror')) {
       delete mutationFields[mutationName];
     }
-     
+
     mutation.args = mutation.args.filter((a) => a.name !== 'clientMutationId');
   });
 

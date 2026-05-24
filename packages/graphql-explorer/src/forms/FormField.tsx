@@ -34,9 +34,11 @@ function Check({ value, onChange, ...props }: { value: any; onChange: any }) {
   return <BsForm.Check {...props} checked={value} onChange={realOnChange} />;
 }
 
-const FormField = React.forwardRef<any, Props>(
-  function FormField({ children, as, ...props }, ref) {
-    return (
+const FormField = React.forwardRef<any, Props>(function FormField(
+  { children, as, ...props },
+  ref,
+) {
+  return (
     <Form.Field ref={ref} {...props}>
       {(innerProps, meta) => {
         if (typeof children === 'function') return children(innerProps);
@@ -47,7 +49,6 @@ const FormField = React.forwardRef<any, Props>(
 
         const schema = resolveLazy(meta.schema! as any);
         const whitelist: Set<string> =
-           
           schema._whitelist && schema._whitelist.list;
 
         const fieldMeta = getFieldMeta(schema);
@@ -78,9 +79,8 @@ const FormField = React.forwardRef<any, Props>(
         );
       }}
     </Form.Field>
-    );
-  },
-);
+  );
+});
 
 export default Object.assign(FormField, {
   Message,

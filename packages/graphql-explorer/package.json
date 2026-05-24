@@ -16,7 +16,7 @@
     "lint": "yarn run -T eslint src",
     "prepublishOnly": "yarn run build",
     "tdd": "jest --watch",
-    "test": "yarn lint && yarn typecheck && yarn build",
+    "test": "yarn lint && yarn run -T prettier --check 'src/**/*.{ts,tsx}' && yarn typecheck && yarn build",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "testonly": "jest"
   },
