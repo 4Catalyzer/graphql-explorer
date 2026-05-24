@@ -1,8 +1,7 @@
-@import '../../../node_modules/react-widgets/scss/styles';
+@use '../../../node_modules/react-widgets/scss/styles';
+@use './ui/style' as ui;
+@use './forms/style' as forms;
 
 html {
   font-size: 14px;
 }
-
-@import './ui/style';
-@import './forms/style';
