@@ -9,9 +9,8 @@
   "author": "4Catalyzer",
   "license": "MIT",
   "scripts": {
-    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' styles/style.css",
     "build": "tsc -p tsconfig.json && yarn build:styles",
-    "build:styles": "sass src:styles && yarn xxx:remove-relative-css",
+    "build:styles": "sass src/style-no-bootstrap.scss:styles/style-no-bootstrap.css",
     "format": "prettier --write 'src/**/*.{ts,tsx}' './*.{json,md}'",
     "lint": "yarn run -T eslint src",
     "prepublishOnly": "yarn run build",
@@ -69,6 +68,7 @@
     "react": "^19.2.6",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.6",
+    "sass": "^1.100.0",
     "ts-jest": "^29.4.11",
     "typescript": "^5.9.3",
     "yup": "^1.7.1"
@@ -79,8 +79,7 @@
     "lodash": "^4.18.1",
     "react-formal": "^2.7.1",
     "react-icons": "^5.6.0",
-    "react-widgets": "^5.8.6",
-    "sass": "^1.100.0"
+    "react-widgets": "^5.8.6"
   },
   "peerDependencies": {
     "bootstrap": ">=5.0.0",
