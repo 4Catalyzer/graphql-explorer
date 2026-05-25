@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.json && yarn build:styles",
-    "build:styles": "sass src/style-no-bootstrap.scss:styles/style-no-bootstrap.css",
+    "build:styles": "sass src/style.scss:styles/style.css src/style-no-bootstrap.scss:styles/style-no-bootstrap.css",
     "format": "prettier --write 'src/**/*.{ts,tsx}' './*.{json,md}'",
     "lint": "yarn run -T eslint src",
     "prepublishOnly": "yarn run build",

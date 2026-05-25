@@ -48,9 +48,9 @@ module.exports = (args, { mode }) => {
       alias: {
         'react': path.dirname(require.resolve('react/package.json')),
         'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-        'graphql-explorer/lib/style.css': path.resolve(
+        'graphql-explorer/styles/style-no-bootstrap.css': path.resolve(
           __dirname,
-          '../graphql-explorer/lib/style.css',
+          '../graphql-explorer/styles/style-no-bootstrap.css',
         ),
         'graphql-explorer$': path.resolve(
           __dirname,
