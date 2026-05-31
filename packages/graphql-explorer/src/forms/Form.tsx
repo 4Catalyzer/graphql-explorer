@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
-import FormBase from 'react-formal';
+import { Form as FormBase } from 'react-formal';
 
 import FormField from './FormField';
 import FormFields from './FormFields';

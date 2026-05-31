@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import BsForm from 'react-bootstrap/Form';
-import Form from 'react-formal';
+import { Form } from 'react-formal';
 import DropdownList from 'react-widgets/DropdownList';
 
 import { resolveLazy } from './FormFields';

@@ -2,7 +2,7 @@ import { GraphQLNonNull } from 'graphql';
 import React, { useCallback, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
-import Form, { NestedForm } from 'react-formal';
+import { Form, NestedForm } from 'react-formal';
 import * as yup from 'yup';
 
 import FormField from './FormField';
