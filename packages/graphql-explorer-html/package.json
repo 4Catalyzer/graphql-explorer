@@ -40,10 +40,10 @@
     "@types/react-dom": "^19.2.3",
     "esbuild-loader": "^4.4.3",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.5",
-    "webpack": "^5.107.1",
+    "lint-staged": "^17.0.7",
+    "webpack": "^5.107.2",
     "webpack-atoms": "^17.1.0",
-    "webpack-cli": "^7.0.2",
+    "webpack-cli": "^7.0.3",
     "webpack-dev-server": "^5.2.4"
   },
   "dependencies": {
