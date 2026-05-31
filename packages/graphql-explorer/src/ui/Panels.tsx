@@ -8,10 +8,10 @@ interface Props {
 }
 
 function usePanelState(initialPanel: React.ReactNode) {
-  const panelIdCounter = useRef(0);
+  const panelIdCounter = useRef(1);
   const [panels, setPanels] = useState<
     { panel: React.ReactNode; panelId: number }[]
-  >([{ panel: initialPanel, panelId: panelIdCounter.current++ }]);
+  >(() => [{ panel: initialPanel, panelId: 0 }]);
 
   const pushPanel = useCallback(
     (panelId: number, panel: React.ReactNode) => {

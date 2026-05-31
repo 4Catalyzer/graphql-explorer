@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import * as yup from 'yup';
 
@@ -22,7 +22,7 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
     [],
   );
 
-  const [innerValue, setInnerValue] = useState(serialize(value));
+  const [innerValue, setInnerValue] = useState(() => serialize(value));
   const parsedInnerValue = useMemo(() => {
     try {
       return JSON.parse(innerValue);
@@ -31,15 +31,15 @@ export function JsonInput({ value, onChange, ...props }: JsonInputProps) {
     }
   }, [innerValue]);
 
-  useEffect(() => {
-    if (
-      parsedInnerValue !== INVALID_JSON &&
-      value !== INVALID_JSON &&
-      !isEqual(value, parsedInnerValue)
-    ) {
-      setInnerValue(serialize(value));
-    }
-  }, [innerValue, parsedInnerValue, serialize, value]);
+  const serializedValue = serialize(value);
+  if (
+    parsedInnerValue !== INVALID_JSON &&
+    value !== INVALID_JSON &&
+    !isEqual(value, parsedInnerValue) &&
+    innerValue !== serializedValue
+  ) {
+    setInnerValue(serializedValue);
+  }
 
   const handleChange = useCallback(
     (e: any) => {
