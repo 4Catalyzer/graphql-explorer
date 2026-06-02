@@ -46,6 +46,7 @@ function App() {
   const [state, setState] = useState<'error' | 'loading' | 'resolved'>(
     'loading',
   );
+  const [prevSchemaState, setPrevSchemaState] = useState(schemaState);
   const handleSubmitConnection = useCallback(
     (params: ConnectionParams) => {
       setState('loading');
@@ -53,7 +54,9 @@ function App() {
     },
     [setState, setConnectionParams],
   );
-  useEffect(() => {
+
+  if (schemaState !== prevSchemaState) {
+    setPrevSchemaState(schemaState);
     if (schemaState.status === 'resolved') {
       setSchema(schemaState.schema);
       setState('resolved');
@@ -61,7 +64,7 @@ function App() {
     if (schemaState.status === 'error') {
       setState('error');
     }
-  }, [schemaState, setSchema]);
+  }
 
   const explorerConfig = useMemo(() => {
     if (!schema || !client) return undefined;

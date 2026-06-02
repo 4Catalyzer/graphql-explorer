@@ -52,7 +52,9 @@ export default function ArgumentsForm({
     <Form schema={schema} defaultValue={fullDefaultValue} {...props}>
       <Form.Fields schema={schema} />
       {children}
-      <Form.Submit>Submit</Form.Submit>
+      <div className="d-flex justify-content-end">
+        <Form.Submit>Submit</Form.Submit>
+      </div>
     </Form>
   );
 }

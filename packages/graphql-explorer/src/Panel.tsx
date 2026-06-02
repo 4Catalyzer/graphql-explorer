@@ -142,7 +142,7 @@ export default function Panel({
         {title}
         <div className="d-flex">
           {canClose && (
-            <Button variant="light" onClick={closePanel}>
+            <Button variant="outline-secondary" onClick={closePanel}>
               <MdClose />
             </Button>
           )}

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import BsForm from 'react-bootstrap/Form';
-import Form from 'react-formal';
+import { Form } from 'react-formal';
 import DropdownList from 'react-widgets/DropdownList';
 
 import { resolveLazy } from './FormFields';
-import { SchemaMeta } from './schema';
+import { getFieldMeta } from './schema';
 
 export interface Props {
   children?: React.ReactNode | ((innerProps: any) => React.ReactNode);
@@ -34,8 +34,11 @@ function Check({ value, onChange, ...props }: { value: any; onChange: any }) {
   return <BsForm.Check {...props} checked={value} onChange={realOnChange} />;
 }
 
-const FormField = React.forwardRef<any, Props>(
-  ({ children, as, ...props }, ref) => (
+const FormField = React.forwardRef<any, Props>(function FormField(
+  { children, as, ...props },
+  ref,
+) {
+  return (
     <Form.Field ref={ref} {...props}>
       {(innerProps, meta) => {
         if (typeof children === 'function') return children(innerProps);
@@ -46,10 +49,11 @@ const FormField = React.forwardRef<any, Props>(
 
         const schema = resolveLazy(meta.schema! as any);
         const whitelist: Set<string> =
-          // eslint-disable-next-line no-underscore-dangle
           schema._whitelist && schema._whitelist.list;
 
-        const { Component, field } = schema.meta() as unknown as SchemaMeta;
+        const fieldMeta = getFieldMeta(schema);
+        const Component = fieldMeta?.Component;
+        const field = fieldMeta?.field;
         let Input: React.ElementType<any> | undefined = as || Component;
 
         if (!Input) {
@@ -67,7 +71,7 @@ const FormField = React.forwardRef<any, Props>(
         return (
           <>
             <Input {...fieldProps}>{children}</Input>
-            {field.description ? (
+            {field?.description ? (
               <BsForm.Text muted>{field.description}</BsForm.Text>
             ) : null}
             <Message for={props.name} />
@@ -75,8 +79,8 @@ const FormField = React.forwardRef<any, Props>(
         );
       }}
     </Form.Field>
-  ),
-);
+  );
+});
 
 export default Object.assign(FormField, {
   Message,

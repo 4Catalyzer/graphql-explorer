@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.x, 24.x, 25.x]
+        node-version: [22.x, 24.x, 25.x, 26.x]
 
     steps:
       - uses: actions/checkout@v6
@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+      - run: corepack enable
       - run: yarn
-      - run: npm run build --if-present
-      - run: npm test
+      - run: yarn lerna run build
+      - run: yarn test

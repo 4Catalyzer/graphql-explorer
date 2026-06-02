@@ -11,7 +11,15 @@
     }
   },
   "lint-staged": {
-    "*": "yarn 4c lint --fix"
+    "*.{ts,tsx,js,mjs}": "eslint --fix",
+    "*": "prettier --write --ignore-unknown"
+  },
+  "prettier": {
+    "//": "Legacy config to minimize diffs; remove in a future PR to adopt prettier defaults",
+    "printWidth": 79,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "quoteProps": "consistent"
   },
   "workspaces": {
     "packages": [
@@ -19,9 +27,16 @@
     ]
   },
   "devDependencies": {
-    "@4c/cli": "^4.0.4",
-    "lerna": "^9.0.3",
-    "typescript": "^5.9.3"
+    "@typescript-eslint/eslint-plugin": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "lerna": "^9.0.7",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.0"
   },
   "workspace-sources": {
     "graphql-explorer/lib/*": [
@@ -30,5 +45,6 @@
     "graphql-explorer-html/build/*": [
       "packages/graphql-explorer-html/src/*"
     ]
-  }
+  },
+  "packageManager": "yarn@4.15.0"
 }

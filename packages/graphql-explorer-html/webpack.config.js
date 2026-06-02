@@ -25,8 +25,14 @@ module.exports = (args, { mode }) => {
     module: {
       rules: [
         {
-          ...rules.js({ envName: 'development', babelrcRoots: true }),
           test: /\.(j|t)sx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'esbuild-loader',
+            options: {
+              target: 'es2020',
+            },
+          },
         },
         rules.astroturf.sass({ enableCssProp: true }),
         rules.css(),
@@ -40,11 +46,11 @@ module.exports = (args, { mode }) => {
       symlinks: false,
       extensions: ['.mjs', '.ts', '.tsx', '.js', '.json'],
       alias: {
-        'react': require.resolve('react'),
-        'react-dom': require.resolve('react-dom'),
-        'graphql-explorer/lib/style.css': path.resolve(
+        'react': path.dirname(require.resolve('react/package.json')),
+        'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+        'graphql-explorer/styles/style.css': path.resolve(
           __dirname,
-          '../graphql-explorer/lib/style.css',
+          '../graphql-explorer/styles/style.css',
         ),
         'graphql-explorer$': path.resolve(
           __dirname,

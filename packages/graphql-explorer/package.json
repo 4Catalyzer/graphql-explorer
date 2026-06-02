@@ -1,6 +1,6 @@
 {
   "name": "graphql-explorer",
-  "version": "1.0.0-alpha.6",
+  "version": "2.0.0-beta.4",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -9,14 +9,13 @@
   "author": "4Catalyzer",
   "license": "MIT",
   "scripts": {
-    "xxx:remove-relative-css": "sed -i -e 's/background: url(\"..\\/img\\/loader-big.gif\") no-repeat center;//' styles/style.css",
     "build": "tsc -p tsconfig.json && yarn build:styles",
-    "build:styles": "sass src:styles && yarn xxx:remove-relative-css",
-    "format": "4c format src './*'",
-    "lint": "4c lint src './*'",
+    "build:styles": "sass src/style.scss:styles/style.css src/style-no-bootstrap.scss:styles/style-no-bootstrap.css",
+    "format": "prettier --write 'src/**/*.{ts,tsx}' './*.{json,md}'",
+    "lint": "yarn run -T eslint src",
     "prepublishOnly": "yarn run build",
     "tdd": "jest --watch",
-    "test": "yarn lint && yarn typecheck && yarn build",
+    "test": "yarn lint && yarn run -T prettier --check 'src/**/*.{ts,tsx}' && yarn typecheck && yarn build",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "testonly": "jest"
   },
@@ -27,14 +26,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "prettier": "@4c/prettier-config",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*": "yarn 4c lint --fix"
+    "*.{ts,tsx,js,mjs}": "eslint --fix",
+    "*": "prettier --write --ignore-unknown"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -52,45 +51,42 @@
     }
   },
   "devDependencies": {
-    "@4c/prettier-config": "^1.1.0",
-    "@4c/tsconfig": "^0.4.1",
     "@popperjs/core": "^2.11.8",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
+    "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.51.0",
-    "@typescript-eslint/parser": "^8.51.0",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "husky": "^9.1.7",
-    "jest": "^30.2.0",
-    "jest-environment-jsdom": "^30.2.0",
-    "lint-staged": "^16.2.7",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "ts-jest": "^29.4.6",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "@apollo/client": "^4.0.11",
-    "@types/lodash": "^4.17.21",
-    "@types/react": "^19.2.7",
+    "@types/lodash": "^4.17.24",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "bootstrap": "^5.3.8",
-    "copy-to-clipboard": "^3.3.3",
-    "graphql": "^16.12.0",
-    "lodash": "^4.17.21",
+    "graphql": "^16.14.0",
+    "husky": "^9.1.7",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "lint-staged": "^17.0.7",
+    "react": "^19.2.6",
     "react-bootstrap": "^2.10.10",
-    "react-formal": "^2.7.1",
-    "react-icons": "^5.5.0",
-    "react-widgets": "^5.8.6",
-    "sass": "^1.97.1",
+    "react-dom": "^19.2.6",
+    "sass": "^1.100.0",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3",
     "yup": "^1.7.1"
   },
+  "dependencies": {
+    "@apollo/client": "^4.2.0",
+    "copy-to-clipboard": "^4.0.2",
+    "lodash": "^4.18.1",
+    "react-formal": "^3.0.0-rc.1",
+    "react-icons": "^5.6.0",
+    "react-widgets": "^5.8.6"
+  },
   "peerDependencies": {
+    "bootstrap": ">=5.0.0",
     "graphql": ">=15.0.0",
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-bootstrap": ">=2.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "yup": ">=1.0.0"
   }
 }

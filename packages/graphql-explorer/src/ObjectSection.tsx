@@ -109,7 +109,6 @@ function ObjectSectionField({
       action={canExecute}
       onClick={canExecute ? handleClick : undefined}
       key={field.name}
-      variant={canExecute ? undefined : 'light'}
       style={{
         overflow: 'hidden',
         textOverflow: 'ellipsis',

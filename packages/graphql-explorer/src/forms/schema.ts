@@ -1,12 +1,28 @@
-// eslint-disable-next-line max-classes-per-file
 import * as g from 'graphql';
 import * as yup from 'yup';
 
 import { ConfigurationInterface } from '../logic/Configuration';
 
 export interface SchemaMeta {
-  field: g.GraphQLInputField;
+  field: g.GraphQLArgument | g.GraphQLInputField;
   Component?: React.ElementType<any>;
+}
+
+// yup 1.x deep-clones spec.meta when cloning schemas (e.g. on .required()).
+// GraphQL field/type objects crash during this clone. Store meta in a WeakMap
+// keyed by schema instance so yup never attempts to clone it.
+const fieldMetaMap = new WeakMap<yup.Schema<any>, SchemaMeta>();
+
+export function getFieldMeta(schema: yup.Schema<any>): SchemaMeta | undefined {
+  return fieldMetaMap.get(schema);
+}
+
+function setFieldMeta<T extends yup.Schema<any>>(
+  schema: T,
+  meta: SchemaMeta,
+): T {
+  fieldMetaMap.set(schema, meta);
+  return schema;
 }
 
 function makeRequired(type: g.GraphQLInputType, schema: yup.Schema<any>) {
@@ -31,37 +47,36 @@ export default class SchemaBuilder {
   ): yup.Schema<any> {
     const customInput = this.config.resolveInputField(type, field);
     if (customInput) {
-      return customInput
-        .getSchema(type)
-        .meta({ Component: customInput.Component, field });
+      const schema = customInput.getSchema(type);
+      return setFieldMeta(schema, { Component: customInput.Component, field });
     }
 
     if (type instanceof g.GraphQLNonNull) {
       const innerSchema = this.getSchemaFromType(type.ofType, field);
-      return makeRequired(type.ofType, innerSchema).meta({ field });
+      const schema = makeRequired(type.ofType, innerSchema);
+      return setFieldMeta(schema, { field });
     }
 
     if (type === g.GraphQLInt) {
-      return yup.number().integer().meta({ field });
+      return setFieldMeta(yup.number().integer(), { field });
     }
     if (type === g.GraphQLFloat) {
-      return yup.number().meta({ field });
+      return setFieldMeta(yup.number(), { field });
     }
     if (type === g.GraphQLBoolean) {
-      return yup
-        .bool()
-        .meta({ field })
-        .default(false) as unknown as yup.Schema<any>;
+      return setFieldMeta(
+        yup.bool().default(false) as unknown as yup.Schema<any>,
+        { field },
+      );
     }
     // treat all the other scalar types as string
     if (type instanceof g.GraphQLScalarType) {
-      return (
+      return setFieldMeta(
         yup
           .string()
-          .meta({ field })
           .default(undefined)
-          // explicitly set empty strings as undefined
-          .transform((v) => (v === '' ? undefined : v))
+          .transform((v) => (v === '' ? undefined : v)),
+        { field },
       );
     }
 
@@ -69,10 +84,9 @@ export default class SchemaBuilder {
       if (!(type.name in this.enumObjectCache)) {
         this.enumObjectCache[type.name] = type.getValues().map((e) => e.value);
       }
-      return yup
-        .mixed()
-        .oneOf(this.enumObjectCache[type.name])
-        .meta({ field });
+      return setFieldMeta(yup.mixed().oneOf(this.enumObjectCache[type.name]), {
+        field,
+      });
     }
 
     if (type instanceof g.GraphQLList) {
@@ -80,7 +94,7 @@ export default class SchemaBuilder {
         (type as g.GraphQLList<g.GraphQLInputType>).ofType,
         field,
       );
-      return yup.array(innerType).meta({ field });
+      return setFieldMeta(yup.array(innerType), { field });
     }
 
     if (type instanceof g.GraphQLInputObjectType) {
@@ -91,10 +105,10 @@ export default class SchemaBuilder {
             this.getSchemaFromType(subField.type, subField),
           );
         });
-        this.inputObjectCache[type.name] = yup
+        const schema = yup
           .object(objectFields)
-          .meta({ field })
           .default(undefined) as unknown as yup.ObjectSchema<any>;
+        this.inputObjectCache[type.name] = setFieldMeta(schema, { field });
       }
 
       return this.inputObjectCache[type.name];

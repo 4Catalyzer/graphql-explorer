@@ -2,11 +2,11 @@ import { GraphQLNonNull } from 'graphql';
 import React, { useCallback, useMemo, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import BsForm from 'react-bootstrap/Form';
-import Form, { NestedForm } from 'react-formal';
+import { Form, NestedForm } from 'react-formal';
 import * as yup from 'yup';
 
 import FormField from './FormField';
-import { SchemaMeta } from './schema';
+import { getFieldMeta } from './schema';
 
 interface FormFieldsProps {
   schema: yup.ObjectSchema<any>;
@@ -40,11 +40,7 @@ function FieldArray({ schema, name, ...props }: FieldArrayProps) {
     (value, helpers) => (
       <div>
         {(value || []).map((i, idx) => (
-          <div
-            className="ge-FormFields-field-array-container"
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
-          >
+          <div className="ge-FormFields-field-array-container" key={idx}>
             <FormField name={`${name}[${idx}]`} />
             <Button
               onClick={() => helpers.remove(i)}
@@ -82,7 +78,7 @@ function NestedFormFields({
   schema: yup.ObjectSchema<any>;
   fieldName: string;
 }) {
-  const gqlType = schema.meta()?.field.type;
+  const gqlType = getFieldMeta(schema)?.field.type;
   const isRequired = gqlType instanceof GraphQLNonNull;
 
   const [expanded, setExpanded] = useState(isRequired);
@@ -98,7 +94,6 @@ function NestedFormFields({
 
   return (
     <NestedForm name={fieldName}>
-      {/* eslint-disable-next-line no-use-before-define */}
       <FormFields schema={schema} />
     </NestedForm>
   );
@@ -107,10 +102,9 @@ function NestedFormFields({
 export default function FormFields({ schema }: FormFieldsProps) {
   const renderField = useCallback(
     (field: yup.Schema<unknown>, fieldName: string) => {
-      // eslint-disable-next-line no-param-reassign
       field = resolveLazy(field);
-      // schema.meta() is undefined for root objects
-      const { Component } = field.meta() as unknown as SchemaMeta;
+      // getFieldMeta() returns undefined for root objects
+      const Component = getFieldMeta(field as yup.Schema<any>)?.Component;
 
       // we use the array and nested helpers only if a component is not specified
       if (!Component) {
@@ -145,7 +139,7 @@ export default function FormFields({ schema }: FormFieldsProps) {
     () =>
       Object.entries(schema.fields).map(
         ([fieldName, field]: [string, yup.Schema<any>]) => (
-          <BsForm.Group key={fieldName} controlId={fieldName}>
+          <BsForm.Group key={fieldName} controlId={fieldName} className="mb-3">
             <div className="d-flex">
               {shouldShowLabel && <FormLabel>{fieldName}</FormLabel>}
               <div className="d-flex flex-column flex-grow-1">

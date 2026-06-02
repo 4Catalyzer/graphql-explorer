@@ -7,14 +7,13 @@ import { ListSectionBase } from './ListSection';
 import { SectionProps } from './logic/resolvers';
 import PanelContainer from './ui/PanelContainer';
 
-interface Props
-  extends SectionProps<
-    {
-      edges: { node: any }[];
-      pageInfo: { endCursor: string; hasNextPage: boolean };
-    },
-    g.GraphQLObjectType
-  > {
+interface Props extends SectionProps<
+  {
+    edges: { node: any }[];
+    pageInfo: { endCursor: string; hasNextPage: boolean };
+  },
+  g.GraphQLObjectType
+> {
   itemType: g.GraphQLObjectType;
 }
 
