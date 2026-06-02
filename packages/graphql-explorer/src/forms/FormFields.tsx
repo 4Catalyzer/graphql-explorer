@@ -94,7 +94,6 @@ function NestedFormFields({
 
   return (
     <NestedForm name={fieldName}>
-      {}
       <FormFields schema={schema} />
     </NestedForm>
   );
