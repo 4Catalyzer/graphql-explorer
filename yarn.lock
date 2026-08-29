@@ -8828,7 +8828,7 @@ __metadata:
     astroturf: "npm:^1.2.0"
     core-js: "npm:^3.49.0"
     esbuild-loader: "npm:^4.4.3"
-    graphql: "npm:^16.14.0"
+    graphql: "npm:^17.0.2"
     graphql-explorer: "workspace:*"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^17.0.7"
@@ -8876,7 +8876,7 @@ __metadata:
     "@types/react-dom": "npm:^19.2.3"
     bootstrap: "npm:^5.3.8"
     copy-to-clipboard: "npm:^4.0.2"
-    graphql: "npm:^16.14.0"
+    graphql: "npm:^17.0.2"
     husky: "npm:^9.1.7"
     jest: "npm:^30.4.2"
     jest-environment-jsdom: "npm:^30.4.1"
@@ -8913,10 +8913,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.14.0":
-  version: 16.14.0
-  resolution: "graphql@npm:16.14.0"
-  checksum: 10c0/baaa368fcfeb7bf2cdf94b9f31bf916e97eaa9e7e82148a7046f31cbd49b760b38190f22393b024cbdd9ca0f4f46287515de0136b6a0cc164074b36ad7b50618
+"graphql@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "graphql@npm:17.0.2"
+  checksum: 10c0/766546216b891439ed09fd8584963df2013e26f2f79f096036eaaa2788c38964e049c8a142d68e3afdabdd8bbe70042639e83f0f4b82edbc7c6850421f072bb6
   languageName: node
   linkType: hard
 
