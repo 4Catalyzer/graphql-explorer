@@ -27,16 +27,16 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.60.0",
-    "@typescript-eslint/parser": "^8.60.0",
-    "eslint": "^10.4.1",
+    "@typescript-eslint/eslint-plugin": "^8.69.0",
+    "@typescript-eslint/parser": "^8.69.0",
+    "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "lerna": "^9.0.7",
-    "prettier": "^3.8.3",
+    "prettier": "^3.9.6",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.60.0"
+    "typescript-eslint": "^8.69.0"
   },
   "workspace-sources": {
     "graphql-explorer/lib/*": [
@@ -46,5 +46,5 @@
       "packages/graphql-explorer-html/src/*"
     ]
   },
-  "packageManager": "yarn@4.15.0"
+  "packageManager": "yarn@4.18.0"
 }
