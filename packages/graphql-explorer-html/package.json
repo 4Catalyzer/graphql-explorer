@@ -50,7 +50,7 @@
     "@apollo/client": "^4.2.0",
     "astroturf": "^1.2.0",
     "core-js": "^3.49.0",
-    "graphql": "^16.14.0",
+    "graphql": "^17.0.2",
     "graphql-explorer": "workspace:*",
     "react": "^19.2.6",
     "react-bootstrap": "^2.10.10",
